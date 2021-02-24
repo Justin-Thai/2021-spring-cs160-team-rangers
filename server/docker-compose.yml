@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: rangers-db
+    image: postgres:13.2-alpine
+    build: ./src/database
+    restart: on-failure
+    env_file:
+      - pg.env
+    ports:
+      - '5432:5432'
+    volumes:
+      - rangers-db:/var/lib/postgresql/data
+
+  server:
+    container_name: rangers-server
+    image: node:15.8.0-alpine3.10
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - '5000:5000'
+
+volumes:
+  rangers-db:
