@@ -1,6 +1,6 @@
 # **Project Rangers**
 
-This is the repository of team rangers' project
+This is the repository of Team Rangers' project for CS 160
 
 ## **How to start server**
 ### *Prerequisite installation:*
