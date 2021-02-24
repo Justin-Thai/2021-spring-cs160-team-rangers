@@ -3,7 +3,7 @@
 This is the repository of team rangers' project
 
 ## **How to start server**
-### *Prerequisites installation:*
+### *Prerequisite installation:*
 * For development:
     - Node.js
     - PostgreSQL

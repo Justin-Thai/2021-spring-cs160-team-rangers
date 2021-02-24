@@ -6,7 +6,7 @@
 		"scripts": {
       "test": "jest",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js --config ./src/ormconfig.ts",
-      "build": "rm -rf ./build && tsc --project ./ && rm -rf ./build/tests",
+      "build": "rm -rf ./build && tsc --project ./ && rm -rf ./build/tests && cp ./src/database/init.sql ./build/database",
       "migrate:create": "npm run typeorm migration:create -- -n",
       "migrate:up": "npm run typeorm migration:run",
       "migrate:down": "npm run typeorm migration:revert",

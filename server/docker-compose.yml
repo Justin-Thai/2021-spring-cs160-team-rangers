@@ -3,7 +3,6 @@ services:
   postgres:
     container_name: rangers-db
     image: postgres:13.2-alpine
-    build: ./src/database
     restart: on-failure
     env_file:
       - pg.env
@@ -16,6 +15,7 @@ services:
     container_name: rangers-server
     image: node:15.8.0-alpine3.10
     build: .
+    restart: on-failure
     depends_on:
       - postgres
     env_file:

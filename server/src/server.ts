@@ -8,7 +8,6 @@ import path from 'path';
 import { envConfig } from './config';
 import './handlers';
 import pgConfig from './ormconfig';
-import { isDev } from './utils';
 
 const { serverPort } = envConfig();
 
@@ -17,13 +16,11 @@ Server.buildServices(app);
 
 createConnection(pgConfig)
 	.then(async (connection) => {
-		if (isDev()) {
-			try {
-				const initDb = fs.readFileSync(path.resolve(__dirname, './database/init.sql')).toString();
-				await connection.query(initDb);
-			} catch (err) {
-				console.error('Unable to initialize tables', err);
-			}
+		try {
+			const initDb = fs.readFileSync(path.resolve(__dirname, './database/init.sql')).toString();
+			await connection.query(initDb);
+		} catch (err) {
+			console.error('Unable to initialize tables', err);
 		}
 
 		app.listen(serverPort, '0.0.0.0', () => {
