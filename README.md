@@ -20,7 +20,7 @@ cd server/
 npm install
 npm run start:dev
 ```
-Production:
+Production: (turn off local PostgreSQL server before running)
 ```
 cd server/
 docker-compose build
