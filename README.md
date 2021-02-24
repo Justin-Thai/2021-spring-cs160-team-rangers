@@ -16,12 +16,13 @@ This is the repository of team rangers' project
 ### *Run server:*
 Development:
 ```
-cd server
+cd server/
 npm install
 npm run start:dev
 ```
 Production:
 ```
+cd server/
 docker-compose build
 docker-compose up
 ```
