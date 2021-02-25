@@ -22,7 +22,6 @@ npm run start:dev
 ```
 Production: (turn off local PostgreSQL server before running)
 ```
-cd server/
 docker-compose build
 docker-compose up
 ```
