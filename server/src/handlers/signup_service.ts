@@ -42,12 +42,17 @@ export default class SignUpService {
 	async signup(@FormParam('email') email: string, @FormParam('password') password: string) {
 		const res = this.context.response;
 		try {
+            const users = await User.findBy({ email });
+            if (users.length) {
+                return sendErrorJSON(res, 'User already existed.', statusCodes.Unauthorized);
+            }
+
 			const hashedPassword = await bcrypt.hash(password, saltRounds);
-			const user = new User(email, hashedPassword);
-			const token = jwt.sign(user.toInsensitiveJSON(), jwtSecretKey, { expiresIn: jwtExpire });
+			const newUser = new User(email, hashedPassword);
+			const token = jwt.sign(newUser.toInsensitiveJSON(), jwtSecretKey, { expiresIn: jwtExpire });
 			res.setHeader('token', token);
 			res.status(statusCodes.OK);
-			await user.save();
+			await newUser.save();
 			return resOK();
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
