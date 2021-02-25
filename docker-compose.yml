@@ -5,7 +5,7 @@ services:
     image: postgres:13.2-alpine
     restart: on-failure
     env_file:
-      - pg.env
+      - ./server/pg.env
     ports:
       - '5432:5432'
     healthcheck:
@@ -19,13 +19,14 @@ services:
   server:
     container_name: rangers-server
     image: node:15.8.0-alpine3.10
-    build: .
+    build: ./server
     restart: on-failure
+    command: sh start.sh
     depends_on:
       postgres:
         condition: service_healthy
     env_file:
-      - .env
+      - ./server/.env
     ports:
       - '5000:5000'
 

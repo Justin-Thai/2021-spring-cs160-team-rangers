@@ -11,15 +11,33 @@ export default class User extends Model {
 	email: string;
 
 	@Column()
+	@Length(8, 255)
 	password: string;
 
-	static async getAll() {
-		const users = await getRepository(User).find();
-		return users;
+	constructor(email: string, password: string) {
+		super();
+		this.email = email;
+		this.password = password;
 	}
 
-	static async getOne(userId: number) {
-		const user = await getRepository(User).findOne(userId);
-		return user;
+	saveUser() {
+		console.log('test');
+		this.save();
+	}
+
+	toInsensitiveJSON() {
+		return { id: this.id, email: this.email };
+	}
+
+	static async getAll() {
+		return await getRepository(this).find();
+	}
+
+	static async findById(userId: string) {
+		return await getRepository(this).findOne(userId);
+	}
+
+	static async findBy(options: Object) {
+		return await getRepository(this).find(options);
 	}
 }

@@ -6,13 +6,13 @@ import fs from 'fs';
 import path from 'path';
 
 import { envConfig } from './config';
-import './handlers';
 import pgConfig from './ormconfig';
+import { HomeService, SignUpService, SignInService, UserService, ProfileService } from './handlers';
 
 const { serverPort } = envConfig();
 
 const app = express();
-Server.buildServices(app);
+Server.buildServices(app, HomeService, SignUpService, SignInService, ProfileService);
 
 createConnection(pgConfig)
 	.then(async (connection) => {

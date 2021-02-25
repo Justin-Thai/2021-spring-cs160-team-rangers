@@ -1,18 +1,24 @@
-import { BaseEntity, BeforeInsert, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { nanoid } from 'nanoid';
 
 export default abstract class Model extends BaseEntity {
-	@PrimaryGeneratedColumn()
-	id: number;
+	@PrimaryColumn({ type: 'char' })
+	id: string;
 
 	@Column({ type: 'uuid' })
 	uuid: string;
 
 	@CreateDateColumn()
-	createdAt: Date;
+	created_at: Date;
 
 	@UpdateDateColumn()
-	updatedAt: Date;
+	updated_at: Date;
+
+	@BeforeInsert()
+	createId() {
+		this.id = nanoid(10);
+	}
 
 	@BeforeInsert()
 	createUuid() {
@@ -24,7 +30,7 @@ export default abstract class Model extends BaseEntity {
 		Object.assign(this, model);
 	}
 
-	toJSON() {
-		return { ...this, id: undefined };
+	toCompleteJSON() {
+		return { ...this };
 	}
 }
