@@ -2,26 +2,36 @@
 
 This is the repository of Team Rangers' project for CS 160
 
-## **How to start server**
-### *Prerequisite installation:*
-* For development:
-    - Node.js
-    - PostgreSQL
-* For production:
-    - Docker
-
-### *Other requirements:*
+### **Requirements:**
 `.env`, `pg.env`, `init.sql` files
 
-### *Run server:*
-Development:
+## **Development**
+### *Prerequisite:*
+ * Node.js
+ * PostgreSQL
+
+### How to run
+1. Start PostgreSQL locally
+2. Start server (port 5000)
 ```
 cd server/
 npm install
 npm run start:dev
 ```
-Production: (turn off local PostgreSQL server before running)
+3. Start client (port 3000)
+```
+cd client/
+npm install
+npm start
+```
+
+## **Production**
+### *Prerequisite:*
+ * Docker
+### How to run
+Turn off local PostgreSQL server before running
 ```
 docker-compose build
 docker-compose up
 ```
+The app will run on http://localhost:80

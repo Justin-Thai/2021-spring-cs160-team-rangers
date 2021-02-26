@@ -54,9 +54,8 @@ export default class SignInService {
 
 			const user = users[0];
 			const token = jwt.sign(user.toInsensitiveJSON(), jwtSecretKey, { expiresIn: jwtExpire });
-			res.setHeader('token', token);
 			res.status(statusCodes.OK);
-			return resOK();
+			return resOK({ token });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError(err.message);

@@ -1,5 +1,25 @@
 version: '3.7'
 services:
+  client:
+    container_name: rangers-client
+    build: ./client
+    depends_on:
+      - server
+    ports:
+      - '80:80'
+
+  server:
+    container_name: rangers-server
+    build: ./server
+    restart: on-failure
+    depends_on:
+      - postgres
+        # condition: service_healthy
+    env_file:
+      - ./server/.env
+    ports:
+      - '5000:5000'
+
   postgres:
     container_name: rangers-db
     image: postgres:13.2-alpine
@@ -8,27 +28,13 @@ services:
       - ./server/pg.env
     ports:
       - '5432:5432'
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: ['CMD-SHELL', 'pg_isready -U postgres']
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 5
     volumes:
       - rangers-db:/var/lib/postgresql/data
-
-  server:
-    container_name: rangers-server
-    image: node:15.8.0-alpine3.10
-    build: ./server
-    restart: on-failure
-    command: sh start.sh
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file:
-      - ./server/.env
-    ports:
-      - '5000:5000'
-
+  
 volumes:
   rangers-db:

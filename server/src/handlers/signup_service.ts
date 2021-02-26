@@ -49,11 +49,10 @@ export default class SignUpService {
 
 			const hashedPassword = await bcrypt.hash(password, saltRounds);
 			const newUser = new User(email, hashedPassword);
-			const token = jwt.sign(newUser.toInsensitiveJSON(), jwtSecretKey, { expiresIn: jwtExpire });
-			res.setHeader('token', token);
-			res.status(statusCodes.OK);
 			await newUser.save();
-			return resOK();
+			const token = jwt.sign(newUser.toInsensitiveJSON(), jwtSecretKey, { expiresIn: jwtExpire });
+			res.status(statusCodes.OK);
+			return resOK({ token });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError(err.message);
