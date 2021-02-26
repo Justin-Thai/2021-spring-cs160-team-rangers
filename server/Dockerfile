@@ -16,7 +16,7 @@ COPY package.json /app/server/package.json
 COPY .env /app/server
 COPY pg.env /app/server
 RUN apk --no-cache add --virtual builds-deps build-base python
-RUN npm install --only=prod
+RUN npm install --only=prod --silent
 
 EXPOSE 5000
 CMD ["npm", "start"]
