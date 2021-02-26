@@ -2,13 +2,15 @@ import jwt from 'jsonwebtoken';
 
 import { DispatchTypes, AuthAction } from './types';
 import { User } from '../../models';
+import { delay } from '../../utils';
 
 export const checkAuth = () => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(checkAuthStarted());
 	try {
 		const token = localStorage.getItem('token');
 		if (!token) {
-			return checkAuthSuccess(null);
+			await delay(50);
+			return dispatch(checkAuthSuccess(null));
 		}
 
 		const res = await fetch('http://localhost:5000/auth', {
@@ -19,7 +21,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 		});
 
 		if (res.status !== 200) {
-			return checkAuthSuccess(null);
+			return dispatch(checkAuthSuccess(null));
 		}
 
 		const decodedData = jwt.decode(token) as {
@@ -75,6 +77,51 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 	} catch (err) {
 		dispatch(signUpFailure(err));
 	}
+};
+
+export const signIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
+	dispatch(signInStarted());
+	try {
+		const res = await fetch('http://localhost:5000/signin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ email, password }),
+		});
+
+		const data = await res.json();
+		if (res.status !== 200) {
+			throw new Error(data.message);
+		}
+
+		const { token } = data;
+		localStorage.setItem('token', token as string);
+		const decodedData = jwt.decode(token as string) as {
+			[key: string]: any;
+		} | null;
+
+		if (!decodedData) {
+			throw new Error('Error occured.');
+		}
+
+		const user = {
+			id: decodedData.id,
+			email: decodedData.email,
+		};
+
+		dispatch(signInSuccess(user));
+	} catch (err) {
+		dispatch(signInFailure(err));
+	}
+};
+
+export const signOut = () => {
+	localStorage.removeItem('token');
+	return {
+		type: DispatchTypes.SIGN_OUT,
+		payload: null,
+	};
 };
 
 export const clearError = () => ({ type: DispatchTypes.CLEAR_ERROR, payload: null });

@@ -4,24 +4,24 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { History } from 'history';
 
 import { AppState } from '../redux/store';
-import { signUp, clearError } from '../redux/auth/actions';
+import { signIn, clearError } from '../redux/auth/actions';
 import { User } from '../models';
 
-interface SignUpProps {
+interface SignInProps {
 	history: History<unknown>;
 	user: User | null;
 	loading: boolean;
 	error: Error | null;
-	onSignUp: (email: string, password: string) => void;
+	onSignIn: (email: string, password: string) => void;
 	onClearError: () => void;
 }
 
-interface SignUpState {
+interface SignInState {
 	email: string;
 	password: string;
 }
 
-class SignUp extends Component<SignUpProps, SignUpState> {
+class SignIn extends Component<SignInProps, SignInState> {
 	state = {
 		email: '',
 		password: '',
@@ -44,7 +44,7 @@ class SignUp extends Component<SignUpProps, SignUpState> {
 	submit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		const { email, password } = this.state;
-		this.props.onSignUp(email, password);
+		this.props.onSignIn(email, password);
 	};
 
 	render() {
@@ -66,7 +66,7 @@ class SignUp extends Component<SignUpProps, SignUpState> {
 				<br />
 				password <input type='password' value={password} onChange={this.setPassword} />
 				<br />
-				<input type='submit' value={loading ? 'Loading' : 'Sign up'} />
+				<input type='submit' value={loading ? 'Loading' : 'Sign in'} />
 				<br />
 				{error && error!.message}
 			</form>
@@ -77,19 +77,19 @@ class SignUp extends Component<SignUpProps, SignUpState> {
 const mapStateToProps = (state: AppState) => {
 	return {
 		user: state.auth.user,
-		loading: state.auth.loadings.signUpLoading,
-		error: state.auth.errors.signUpError,
+		loading: state.auth.loadings.signInLoading,
+		error: state.auth.errors.signInError,
 	};
 };
 
 const mapDispatchToProps = {
-	onSignUp: signUp,
+	onSignIn: signIn,
 	onClearError: clearError,
 };
 
-const SignUpComponent = connect(mapStateToProps, mapDispatchToProps)(SignUp);
+const SignInComponent = connect(mapStateToProps, mapDispatchToProps)(SignIn);
 
-export default function HOCSignUp() {
+export default function HOCSignIn() {
 	const history = useHistory();
-	return <SignUpComponent history={history} />;
+	return <SignInComponent history={history} />;
 }

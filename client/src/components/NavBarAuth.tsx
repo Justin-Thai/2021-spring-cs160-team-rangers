@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-export default function NavBarAuth() {
+import { signOut } from '../redux/auth/actions';
+
+interface NavBarAuthProps {
+	onSignOut: () => void;
+}
+
+function NavBarAuth({ onSignOut }: NavBarAuthProps) {
 	return (
 		<nav>
 			<ul>
@@ -11,7 +18,16 @@ export default function NavBarAuth() {
 				<li>
 					<Link to='/profile'>Profile</Link>
 				</li>
+				<li>
+					<div style={{ cursor: 'pointer' }} onClick={onSignOut}>Sign out</div>
+				</li>
 			</ul>
 		</nav>
 	);
 }
+
+const mapDispatchToProps = {
+	onSignOut: signOut,
+};
+
+export default connect(null, mapDispatchToProps)(NavBarAuth);
