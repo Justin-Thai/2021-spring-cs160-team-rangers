@@ -6,7 +6,7 @@ This is the repository of Team Rangers' project for CS 160
 `.env`, `pg.env`, `init.sql` files
 
 ## **Development**
-### *Prerequisite:*
+### *Prerequisites:*
  * Node.js
  * PostgreSQL
 
@@ -26,7 +26,7 @@ npm start
 ```
 
 ## **Production**
-### *Prerequisite:*
+### *Prerequisites:*
  * Docker
 ### How to run
 Turn off local PostgreSQL server before running
