@@ -31,7 +31,7 @@ export default function envConfig() {
 	}
 
 	return {
-		host: 'postgres',
+		host: 'db',
 		serverPort: Number.parseInt(SERVER_PORT!) || 5000,
 		dbPort: Number.parseInt(DB_PORT!) || 5432,
 		username: POSTGRES_USER,
