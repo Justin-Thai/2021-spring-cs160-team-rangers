@@ -1,27 +1,31 @@
 import * as dotenv from 'dotenv';
 
 import { isDev } from '../utils';
+import appConfig from './app.json';
 
 dotenv.config({ path: '.env' });
 dotenv.config({ path: 'pg.env' });
 
 export default function envConfig() {
 	const {
-		SERVER_PORT,
-		DB_PORT,
 		POSTGRES_DB,
 		DB_TEST,
 		POSTGRES_USER,
 		POSTGRES_PASSWORD,
 		DB_TEST_USER,
 		DB_TEST_PASSWORD,
-		JWT_KEY
+		JWT_KEY,
 	} = process.env;
+
+	const { dbPort, serverPort } = appConfig;
+	const common = {
+		serverPort: serverPort,
+		dbPort: dbPort,
+	};
 	if (isDev()) {
 		return {
+			...common,
 			host: 'localhost',
-			serverPort: Number.parseInt(SERVER_PORT!) || 5000,
-			dbPort: Number.parseInt(DB_PORT!) || 5432,
 			username: DB_TEST_USER,
 			password: DB_TEST_PASSWORD,
 			database: DB_TEST,
@@ -31,9 +35,8 @@ export default function envConfig() {
 	}
 
 	return {
+		...common,
 		host: 'db',
-		serverPort: Number.parseInt(SERVER_PORT!) || 5000,
-		dbPort: Number.parseInt(DB_PORT!) || 5432,
 		username: POSTGRES_USER,
 		password: POSTGRES_PASSWORD,
 		database: POSTGRES_DB,

@@ -1,4 +1,4 @@
 import envConfig from './env.config';
-import appConfig from './appConfig.json';
+import appConfig from './app.json';
 
 export { envConfig, appConfig };
