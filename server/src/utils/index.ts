@@ -3,6 +3,6 @@ import { resOK, resError, sendErrorJSON } from './shortcuts';
 import statusCodes from './statusCodes';
 import verifyJWT from './verifyJWT';
 import decodeJWT from './decodeJWT';
-import initDb from './initDb';
+import DbConnection from './DbConnection';
 
-export { sum, resOK, resError, sendErrorJSON, statusCodes, verifyJWT, decodeJWT, initDb };
+export { sum, resOK, resError, sendErrorJSON, statusCodes, verifyJWT, decodeJWT, DbConnection };

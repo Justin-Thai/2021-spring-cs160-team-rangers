@@ -6,7 +6,7 @@ import path from 'path';
 import cors from 'cors';
 
 import { envConfig } from './config';
-import { initDb } from './utils';
+import { DbConnection } from './utils';
 import { HomeService, SignUpService, SignInService, ProfileService, AuthService } from './handlers';
 
 const { serverPort } = envConfig;
@@ -20,7 +20,9 @@ app.use(express.json());
 
 Server.buildServices(app, HomeService, SignUpService, SignInService, ProfileService, AuthService);
 
-initDb()
+const conn = new DbConnection();
+conn
+	.create()
 	.then(async (connection) => {
 		try {
 			const initDb = fs.readFileSync(path.resolve(__dirname, './database/init.sql')).toString();
