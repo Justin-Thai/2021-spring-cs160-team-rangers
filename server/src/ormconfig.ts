@@ -1,8 +1,6 @@
-import { ConnectionOptions } from 'typeorm';
-
 import { envConfig } from './config';
 
-const { host, dbPort, username, password, database, rootDir } = envConfig();
+const { host, dbPort, username, password, database, rootDir } = envConfig;
 
 export = {
 	type: 'postgres',
@@ -19,4 +17,4 @@ export = {
 	cli: {
 		migrationsDir: rootDir + '/database/migration',
 	},
-} as ConnectionOptions;
+};

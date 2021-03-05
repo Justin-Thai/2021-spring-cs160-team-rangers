@@ -9,7 +9,7 @@ import { User } from '../database/entity';
 import { envConfig, appConfig } from '../config';
 import { checkNotAuth } from '../middlewares';
 
-const { jwtSecretKey } = envConfig();
+const { jwtSecretKey } = envConfig;
 const { jwtExpire } = appConfig;
 
 async function userValidator(req: express.Request, res?: express.Response) {
