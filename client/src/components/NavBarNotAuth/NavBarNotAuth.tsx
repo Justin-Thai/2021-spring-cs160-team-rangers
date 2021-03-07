@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import styles from './styles.module.scss';
+
 export default function NavBarNotAuth() {
 	return (
-		<nav>
+		<nav className={styles.navBar}>
 			<ul>
 				<li>
 					<Link to='/'>Home</Link>

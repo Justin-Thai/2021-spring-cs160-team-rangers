@@ -1,0 +1,23 @@
+@font-face {
+	font-family: 'Segoe UI';
+	src: url('../fonts/segoe-ui/segoeui.woff') format('woff'), url('../fonts/segoe-ui/segoeui.woff2') format('woff2'),
+		url('../fonts/segoe-ui/segoeui.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Segoe UI';
+	src: url('../fonts/segoe-ui/segoeuib.woff') format('woff'), url('../fonts/segoe-ui/segoeuib.woff2') format('woff2'),
+		url('../fonts/segoe-ui/segoeuib.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Segoe UI';
+	src: url('../fonts/segoe-ui/seguisb.woff') format('woff'), url('../fonts/segoe-ui/seguisb.woff2') format('woff2'),
+		url('../fonts/segoe-ui/seguisb.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
