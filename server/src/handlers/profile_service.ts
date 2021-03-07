@@ -1,6 +1,6 @@
 import { Path, GET, ServiceContext, Context, PathParam, PreProcessor } from 'typescript-rest';
 
-import { resOK, resError, sendErrorJSON, statusCodes, jwtDecode } from '../utils';
+import { resOK, resError, sendErrorJSON, statusCodes, decodeJWT } from '../utils';
 import { User } from '../database/entity';
 import { checkAuth } from '../middlewares';
 
@@ -16,7 +16,7 @@ export default class ProfileService {
 		const req = this.context.request;
 		try {
 			const token = req.header('token');
-			const payload = jwtDecode(token!) as {
+			const payload = decodeJWT(token!) as {
 				[key: string]: any;
 			};
 

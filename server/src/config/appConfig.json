@@ -1,4 +1,0 @@
-{
-	"saltRounds": 10,
-	"jwtExpire": "5m"
-}

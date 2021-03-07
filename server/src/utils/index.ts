@@ -1,8 +1,8 @@
 import sum from './sum';
 import { resOK, resError, sendErrorJSON } from './shortcuts';
-import isDev from './isDev';
 import statusCodes from './statusCodes';
-import jwtVerify from './jwtVerify';
-import jwtDecode from './jwtDecode';
+import verifyJWT from './verifyJWT';
+import decodeJWT from './decodeJWT';
+import DbConnection from './DbConnection';
 
-export { sum, resOK, resError, sendErrorJSON, isDev, statusCodes, jwtVerify, jwtDecode };
+export { sum, resOK, resError, sendErrorJSON, statusCodes, verifyJWT, decodeJWT, DbConnection };
