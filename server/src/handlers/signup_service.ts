@@ -24,7 +24,7 @@ async function userValidator(req: express.Request, res?: express.Response) {
 		if (errors[0].property === 'email') {
 			throw sendErrorJSON(res!, 'Email is invalid.', statusCodes.BadRequest);
 		} else if (errors[0].property === 'password') {
-			throw sendErrorJSON(res!, 'Password is invalid.', statusCodes.BadRequest);
+			throw sendErrorJSON(res!, 'Password is invalid. Must be between 8 to 255 characters.', statusCodes.BadRequest);
 		} else {
 			throw sendErrorJSON(res!, 'Internal server error.', statusCodes.InternalServerError);
 		}
