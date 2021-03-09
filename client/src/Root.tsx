@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { NavBarNotAuth, NavBarAuth, PrivateRoute } from './components';
+import { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer } from './components';
 import { Home, SignUp, Profile, SignIn } from './pages';
 import { User } from './models';
 import { checkAuth } from './redux/auth/actions';
@@ -36,6 +36,7 @@ class Root extends Component<RootProps, {}> {
 						<Home />
 					</Route>
 				</Switch>
+				<Footer />
 			</Router>
 		);
 	}
