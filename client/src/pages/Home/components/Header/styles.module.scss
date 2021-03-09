@@ -1,0 +1,21 @@
+@import '../../../../scss/global.scss';
+
+.header {
+	position: relative;
+
+	.items {
+		position: absolute;
+		top: 0;
+        @include flex-row;
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 142px;
+
+        .titleAndButton {
+            .title {
+                font-family: 'Montserrat', sans-serif;
+                color: $white;
+            }
+        }
+	}
+}
