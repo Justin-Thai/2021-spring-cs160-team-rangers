@@ -34,6 +34,28 @@ const lang = {
 			},
 			whatElse: 'What else can we do?',
 		},
+		whyUs: {
+			title: 'Why choose us?',
+			subtitle: 'We creates the fastest, easiest, and best quality of translation',
+			items: [
+				{
+					title: 'Light & Fast',
+					desc: 'We translate minutes and you can get what you need.',
+				},
+				{
+					title: 'High Quality',
+					desc: 'Automated updates, firewall, reporting, and monitoring.',
+				},
+				{
+					title: 'Easy to Setup',
+					desc: 'Simplified personal home page and less complex function.',
+				},
+				{
+					title: 'Free',
+					desc: 'All the core features are FREE of cost and always will be.',
+				},
+			],
+		},
 	},
 };
 
