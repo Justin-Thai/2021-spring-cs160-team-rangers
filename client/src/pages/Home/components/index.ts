@@ -1,3 +1,5 @@
 import Header from './Header/Header';
+import Services from './Services/Services';
+import WhatElse from './WhatElse/WhatElse';
 
-export { Header };
+export { Header, Services, WhatElse };

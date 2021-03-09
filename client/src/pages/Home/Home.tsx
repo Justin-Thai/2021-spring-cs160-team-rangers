@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Header } from './components';
+import { Header, Services, WhatElse } from './components';
 import styles from './styles.module.scss';
 
 export default class Home extends Component {
@@ -8,6 +8,8 @@ export default class Home extends Component {
 		return (
 			<div>
 				<Header />
+				<Services />
+				<WhatElse />
 			</div>
 		);
 	}

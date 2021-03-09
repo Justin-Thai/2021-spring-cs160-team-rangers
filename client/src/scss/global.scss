@@ -3,4 +3,14 @@
 	flex-direction: row;
 }
 
+@mixin flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
 $white: #fff;
+
+@mixin container {
+	max-width: 95%;
+	margin: auto;
+}
