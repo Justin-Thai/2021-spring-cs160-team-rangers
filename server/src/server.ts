@@ -1,27 +1,28 @@
 import 'reflect-metadata';
 import express from 'express';
 import { Server } from 'typescript-rest';
-import { createConnection } from 'typeorm';
 import fs from 'fs';
 import path from 'path';
 import cors from 'cors';
 
 import { envConfig } from './config';
-import pgConfig from './ormconfig';
-import { HomeService, SignUpService, SignInService, UserService, ProfileService, AuthService } from './handlers';
+import { DbConnection } from './utils';
+import { HomeService, SignUpService, SignInService, ProfileService, AuthService } from './handlers';
 
-const { serverPort } = envConfig();
+const { serverPort } = envConfig;
 
 const app = express();
-app.use(cors());
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
 
-// parse application/json
+// Apply middlewares
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 Server.buildServices(app, HomeService, SignUpService, SignInService, ProfileService, AuthService);
 
-createConnection(pgConfig)
+const conn = new DbConnection();
+conn
+	.create()
 	.then(async (connection) => {
 		try {
 			const initDb = fs.readFileSync(path.resolve(__dirname, './database/init.sql')).toString();

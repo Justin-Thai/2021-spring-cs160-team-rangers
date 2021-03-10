@@ -1,0 +1,17 @@
+@mixin flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+@mixin flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+$white: #fff;
+$title: #659ef5;
+
+@mixin container {
+	max-width: 95%;
+	margin: auto;
+}

@@ -6,7 +6,7 @@ import Model from './Model';
 @Entity('user')
 export default class User extends Model {
 	@Column()
-	@Length(1, 255)
+	@Length(3, 255)
 	@IsEmail()
 	email: string;
 

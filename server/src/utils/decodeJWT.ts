@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-export default function jwtDecode(token: string) {
+export default function decodeJWT(token: string) {
 	return jwt.decode(token);
 }
