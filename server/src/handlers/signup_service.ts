@@ -42,10 +42,10 @@ export default class SignUpService {
 	async signup(@FormParam('email') email: string, @FormParam('password') password: string) {
 		const res = this.context.response;
 		try {
-            const users = await User.findBy({ email });
-            if (users.length) {
-                return sendErrorJSON(res, 'User already existed.', statusCodes.Unauthorized);
-            }
+			const users = await User.findBy({ email });
+			if (users.length) {
+				return sendErrorJSON(res, 'User already existed.', statusCodes.Unauthorized);
+			}
 
 			const hashedPassword = await bcrypt.hash(password, saltRounds);
 			const newUser = new User(email, hashedPassword);

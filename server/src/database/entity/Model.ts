@@ -1,13 +1,9 @@
-import { BaseEntity, BeforeInsert, Column, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { nanoid } from 'nanoid';
 
 export default abstract class Model extends BaseEntity {
-	@PrimaryColumn({ type: 'char' })
+	@PrimaryColumn({ type: 'uuid' })
 	id: string;
-
-	@Column({ type: 'uuid' })
-	uuid: string;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -16,13 +12,8 @@ export default abstract class Model extends BaseEntity {
 	updated_at: Date;
 
 	@BeforeInsert()
-	createId() {
-		this.id = nanoid(10);
-	}
-
-	@BeforeInsert()
 	createUuid() {
-		this.uuid = uuid();
+		this.id = uuid();
 	}
 
 	constructor(model?: Partial<any>) {

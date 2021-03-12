@@ -3,7 +3,7 @@ import { Entity, Column, getRepository } from 'typeorm';
 
 import Model from './Model';
 
-@Entity('user')
+@Entity('users')
 export default class User extends Model {
 	@Column()
 	@Length(3, 255)
@@ -18,11 +18,6 @@ export default class User extends Model {
 		super();
 		this.email = email;
 		this.password = password;
-	}
-
-	saveUser() {
-		console.log('test');
-		this.save();
 	}
 
 	toInsensitiveJSON() {
