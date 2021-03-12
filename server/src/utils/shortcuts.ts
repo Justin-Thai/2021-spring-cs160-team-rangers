@@ -6,7 +6,7 @@ export const resOK = (data?: any) => ({
 	...data,
 });
 
-export const resError = (message: string) => ({
+export const resError = (message = 'Unknown error occurred') => ({
 	error: true,
 	message,
 });
