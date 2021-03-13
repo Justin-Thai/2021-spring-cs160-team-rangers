@@ -41,6 +41,8 @@ export default class ProfileService {
 		}
 	}
 
+	/**----------------------------------Deck Methods---------------------------------- */
+
 	@Path('/deck')
 	@POST
 	@PreProcessor(validateDeck)
@@ -153,6 +155,10 @@ export default class ProfileService {
 		}
 	}
 
+	/**----------------------------------End Deck Methods---------------------------------- */
+
+	/**----------------------------------Card Methods---------------------------------- */
+
 	@Path('/deck/:deckId/card')
 	@POST
 	@PreProcessor(validateCard)
@@ -178,10 +184,21 @@ export default class ProfileService {
 
 	@Path('/deck/:deckId/card')
 	@GET
-	async getAllCards(@PathParam('deckId') deckId: string) {
+	async getAllCards(
+		@PathParam('deckId') deckId: string,
+		@QueryParam('front') front_side: string,
+		@QueryParam('back') back_side: string
+	) {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
+
+			if (front_side || back_side) {
+				const cards = await deck.filterCard(front_side, back_side);
+				res.status(statusCodes.OK);
+				return resOK({ cards });
+			}
+
 			const cards = await deck.getCards();
 			res.status(statusCodes.OK);
 			return resOK({ cards });
@@ -190,4 +207,25 @@ export default class ProfileService {
 			return resError();
 		}
 	}
+
+	@Path('/deck/:deckId/card/:cardId')
+	@GET
+	async getCard(@PathParam('deckId') deckId: string, @PathParam('cardId') cardId: string) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const card = await deck.getCardById(cardId);
+
+			if (!card) {
+				return sendErrorJSON(res, 'Card not found', statusCodes.NotFound);
+			}
+
+			res.status(statusCodes.OK);
+			return resOK({ card });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+	/**----------------------------------End Card Methods---------------------------------- */
 }

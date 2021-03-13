@@ -1,5 +1,5 @@
 import { IsInt, IsString, IsBoolean, Length } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, getRepository } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, getRepository, Like } from 'typeorm';
 
 import Model from './Model';
 import User from './User';
@@ -46,6 +46,31 @@ export default class Deck extends Model {
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
 			.where({ deck_id: this.id })
+			.getMany();
+	}
+
+	async getCardById(cardId: string) {
+		return await getRepository(Card)
+			.createQueryBuilder('card')
+			.leftJoin('card.deck', 'deck')
+			.where({ deck_id: this.id, id: cardId })
+			.getOne();
+	}
+
+	async filterCard(front_side: string, back_side: string) {
+		let condition = {};
+		if (front_side && back_side) {
+			condition = { deck_id: this.id, front_side: Like(`%${front_side}%`), back_side: Like(`%${back_side}%`) };
+		} else if (front_side) {
+			condition = { deck_id: this.id, front_side: Like(`%${front_side}%`) };
+		} else {
+			condition = { deck_id: this.id, back_side: Like(`%${back_side}%`) };
+		}
+
+		return await getRepository(Card)
+			.createQueryBuilder('card')
+			.leftJoin('card.deck', 'deck')
+			.where(condition)
 			.getMany();
 	}
 }
