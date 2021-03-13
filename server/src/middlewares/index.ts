@@ -6,6 +6,7 @@ import checkIfUserNotExists from './checkIfUserNotExists';
 import checkPassword from './checkPassword';
 import checkProfileAuthorization from './checkProfileAuthorization';
 import validateDeck from './validateDeck';
+import validateCard from './validateCard';
 
 export {
 	checkNotAuth,
@@ -16,4 +17,5 @@ export {
 	checkPassword,
 	checkProfileAuthorization,
 	validateDeck,
+	validateCard,
 };

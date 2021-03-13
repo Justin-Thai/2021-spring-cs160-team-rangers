@@ -1,5 +1,5 @@
 import { IsEmail, Length, IsString } from 'class-validator';
-import { Entity, Column, getRepository, PrimaryColumn, BeforeInsert, OneToMany } from 'typeorm';
+import { Entity, Column, getRepository, PrimaryColumn, BeforeInsert, OneToMany, Like } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 import Model from './Model';
@@ -39,7 +39,7 @@ export default class User extends Model {
 	}
 
 	async getDecks() {
-		const decks = await getRepository(Deck)
+		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
 				'deck.id',
@@ -54,6 +54,41 @@ export default class User extends Model {
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id })
 			.getMany();
-		return decks;
+	}
+
+	async getDeckById(deckId: string) {
+		return await getRepository(Deck)
+			.createQueryBuilder('deck')
+			.select([
+				'deck.id',
+				'deck.name',
+				'deck.count',
+				'deck.shared',
+				'deck.created_at',
+				'deck.updated_at',
+				'user.id',
+				'user.email',
+			])
+			.leftJoin('deck.user', 'user')
+			.where({ user_id: this.id, id: deckId })
+			.getOne();
+	}
+
+	async filterDeckByName(name: string) {
+		return await getRepository(Deck)
+			.createQueryBuilder('deck')
+			.select([
+				'deck.id',
+				'deck.name',
+				'deck.count',
+				'deck.shared',
+				'deck.created_at',
+				'deck.updated_at',
+				'user.id',
+				'user.email',
+			])
+			.leftJoin('deck.user', 'user')
+			.where({ user_id: this.id, name: Like(`%${name}%`) })
+			.getMany();
 	}
 }

@@ -8,9 +8,9 @@ export default async function validateDeck(req: express.Request, res?: express.R
 	if (!req.body.name) {
 		throw sendErrorJSON(res!, 'Deck name is not present', statusCodes.BadRequest);
 	}
-	const { name } = req.body;
+	const { name, shared } = req.body;
   const userId = req.params['userId'];
-	const deck = new Deck(userId, name);
+	const deck = new Deck(userId, name, shared);
 	try {
 		await validateOrReject(deck);
 	} catch (errors) {
