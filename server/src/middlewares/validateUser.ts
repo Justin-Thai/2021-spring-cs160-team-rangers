@@ -6,19 +6,20 @@ import { User } from '../database/entity';
 
 export default async function validateUser(req: express.Request, res?: express.Response) {
 	if (!req.body.email || !req.body.password) {
-		throw sendErrorJSON(res!, 'Email or password is not present.', statusCodes.BadRequest);
+		throw sendErrorJSON(res!, 'Email or password is not present', statusCodes.BadRequest);
 	}
 	const { email, password } = req.body;
 	const user = new User(email, password);
 	try {
 		await validateOrReject(user);
 	} catch (errors) {
-		if (errors[0].property === 'email') {
-			throw sendErrorJSON(res!, 'Email is invalid.', statusCodes.BadRequest);
-		} else if (errors[0].property === 'password') {
-			throw sendErrorJSON(res!, 'Password is invalid. Must be between 8 at least characters.', statusCodes.BadRequest);
+		const { property } = errors[0];
+		if (property === 'email') {
+			throw sendErrorJSON(res!, 'Email is invalid', statusCodes.BadRequest);
+		} else if (property === 'password') {
+			throw sendErrorJSON(res!, 'Password is invalid, must be between 8 at least characters', statusCodes.BadRequest);
 		} else {
-			throw sendErrorJSON(res!, 'Internal server error.', statusCodes.InternalServerError);
+			throw sendErrorJSON(res!, 'Unknown error occured', statusCodes.InternalServerError);
 		}
 	}
 }

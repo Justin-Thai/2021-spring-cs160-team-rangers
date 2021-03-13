@@ -1,6 +1,6 @@
 {
 	"saltRounds": 10,
-	"jwtExpire": "5m",
+	"jwtExpire": "30m",
 	"dbPort": 5432,
 	"serverPort": 5000
 }

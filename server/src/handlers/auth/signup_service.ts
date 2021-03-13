@@ -5,14 +5,14 @@ import { User } from '../../database/entity';
 import { checkNotAuth, checkIfEmailUsed, validateUser } from '../../middlewares';
 
 @Path('/signup')
+@PreProcessor(checkNotAuth)
+@PreProcessor(validateUser)
+@PreProcessor(checkIfEmailUsed)
 export default class SignUpService {
 	@Context
 	context: ServiceContext;
 
 	@POST
-	@PreProcessor(checkNotAuth)
-	@PreProcessor(validateUser)
-	@PreProcessor(checkIfEmailUsed)
 	async signup(@FormParam('email') email: string, @FormParam('password') password: string) {
 		const res = this.context.response;
 		try {

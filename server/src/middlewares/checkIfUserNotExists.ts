@@ -7,8 +7,8 @@ export default async function checkIfUserNotExists(req: express.Request, res?: e
 	let userNotExists = false;
 	try {
 		const { email } = req.body;
-		const users = await User.findBy({ email });
-		if (!users.length) {
+		const user = await User.findOne({ email });
+		if (!user) {
 			userNotExists = true;
 		}
 	} catch (err) {

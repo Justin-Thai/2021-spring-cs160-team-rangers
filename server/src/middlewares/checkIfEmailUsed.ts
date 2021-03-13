@@ -7,8 +7,8 @@ export default async function checkIfEmailUsed(req: express.Request, res?: expre
 	let userExists = false;
 	try {
 		const { email } = req.body;
-		const users = await User.findBy({ email });
-		if (users.length) {
+		const user = await User.findOne({ email });
+		if (user) {
 			userExists = true;
 		}
 	} catch (err) {

@@ -20,7 +20,7 @@ describe('Db actions test suite', () => {
 
     it("Store a user and fetch it", async () => {
         await user.save();
-        const foundUser = await User.findBy({ email: 'test@test.com' });
-        expect(foundUser[0].email).toBe("test@test.com");
+        const foundUser = await User.findOneOrFail({ email: 'test@test.com' });
+        expect(foundUser.email).toBe("test@test.com");
     });
 });

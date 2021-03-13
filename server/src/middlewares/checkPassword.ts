@@ -8,8 +8,8 @@ export default async function checkPassword(req: express.Request, res?: express.
   let isPasswordCorrect = true;
 	try {
 		const { email, password } = req.body;
-		const users = await User.findBy({ email });
-		isPasswordCorrect = await bcrypt.compare(password, users[0].password);
+		const user = await User.findOneOrFail({ email });
+		isPasswordCorrect = await bcrypt.compare(password, user.password);
 	} catch (err) {
 		throw sendErrorJSON(res!, 'Unknown error occured', statusCodes.InternalServerError);
 	}

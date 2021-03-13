@@ -1,10 +1,10 @@
 import { Path, GET, ServiceContext, Context, PreProcessor } from 'typescript-rest';
 
 import { resOK, resError, statusCodes } from '../../utils';
-import { checkAuth } from '../../middlewares';
+import { checkAuthentication } from '../../middlewares';
 
 @Path('/auth')
-@PreProcessor(checkAuth)
+@PreProcessor(checkAuthentication)
 export default class AuthService {
 	@Context
 	context: ServiceContext;
