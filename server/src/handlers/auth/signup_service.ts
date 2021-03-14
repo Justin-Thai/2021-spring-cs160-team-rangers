@@ -2,10 +2,9 @@ import { Path, POST, ServiceContext, Context, FormParam, PreProcessor } from 'ty
 
 import { resOK, resError, statusCodes, hashPassword, generateJWT } from '../../utils';
 import { User } from '../../database/entity';
-import { checkNotAuth, checkIfEmailUsed, validateUser } from '../../middlewares';
+import { checkIfEmailUsed, validateUser } from '../../middlewares';
 
 @Path('/signup')
-@PreProcessor(checkNotAuth)
 @PreProcessor(validateUser)
 @PreProcessor(checkIfEmailUsed)
 export default class SignUpService {

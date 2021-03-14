@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsBoolean, Length } from 'class-validator';
+import { IsInt, IsString, IsUUID, IsBoolean, Length } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, getRepository, Like } from 'typeorm';
 
 import Model from './Model';
@@ -8,9 +8,10 @@ import Card from './Card';
 @Entity('decks')
 export default class Deck extends Model {
 	@PrimaryGeneratedColumn({ type: 'integer' })
-	id: string;
+	id: number;
 
-	@Column()
+	@Column({ type: 'uuid' })
+	@IsUUID()
 	user_id: string;
 
 	@Column()
@@ -49,7 +50,7 @@ export default class Deck extends Model {
 			.getMany();
 	}
 
-	async getCardById(cardId: string) {
+	async getCardById(cardId: number) {
 		return await getRepository(Card)
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
@@ -72,5 +73,10 @@ export default class Deck extends Model {
 			.leftJoin('card.deck', 'deck')
 			.where(condition)
 			.getMany();
+	}
+
+	async deleteCards() {
+		const cards = await this.getCards();
+		cards.forEach(async (card) => await card.remove());
 	}
 }

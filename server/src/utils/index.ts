@@ -6,6 +6,8 @@ import decodeJWT from './decodeJWT';
 import DbConnection from './DbConnection';
 import hashPassword from './hashPassword';
 import generateJWT from './generateJWT';
+import isItemsIdValid from './isItemsIdValid';
+import nil from './nil';
 
 export {
 	sum,
@@ -18,4 +20,6 @@ export {
 	DbConnection,
 	hashPassword,
 	generateJWT,
+	isItemsIdValid,
+	nil,
 };

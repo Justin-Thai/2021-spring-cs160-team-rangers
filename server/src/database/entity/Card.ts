@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsBoolean, Length } from 'class-validator';
+import { IsInt, IsString, Length } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 import Model from './Model';
@@ -7,10 +7,11 @@ import Deck from './Deck';
 @Entity('cards')
 export default class Card extends Model {
 	@PrimaryGeneratedColumn({ type: 'integer' })
-	id: string;
+	id: number;
 
 	@Column()
-	deck_id: string;
+	@IsInt()
+	deck_id: number;
 
 	@Column()
 	@IsString()
@@ -46,7 +47,7 @@ export default class Card extends Model {
 	deck: Deck;
 
 	constructor(
-		deck_id: string,
+		deck_id: number,
 		front_side: string,
 		back_side: string,
 		background_color = 'white',

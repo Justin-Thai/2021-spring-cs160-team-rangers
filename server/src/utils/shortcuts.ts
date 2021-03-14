@@ -11,7 +11,7 @@ export const resError = (message = 'Unknown error occurred') => ({
 	message,
 });
 
-export const sendErrorJSON = (res: express.Response, message: string, statusCode: number) => {
+export const sendErrorJSON = (res: express.Response, statusCode: number, message = 'Unknown error occured') => {
 	res.set('Content-Type', 'application/json');
 	res.status(statusCode);
 	res.json(resError(message));

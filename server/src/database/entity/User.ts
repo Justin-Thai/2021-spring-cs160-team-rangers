@@ -56,7 +56,7 @@ export default class User extends Model {
 			.getMany();
 	}
 
-	async getDeckById(deckId: string) {
+	async getDeckById(deckId: number) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([

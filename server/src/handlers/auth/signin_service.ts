@@ -2,12 +2,11 @@ import { Path, POST, ServiceContext, Context, FormParam, PreProcessor } from 'ty
 
 import { resOK, resError, statusCodes, generateJWT } from '../../utils';
 import { User } from '../../database/entity';
-import { checkNotAuth, validateUser, checkIfUserNotExists, checkPassword } from '../../middlewares';
+import { validateUser, checkIfUserExists, checkPassword } from '../../middlewares';
 
 @Path('/signin')
-@PreProcessor(checkNotAuth)
 @PreProcessor(validateUser)
-@PreProcessor(checkIfUserNotExists)
+@PreProcessor(checkIfUserExists)
 @PreProcessor(checkPassword)
 export default class SignInService {
 	@Context
