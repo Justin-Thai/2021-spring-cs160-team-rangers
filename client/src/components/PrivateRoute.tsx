@@ -27,7 +27,7 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 	}
 
 	componentDidUpdate(prevProps: PrivateRouteProps) {
-		if (prevProps.loading !== this.props.loading) {
+		if (prevProps.loading !== this.props.loading && this.props.loading === true) {
 			this.setState({ didCheckAuth: true });
 		}
 	}
