@@ -2,13 +2,13 @@ import React from 'react';
 
 export default function Background() {
 	return (
-		<svg width='100%' height='1058' viewBox='0 0 100% 1058'>
+		<svg width='100%' height='1058'>
 			<defs>
-				<clipPath id='clip-path'>
-					<rect x='58' y='153' width='1920.009' height='588.359' fill='none' />
+				<clipPath id='clipPath'>
+					<rect x='58' y='153' width='100%' height='588.359' fill='none' />
 				</clipPath>
-				<clipPath id='clip-path-2'>
-					<rect x='15' y='74' width='1920.019' height='766.029' fill='none' />
+				<clipPath id='clipPath-2'>
+					<rect x='15' y='74' width='100%' height='766.029' fill='none' />
 				</clipPath>
 				<linearGradient
 					id='linear-gradient'
@@ -18,20 +18,20 @@ export default function Background() {
 					y2='0.068'
 					gradientUnits='objectBoundingBox'
 				>
-					<stop offset='0' stop-color='#77f1fb' />
-					<stop offset='1' stop-color='#78acfc' />
+					<stop offset='0' stopColor='#77f1fb' />
+					<stop offset='1' stopColor='#78acfc' />
 				</linearGradient>
 				<filter id='Ellipse_16' x='400.574' y='682.487' width='312.32' height='303.479' filterUnits='userSpaceOnUse'>
 					<feOffset dy='33' />
 					<feGaussianBlur stdDeviation='18' result='blur' />
-					<feFlood flood-opacity='0.161' />
+					<feFlood floodOpacity='0.161' />
 					<feComposite operator='in' in2='blur' />
 					<feComposite in='SourceGraphic' />
 				</filter>
 				<filter id='Ellipse_2' x='515' y='807' width='250' height='251' filterUnits='userSpaceOnUse'>
 					<feOffset dy='33' />
 					<feGaussianBlur stdDeviation='18' result='blur-2' />
-					<feFlood flood-opacity='0.161' />
+					<feFlood floodOpacity='0.161' />
 					<feComposite operator='in' in2='blur-2' />
 					<feComposite in='SourceGraphic' />
 				</filter>
@@ -40,7 +40,7 @@ export default function Background() {
 				id='Scroll_Group_2'
 				data-name='Scroll Group 2'
 				transform='translate(-57.7 230.2)'
-				clip-path='url(#clip-path)'
+				clipPath='url(#clipPath)'
 				style={{ isolation: 'isolate' }}
 			>
 				<path
@@ -55,7 +55,7 @@ export default function Background() {
 				id='Scroll_Group_1'
 				data-name='Scroll Group 1'
 				transform='translate(-15 -74)'
-				clip-path='url(#clip-path-2)'
+				clipPath='url(#clipPath-2)'
 				style={{ isolation: 'isolate' }}
 			>
 				<path

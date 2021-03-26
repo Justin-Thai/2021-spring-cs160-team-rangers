@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { lang } from '../../config';
 import styles from './styles.module.scss';
 
-export default function NavBarNotAuth() {
-	const { aboutUs, services, helpAndFAQ, contactUs, login } = lang['en'].nav;
+export default function NavBarAuth({ userId }: { userId: string }) {
+	const { aboutUs, services, helpAndFAQ, contactUs, myPage } = lang['en'].nav;
 
 	return (
 		<nav className={styles.navBar}>
@@ -26,8 +26,8 @@ export default function NavBarNotAuth() {
 						</li>
 					</div>
 				</div>
-				<li className={styles.login}>
-					<Link to='/login'>{login}</Link>
+				<li className={styles.myPage}>
+					<Link to={`/profile/${userId}`}>{myPage}</Link>
 				</li>
 			</ul>
 		</nav>

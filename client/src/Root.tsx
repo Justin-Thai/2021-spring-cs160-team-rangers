@@ -19,9 +19,10 @@ class Root extends Component<RootProps, {}> {
 	}
 
 	render() {
+		const { user } = this.props;
 		return (
 			<Router>
-				{this.props.user ? <NavBarAuth /> : <NavBarNotAuth />}
+				{user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />}
 				<Switch>
 					<Route exact path='/signup'>
 						<SignUp />
@@ -29,11 +30,14 @@ class Root extends Component<RootProps, {}> {
 					<Route exact path='/login'>
 						<LogIn />
 					</Route>
-					<PrivateRoute exact path='/profile'>
+					<PrivateRoute exact path={`/profile/:userId`}>
 						<Profile />
 					</PrivateRoute>
-					<Route path='/'>
+					<Route exact path='/'>
 						<Home />
+					</Route>
+					<Route path='*'>
+						<div>page not found</div>
 					</Route>
 				</Switch>
 				<Footer />

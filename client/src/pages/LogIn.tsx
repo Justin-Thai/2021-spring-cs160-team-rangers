@@ -65,7 +65,7 @@ class LogIn extends Component<LogInProps, LogInState> {
 		}
 
 		return (
-			<form onSubmit={this.submit}>
+			<form onSubmit={this.submit} style={{ marginTop: 100 }}>
 				email <input type='email' value={email} onChange={this.setEmail} />
 				<br />
 				password <input type='password' value={password} onChange={this.setPassword} />

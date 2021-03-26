@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { Route, Redirect, RouteProps, useParams } from 'react-router-dom';
 
 import { User } from '../models';
 import { AppState } from '../redux/store';
@@ -74,12 +74,32 @@ const mapDispatchToProps = {
 	onCheckAuth: checkAuth,
 };
 
-const PrivateRouteComponent = connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+function Children({ children, user }: { children: React.ReactNode; user: User }): JSX.Element {
+	let { userId } = useParams<{ userId: string }>();
+	if (userId !== user.id) {
+		return (
+			<Redirect
+				to={{
+					pathname: '/',
+				}}
+			/>
+		);
+	}
+	return children as JSX.Element;
+}
 
 interface HOCPrivateRouteProps extends RouteProps {
 	children: React.ReactNode;
+	user: User | null;
+	loading: boolean;
+	onCheckAuth: () => void;
 }
 
-export default function HOCPrivateRoute({ children, ...rest }: HOCPrivateRouteProps) {
-	return <PrivateRouteComponent {...rest} children={children} />;
+function HOCPrivateRoute({ children, ...rest }: HOCPrivateRouteProps) {
+	const { user } = rest;
+	return <PrivateRoute {...rest} children={<Children children={children} user={user as User} />} />;
 }
+
+const PrivateRouteComponent = connect(mapStateToProps, mapDispatchToProps)(HOCPrivateRoute);
+
+export default PrivateRouteComponent;
