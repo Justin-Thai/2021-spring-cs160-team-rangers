@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer } from './components';
-import { Home, SignUp, Profile, SignIn } from './pages';
+import { Home, SignUp, Profile, LogIn } from './pages';
 import { User } from './models';
 import { checkAuth } from './redux/auth/actions';
 import { AppState } from './redux/store';
@@ -26,8 +26,8 @@ class Root extends Component<RootProps, {}> {
 					<Route exact path='/signup'>
 						<SignUp />
 					</Route>
-					<Route exact path='/signin'>
-						<SignIn />
+					<Route exact path='/login'>
+						<LogIn />
 					</Route>
 					<PrivateRoute exact path='/profile'>
 						<Profile />

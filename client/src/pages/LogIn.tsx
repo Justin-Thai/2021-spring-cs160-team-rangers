@@ -4,24 +4,24 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { History } from 'history';
 
 import { AppState } from '../redux/store';
-import { signIn, clearError } from '../redux/auth/actions';
+import { logIn, clearError } from '../redux/auth/actions';
 import { User } from '../models';
 
-interface SignInProps {
+interface LogInProps {
 	history: History<unknown>;
 	user: User | null;
 	loading: boolean;
 	error: Error | null;
-	onSignIn: (email: string, password: string) => void;
+	onLogIn: (email: string, password: string) => void;
 	onClearError: () => void;
 }
 
-interface SignInState {
+interface LogInState {
 	email: string;
 	password: string;
 }
 
-class SignIn extends Component<SignInProps, SignInState> {
+class LogIn extends Component<LogInProps, LogInState> {
 	state = {
 		email: '',
 		password: '',
@@ -44,21 +44,25 @@ class SignIn extends Component<SignInProps, SignInState> {
 	submit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		const { email, password } = this.state;
-		this.props.onSignIn(email, password);
+		this.props.onLogIn(email, password);
 	};
 
 	render() {
 		const { email, password } = this.state;
 		const { user, error, history, loading } = this.props;
 
-        if (user) {
-            return <Redirect to={{
-                pathname: '/',
-                state: {
-                    from: history.location
-                }
-            }} />
-        }
+		if (user) {
+			return (
+				<Redirect
+					to={{
+						pathname: '/',
+						state: {
+							from: history.location,
+						},
+					}}
+				/>
+			);
+		}
 
 		return (
 			<form onSubmit={this.submit}>
@@ -83,11 +87,11 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = {
-	onSignIn: signIn,
+	onLogIn: logIn,
 	onClearError: clearError,
 };
 
-const SignInComponent = connect(mapStateToProps, mapDispatchToProps)(SignIn);
+const SignInComponent = connect(mapStateToProps, mapDispatchToProps)(LogIn);
 
 export default function HOCSignIn() {
 	const history = useHistory();

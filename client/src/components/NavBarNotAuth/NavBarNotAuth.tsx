@@ -13,19 +13,16 @@ export default function NavBarNotAuth() {
 				<div className={styles.linksOuter}>
 					<div className={styles.linksWrapper}>
 						<li>
-							<Link to='/about'>{aboutUs}</Link>
+							<Link to='/'>{aboutUs}</Link>
 						</li>
 						<li>
-							<Link to='/services'>{services}</Link>
+							<Link to='/'>{services}</Link>
 						</li>
 						<li>
-							<Link to='/faq'>{helpAndFAQ}</Link>
+							<Link to='/'>{helpAndFAQ}</Link>
 						</li>
 						<li>
-							<Link to='/contact'>{contactUs}</Link>
-						</li>
-						<li>
-							<Link to='/signin'>{language}</Link>
+							<Link to='/'>{contactUs}</Link>
 						</li>
 					</div>
 				</div>
