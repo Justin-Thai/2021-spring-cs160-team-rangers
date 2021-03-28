@@ -35,6 +35,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(checkAuthSuccess(user));
@@ -71,6 +72,7 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(signUpSuccess(user));
@@ -108,6 +110,7 @@ export const logIn = (email: string, password: string) => async (dispatch: (acti
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(signInSuccess(user));

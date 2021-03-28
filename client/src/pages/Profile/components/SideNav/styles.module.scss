@@ -1,0 +1,48 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	height: 100%;
+	box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.52);
+	font-family: 'Montserrat', sans-serif;
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			padding: 12px 54px;
+			color: blue !important;
+
+			i {
+				margin-right: 12px;
+			}
+		}
+	}
+
+	.link {
+		font-size: 20px;
+		text-decoration: none;
+		color: $strongText;
+	}
+
+	.name {
+		font-size: 20px;
+		font-weight: normal;
+		color: $strongText;
+		margin-left: 54px;
+	}
+
+	.menu {
+		font-size: 29px;
+		color: $title;
+		margin-left: 54px;
+	}
+
+	.myAccount {
+		display: block;
+		width: 100%;
+		color: $lightText !important;
+		margin-left: 54px;
+	}
+}

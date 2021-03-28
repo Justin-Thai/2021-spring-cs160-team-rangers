@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, useLocation } from 'react-router-dom';
 
 import { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer } from './components';
-import { Home, SignUp, Profile, LogIn } from './pages';
+import { Home, SignUp, Profile, LogIn, PageNotFound } from './pages';
 import { User } from './models';
 import { checkAuth } from './redux/auth/actions';
 import { AppState } from './redux/store';
@@ -25,6 +25,10 @@ class Root extends Component<RootProps, {}> {
 		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
 	};
 
+	renderFooter = () => {
+		if (!this.props.pathname.includes('profile')) return <Footer />;
+	};
+
 	render() {
 		return (
 			<>
@@ -43,10 +47,10 @@ class Root extends Component<RootProps, {}> {
 						<Home />
 					</Route>
 					<Route path='*'>
-						<div>page not found</div>
+						<PageNotFound />
 					</Route>
 				</Switch>
-				<Footer />
+				{this.renderFooter()}
 			</>
 		);
 	}

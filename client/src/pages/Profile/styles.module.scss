@@ -1,0 +1,6 @@
+@import '../../scss/global.scss';
+
+.container {
+	@include flex-row;
+	height: 100vh;
+}

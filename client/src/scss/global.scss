@@ -9,7 +9,10 @@
 }
 
 $white: #fff;
-$title: #659ef5;
+$header: #659ef5;
+$strongText: #222;
+$lightText: #565656;
+$title: #23BDEB;
 
 @mixin container {
 	max-width: 95%;
