@@ -1,24 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Switch, useRouteMatch } from 'react-router-dom';
 
 import { AppState } from '../../redux/store';
 import { User } from '../../models';
 import { SideNav } from './components';
+import { PrivateRoute } from '../../components';
+import DeckPage from '../DeckPage/DeckPage';
 
 interface ProfileProps {
 	user: User | null;
 }
 
 function Profile({ user }: ProfileProps) {
+	let { path, url } = useRouteMatch();
 	if (!user) return null;
 	return (
-		<div>
-			<h1>Profile</h1>
-			<SideNav />
-			<ul>
-				<li>id: {user.id}</li>
-				<li>email: {user.email}</li>
-			</ul>
+		<div style={{ marginTop: 100 }}>
+			<SideNav url={url} />
+			<Switch>
+				<PrivateRoute exact path={`${path}/deck`}>
+					<DeckPage />
+				</PrivateRoute>
+			</Switch>
 		</div>
 	);
 }

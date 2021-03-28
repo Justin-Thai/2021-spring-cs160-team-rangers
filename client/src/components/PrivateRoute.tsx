@@ -23,7 +23,9 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 	};
 
 	componentDidMount() {
-		this.props.onCheckAuth();
+		if (!this.props.user) {
+			this.props.onCheckAuth();
+		}
 	}
 
 	componentDidUpdate(prevProps: PrivateRouteProps) {
@@ -35,7 +37,7 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 	render() {
 		const { user, loading, children, ...rest } = this.props;
 
-		if (!this.state.didCheckAuth) {
+		if (!this.state.didCheckAuth && !user) {
 			return null;
 		}
 

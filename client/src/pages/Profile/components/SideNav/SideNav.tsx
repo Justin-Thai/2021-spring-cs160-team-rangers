@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function SideNav() {
+export default function SideNav({ url }: { url: string }) {
 	return (
 		<ul>
 			<li>
-				<Link to='/'>My page</Link>
+				<Link to={`${url}/deck`}>My decks</Link>
 			</li>
 			<li>
 				<Link to='/'>Shared</Link>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 
 import { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer } from './components';
 import { Home, SignUp, Profile, LogIn } from './pages';
@@ -10,6 +10,7 @@ import { AppState } from './redux/store';
 
 interface RootProps {
 	user: User | null;
+	pathname: string;
 	onCheckAuth: () => void;
 }
 
@@ -18,11 +19,16 @@ class Root extends Component<RootProps, {}> {
 		this.props.onCheckAuth();
 	}
 
+	renderNav = () => {
+		const { user, pathname } = this.props;
+		if (pathname.includes('profile')) return null;
+		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
+	};
+
 	render() {
-		const { user } = this.props;
 		return (
-			<Router>
-				{user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />}
+			<>
+				{this.renderNav()}
 				<Switch>
 					<Route exact path='/signup'>
 						<SignUp />
@@ -30,7 +36,7 @@ class Root extends Component<RootProps, {}> {
 					<Route exact path='/login'>
 						<LogIn />
 					</Route>
-					<PrivateRoute exact path={`/profile/:userId`}>
+					<PrivateRoute path='/profile/:userId'>
 						<Profile />
 					</PrivateRoute>
 					<Route exact path='/'>
@@ -41,7 +47,7 @@ class Root extends Component<RootProps, {}> {
 					</Route>
 				</Switch>
 				<Footer />
-			</Router>
+			</>
 		);
 	}
 }
@@ -56,4 +62,14 @@ const mapDispatchToProps = {
 	onCheckAuth: checkAuth,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root);
+interface RootHOCProps {
+	user: User | null;
+	onCheckAuth: () => void;
+}
+
+function RootHOC(props: RootHOCProps) {
+	const { pathname } = useLocation();
+	return <Root {...props} pathname={pathname} />;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RootHOC);
