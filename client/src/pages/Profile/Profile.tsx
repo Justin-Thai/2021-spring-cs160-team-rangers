@@ -7,6 +7,7 @@ import { User } from '../../models';
 import { SideNav } from './components';
 import { PrivateRoute } from '../../components';
 import DeckPage from '../DeckPage/DeckPage';
+import MyAccount from '../MyAccount/MyAccount';
 
 interface ProfileProps {
 	user: User | null;
@@ -19,6 +20,9 @@ function Profile({ user }: ProfileProps) {
 		<div style={{ marginTop: 100 }}>
 			<SideNav url={url} />
 			<Switch>
+				<PrivateRoute exact path={path}>
+					<MyAccount user={user} />
+				</PrivateRoute>
 				<PrivateRoute exact path={`${path}/deck`}>
 					<DeckPage />
 				</PrivateRoute>
