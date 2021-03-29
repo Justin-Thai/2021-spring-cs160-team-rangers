@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import Model from './Model';
 import Deck from './Deck';
+import StudyReport from './StudyReport';
 
 @Entity('users')
 export default class User extends Model {
@@ -22,6 +23,9 @@ export default class User extends Model {
 
 	@OneToMany(() => Deck, (deck) => deck.user)
 	decks: Deck[];
+
+	@OneToMany(() => StudyReport, (study_report) => study_report.user)
+	study_reports: StudyReport[];
 
 	@BeforeInsert()
 	createUuid() {

@@ -61,6 +61,6 @@ export default class Card extends Model {
 		this.background_color = background_color;
 		this.font = font;
 		this.font_color = font_color;
-    this.correct_count = 0;
+    	this.correct_count = 0;
 	}
 }

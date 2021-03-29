@@ -4,6 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMan
 import Model from './Model';
 import User from './User';
 import Card from './Card';
+import StudyReport from './StudyReport';
 
 @Entity('decks')
 export default class Deck extends Model {
@@ -33,6 +34,9 @@ export default class Deck extends Model {
 
 	@OneToMany(() => Card, (card) => card.deck)
 	cards: Card[];
+
+	@OneToMany(() => StudyReport, (study_report) => study_report.deck)
+	study_reports: StudyReport[];
 
 	constructor(user_id: string, name: string, shared = false) {
 		super();
