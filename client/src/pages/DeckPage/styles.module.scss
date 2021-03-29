@@ -1,5 +1,10 @@
 @import '../../scss/global.scss';
 
 .container {
-	
+	.deckContainer {
+		margin: 54px;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		grid-gap: 50px;
+	}
 }

@@ -1,3 +1,4 @@
 import PageHeader from './PageHeader/PageHeader';
+import DeckComponent from './DeckComponent/DeckComponent';
 
-export { PageHeader };
+export { PageHeader, DeckComponent };

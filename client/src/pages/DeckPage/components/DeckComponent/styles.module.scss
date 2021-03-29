@@ -1,0 +1,38 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	border-top: 1px solid rgba(0, 0, 0, 0.16);
+	border-left: 1px solid rgba(0, 0, 0, 0.16);
+	padding: 24px 0;
+	border-radius: 35px;
+	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+	font-family: 'Montserrat', sans-serif;
+	position: relative;
+
+	.editIcon {
+		position: absolute;
+		right: 24px;
+	}
+
+	.wrapper {
+		@include flex-row;
+		justify-content: space-between;
+
+		.name {
+			margin-left: 24px;
+		}
+
+		.count {
+			margin-left: 24px;
+			opacity: 0.5;
+			font-weight: 500;
+		}
+
+		.edit {
+			align-self: center;
+			opacity: 0.5;
+			font-weight: 500;
+			margin-right: 24px;
+		}
+	}
+}
