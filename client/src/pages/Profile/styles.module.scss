@@ -3,4 +3,8 @@
 .container {
 	@include flex-row;
 	height: 100vh;
+
+	.pages {
+		width: 84%;
+	}
 }

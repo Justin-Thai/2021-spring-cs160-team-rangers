@@ -23,7 +23,7 @@ function Profile({ user }: ProfileProps) {
 	return (
 		<div className={styles.container}>
 			<SideNav url={url} username={user.name} />
-			<div>
+			<div className={styles.pages}>
 				<Switch>
 					<PrivateRoute exact path={path}>
 						<MyAccount user={user} />
