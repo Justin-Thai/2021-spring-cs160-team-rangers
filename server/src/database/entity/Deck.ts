@@ -83,4 +83,12 @@ export default class Deck extends Model {
 		const cards = await this.getCards();
 		cards.forEach(async (card) => await card.remove());
 	}
+
+	async getStudyReports() {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.deck', 'deck')
+			.where({ deck_id: this.id})
+			.getMany();
+	}
 }

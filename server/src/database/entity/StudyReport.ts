@@ -22,13 +22,13 @@ export default class StudyReport extends Model {
     @IsInt()
     correct_count: number;
 
-    // @Column()
-    // @IsDate()
-    // start_time: Date;
+    @Column()
+    @IsDate()
+    start_time: Date;
 
-    // @Column()
-    // @IsDate()
-    // end_time: Date;
+    @Column()
+    @IsDate()
+    end_time: Date;
     
     @ManyToOne(() => User, (user) => user.study_reports)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id'})
@@ -43,7 +43,7 @@ export default class StudyReport extends Model {
         this.user_id = user_id;
         this.deck_id = deck_id;
         this.correct_count = 0;
-        // this.start_time = ;
+        this.start_time = new Date();
         // this.end_time = ;
     } 
 }

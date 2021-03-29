@@ -95,4 +95,12 @@ export default class User extends Model {
 			.where({ user_id: this.id, name: Like(`%${name}%`) })
 			.getMany();
 	}
+
+	async getStudyReports() {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id})
+			.getMany();
+	}
 }
