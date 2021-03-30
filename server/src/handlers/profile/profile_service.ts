@@ -86,6 +86,13 @@ export default class ProfileService {
 	) {
 		const res = this.context.response;
 		try {
+			if(limit === undefined) {
+				limit = 9;
+			}
+			if(page === undefined) {
+				page = 1; 
+			}
+
 			if (name) {
 				const user = await User.findOneOrFail(userId);
 				const decks = await user.filterDeckByName(name, limit, page);
