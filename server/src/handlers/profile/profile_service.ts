@@ -23,6 +23,7 @@ import {
 	validateCardChanges,
 	checkIfDeckExists,
 	checkIfCardExists,
+	checkIfStudyReportExists,
 } from '../../middlewares';
 
 @Path('/profile/:userId')
@@ -351,7 +352,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
-	// @PreProcessor(checkIfStudyReportExists)
+	@PreProcessor(checkIfStudyReportExists)
 	async getStudyReport(@PathParam('deckId') deckId: number, @PathParam('reportId') sessionId: number) {
 		const res = this.context.response;
 		try {
@@ -395,6 +396,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
+	@PreProcessor(checkIfStudyReportExists)
 	// @PreProcessor(validateStudyReportChanges) TO-DO
 	async updateStudyReport(
 		@PathParam('userId') userId: string,
@@ -440,7 +442,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
-	// @PreProcessor(checkIfStudyReportExists) TO-DO
+	@PreProcessor(checkIfStudyReportExists)
 	async deleteStudyReport(@PathParam('deckId') deckId: string, @PathParam('reportId') reportId: number) {
 		const res = this.context.response;
 		try {
