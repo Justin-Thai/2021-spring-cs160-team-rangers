@@ -38,7 +38,7 @@ export default class User extends Model {
 		return { id: this.id, email: this.email };
 	}
 
-	async getDecks() {
+	async getDecks(limit: number, page: number) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
@@ -53,7 +53,8 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id })
-			.getMany();
+			.skip((page - 1) * limit).take(limit)
+			.getManyAndCount();
 	}
 
 	async getDeckById(deckId: number) {
@@ -74,7 +75,7 @@ export default class User extends Model {
 			.getOne();
 	}
 
-	async filterDeckByName(name: string) {
+	async filterDeckByName(name: string, limit: number, page: number) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
@@ -89,6 +90,7 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, name: Like(`%${name}%`) })
-			.getMany();
+			.skip((page - 1) * limit).take(limit)
+			.getManyAndCount();
 	}
 }
