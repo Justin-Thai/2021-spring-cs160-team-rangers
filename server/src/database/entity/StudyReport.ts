@@ -1,22 +1,28 @@
-import { IsDate, IsInt, IsUUID } from 'class-validator';
+import { IsDate, IsInt, IsUUID, IsString, Length } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import Model from './Model';
 import User from './User';
 import Deck from './Deck';
 
+
 @Entity('study_reports')
 export default class StudyReport extends Model {
     @PrimaryGeneratedColumn({ type: 'integer'})
     id: number;
 
-    @Column()
+    @Column({ type: 'uuid' })
     @IsUUID()
     user_id: string;
 
     @Column()
     @IsInt()
     deck_id: number;
+
+    @Column()
+    @IsString()
+    @Length(1, 255)
+    name: string;
 
     @Column()
     @IsInt()
@@ -44,6 +50,7 @@ export default class StudyReport extends Model {
         this.deck_id = deck_id;
         this.correct_count = 0;
         this.start_time = new Date();
-        // this.end_time = ;
+        // this.end_time = ; TO-DO
+        this.name = "Report " + this.id + " generated at " + this.start_time;
     } 
 }

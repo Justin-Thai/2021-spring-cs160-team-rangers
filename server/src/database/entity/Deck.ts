@@ -22,7 +22,11 @@ export default class Deck extends Model {
 
 	@Column({ type: 'integer' })
 	@IsInt()
-	count: number;
+	card_count: number;
+
+	@Column({ type: 'integer' })
+	@IsInt()
+	report_count: number;
 
 	@Column()
 	@IsBoolean()
@@ -42,7 +46,7 @@ export default class Deck extends Model {
 		super();
 		this.user_id = user_id;
 		this.name = name;
-		this.count = 0;
+		this.card_count = 0;
 		this.shared = shared;
 	}
 
@@ -90,5 +94,13 @@ export default class Deck extends Model {
 			.leftJoin('study_report.deck', 'deck')
 			.where({ deck_id: this.id})
 			.getMany();
+	}
+
+	async getStudyReportById(reportId: number) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.deck', 'deck')
+			.where({ deck_id: this.id, id: reportId })
+			.getOne();
 	}
 }

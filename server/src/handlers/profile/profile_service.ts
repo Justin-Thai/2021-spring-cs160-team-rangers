@@ -13,7 +13,7 @@ import {
 } from 'typescript-rest';
 
 import { resOK, resError, sendErrorJSON, statusCodes } from '../../utils';
-import { User, Deck, Card } from '../../database/entity';
+import { User, Deck, Card, StudyReport } from '../../database/entity';
 import {
 	checkAuthentication,
 	checkProfileAuthorization,
@@ -192,7 +192,7 @@ export default class ProfileService {
 		try {
 			const newCard = new Card(deckId, front_side, back_side, background_color, font_color, font);
 			const deck = await Deck.findOneOrFail(deckId);
-			deck.count += 1;
+			deck.card_count += 1;
 			await newCard.save();
 			await deck.save();
 			res.status(statusCodes.Created);
@@ -312,7 +312,7 @@ export default class ProfileService {
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
 			const card = await deck.getCardById(cardId);
-			deck!.count -= 1;
+			deck!.card_count -= 1;
 			await deck!.save();
 			await card!.remove();
 			res.status(statusCodes.OK);
@@ -323,4 +323,138 @@ export default class ProfileService {
 		}
 	}
 	/**----------------------------------End Card Methods---------------------------------- */
+
+	/**----------------------------------Study Report Methods---------------------------------- */
+
+	@Path('/deck/:deckId/study')
+	@GET
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	async getAllStudyReports(
+		@PathParam('deckId') deckId: number,
+	) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const studyReports = await deck.getStudyReports();
+			res.status(statusCodes.OK);
+			return resOK({ studyReports });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study/:reportId')
+	@GET
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	// @PreProcessor(checkIfStudyReportExists)
+	async getStudyReport(@PathParam('deckId') deckId: number, @PathParam('reportId') sessionId: number) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const studyReport = await deck.getStudyReportById(sessionId);
+			res.status(statusCodes.OK);
+			return resOK({ studyReport });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study')
+	@POST
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	// @PreProcessor(validateStudyReport) TO-DO
+	async createStudyReport(
+		@PathParam('userId') userId: string,
+		@PathParam('deckId') deckId: number,
+	) {
+		const res = this.context.response;
+		try {
+			const newStudyReport = new StudyReport(userId, deckId);
+			const deck = await Deck.findOneOrFail(deckId);
+			deck.report_count++;
+			await newStudyReport.save();
+			await deck.save();
+			res.status(statusCodes.Created);
+			return resOK({ studyReport: newStudyReport });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study/:reportId')
+	@PUT
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	// @PreProcessor(validateStudyReportChanges) TO-DO
+	async updateStudyReport(
+		@PathParam('userId') userId: string,
+		@PathParam('deckId') deckId: number,
+		@PathParam('reportId') reportId: number,
+		@FormParam('name') name: string,
+		@FormParam('correct_count') correct_count: number,
+		@FormParam('start_time') start_time: Date,
+		@FormParam('end_time') end_time: Date,
+	) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const studyReport = await deck.getStudyReportById(reportId);
+
+			if(name) {
+				studyReport!.name = name;
+			}
+
+			if (correct_count) {
+				studyReport!.correct_count = correct_count;
+			}
+
+			if (start_time) {
+				studyReport!.start_time = start_time;
+			}
+
+			if (end_time) {
+				studyReport!.end_time = end_time;
+			}
+
+			await studyReport!.save();
+			res.status(statusCodes.Created);
+			return resOK({ studyReport });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study/:reportId')
+	@DELETE
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	// @PreProcessor(checkIfStudyReportExists) TO-DO
+	async deleteStudyReport(@PathParam('deckId') deckId: string, @PathParam('reportId') reportId: number) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const studyReport = await deck.getStudyReportById(reportId);
+			deck!.report_count--;
+			await deck!.save();
+			await studyReport!.remove();
+			res.status(statusCodes.OK);
+			return resOK({ message: `Successfully deleted study report ${reportId}` });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+	/**----------------------------------End Study Report Methods---------------------------------- */
 }
