@@ -35,6 +35,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(checkAuthSuccess(user));
@@ -71,6 +72,7 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(signUpSuccess(user));
@@ -79,7 +81,7 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 	}
 };
 
-export const signIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
+export const logIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signInStarted());
 	try {
 		const res = await fetch('http://localhost:5000/signin', {
@@ -108,6 +110,7 @@ export const signIn = (email: string, password: string) => async (dispatch: (act
 		const user = {
 			id: decodedData.id,
 			email: decodedData.email,
+			name: 'Anh Nguyen',
 		};
 
 		dispatch(signInSuccess(user));
@@ -129,17 +132,17 @@ export const clearError = () => ({ type: DispatchTypes.CLEAR_ERROR, payload: nul
 /* ------------------ action dispatches ------------------ */
 
 const signInStarted = (): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_STARTED,
+	type: DispatchTypes.LOG_IN_STARTED,
 	payload: null,
 });
 
 const signInSuccess = (user: User): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_SUCCESS,
+	type: DispatchTypes.LOG_IN_SUCCESS,
 	payload: user,
 });
 
 const signInFailure = (error: Error): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_FAILURE,
+	type: DispatchTypes.LOG_IN_FAILURE,
 	payload: error,
 });
 

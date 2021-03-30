@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { Route, Redirect, RouteProps, useParams } from 'react-router-dom';
 
 import { User } from '../models';
 import { AppState } from '../redux/store';
@@ -23,11 +23,13 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 	};
 
 	componentDidMount() {
-		this.props.onCheckAuth();
+		if (!this.props.user) {
+			this.props.onCheckAuth();
+		}
 	}
 
 	componentDidUpdate(prevProps: PrivateRouteProps) {
-		if (prevProps.loading !== this.props.loading) {
+		if (prevProps.loading !== this.props.loading && this.props.loading === true) {
 			this.setState({ didCheckAuth: true });
 		}
 	}
@@ -35,7 +37,7 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 	render() {
 		const { user, loading, children, ...rest } = this.props;
 
-		if (!this.state.didCheckAuth) {
+		if (!this.state.didCheckAuth && !user) {
 			return null;
 		}
 
@@ -74,12 +76,32 @@ const mapDispatchToProps = {
 	onCheckAuth: checkAuth,
 };
 
-const PrivateRouteComponent = connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+function Children({ children, user }: { children: React.ReactNode; user: User }): JSX.Element {
+	let { userId } = useParams<{ userId: string }>();
+	if (userId !== user.id) {
+		return (
+			<Redirect
+				to={{
+					pathname: '/',
+				}}
+			/>
+		);
+	}
+	return children as JSX.Element;
+}
 
 interface HOCPrivateRouteProps extends RouteProps {
 	children: React.ReactNode;
+	user: User | null;
+	loading: boolean;
+	onCheckAuth: () => void;
 }
 
-export default function HOCPrivateRoute({ children, ...rest }: HOCPrivateRouteProps) {
-	return <PrivateRouteComponent {...rest} children={children} />;
+function HOCPrivateRoute({ children, ...rest }: HOCPrivateRouteProps) {
+	const { user } = rest;
+	return <PrivateRoute {...rest} children={<Children children={children} user={user as User} />} />;
 }
+
+const PrivateRouteComponent = connect(mapStateToProps, mapDispatchToProps)(HOCPrivateRoute);
+
+export default PrivateRouteComponent;

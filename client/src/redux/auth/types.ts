@@ -1,20 +1,20 @@
 import { User } from '../../models/';
 
 export enum DispatchTypes {
-	SIGN_IN_STARTED = 'SIGN_IN_STARTED',
-	SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS',
-	SIGN_IN_FAILURE = 'SIGN_IN_FAILURE',
+	LOG_IN_STARTED = 'LOG_IN_STARTED',
+	LOG_IN_SUCCESS = 'LOG_IN_SUCCESS',
+	LOG_IN_FAILURE = 'LOG_IN_FAILURE',
 
 	SIGN_UP_STARTED = 'SIGN_UP_STARTED',
 	SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS',
 	SIGN_UP_FAILURE = 'SIGN_UP_FAILURE',
 
-    CHECKAUTH_STARTED = 'CHECKAUTH_STARTED',
-    CHECKAUTH_SUCCESS = 'CHECKAUTH_SUCCESS',
-    CHECKAUTH_FAILURE = 'CHECKAUTH_FAILURE',
+	CHECKAUTH_STARTED = 'CHECKAUTH_STARTED',
+	CHECKAUTH_SUCCESS = 'CHECKAUTH_SUCCESS',
+	CHECKAUTH_FAILURE = 'CHECKAUTH_FAILURE',
 
 	SIGN_OUT = 'SIGN_OUT',
-    CLEAR_ERROR = 'CLEAR_ERROR'
+	CLEAR_ERROR = 'CLEAR_ERROR',
 }
 
 export type AuthAction = {
@@ -25,13 +25,13 @@ export type AuthAction = {
 export type AuthState = {
 	user: User | null;
 	loadings: {
-        checkAuthLoading: boolean;
+		checkAuthLoading: boolean;
 		signInLoading: boolean;
 		signOutLoading: boolean;
 		signUpLoading: boolean;
 	};
 	errors: {
-        checkAuthError: Error | null;
+		checkAuthError: Error | null;
 		signInError: Error | null;
 		signOutError: Error | null;
 		signUpError: Error | null;
