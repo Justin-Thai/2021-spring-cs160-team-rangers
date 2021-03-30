@@ -5,6 +5,7 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 
 import { PageHeader, DeckComponent, DeckList } from './components';
+import { Pagination } from '../../components';
 import { Deck } from '../../models';
 import { AppState } from '../../redux/store';
 import { fetchDecks } from '../../redux/deck/actions';
@@ -21,19 +22,28 @@ interface DeckPageProps {
 	onFetchDecks: (name?: string, page?: number) => void;
 }
 
-class DeckPage extends Component<DeckPageProps> {
+interface DeckPageState {
+	currentPage: number;
+}
+
+class DeckPage extends Component<DeckPageProps, DeckPageState> {
+	state = {
+		currentPage: this.props.page ? this.props.page - 1 : 0,
+	};
+
 	componentDidMount() {
 		const { name, page, onFetchDecks } = this.props;
 		onFetchDecks(name ? name : undefined, page ? page : undefined);
 	}
 
-	componentDidUpdate() {
-		console.log(this.props.page);
-	}
-
 	handlePageClick = ({ selected }: { selected: number }) => {
-		// console.log(selected);
-		this.props.history.push(`${this.props.url}?page=12`);
+		console.log('on page change');
+		const page = selected + 1;
+		this.setState({ currentPage: page }, () => {
+			const { name, history, onFetchDecks } = this.props;
+			history.push(`${this.props.url}?page=${page}`);
+			onFetchDecks(name ? name : undefined, page);
+		});
 	};
 
 	render() {
@@ -41,25 +51,10 @@ class DeckPage extends Component<DeckPageProps> {
 		return (
 			<div className={styles.container}>
 				<PageHeader />
-				{loading ? (
-					<div>loading</div>
-				) : (
-					<>
-						<DeckList decks={decks} />
-						<ReactPaginate
-							previousLabel={'previous'}
-							nextLabel={'next'}
-							breakLabel={'...'}
-							breakClassName={'break-me'}
-							pageCount={3}
-							marginPagesDisplayed={2}
-							pageRangeDisplayed={5}
-							onPageChange={this.handlePageClick}
-							containerClassName={'pagination'}
-							activeClassName={'active'}
-						/>
-					</>
-				)}
+				{loading ? <div>loading</div> : <DeckList decks={decks} />}
+				<div className={styles.paginationContainer}>
+					<Pagination pageCount={30} currentPage={this.state.currentPage} onPageChange={this.handlePageClick} />
+				</div>
 			</div>
 		);
 	}

@@ -1,0 +1,32 @@
+@import '../../scss/global.scss';
+
+.pagination {
+	@include flex-row;
+	font-family: 'Montserrat', sans-serif;
+	list-style: none;
+
+	.pageActive {
+		color: $white !important;
+    background: $header;
+	}
+
+	.page {
+		border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: 6px 10px;
+    margin: 0 6px;
+    color: $header;
+    cursor: pointer;
+	}
+
+  .next {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  .previous {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+}

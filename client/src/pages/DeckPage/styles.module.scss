@@ -1,10 +1,12 @@
-@import '../../scss/global.scss';
-
 .container {
-	.deckContainer {
-		margin: 54px;
-		display: grid;
-		grid-template-columns: auto auto auto;
-		grid-gap: 50px;
+	height: 100%;
+	position: relative;
+
+	.paginationContainer {
+		width: 100%;
+		position: absolute;
+		bottom: 100px;
+		display: flex;
+		justify-content: center;
 	}
 }

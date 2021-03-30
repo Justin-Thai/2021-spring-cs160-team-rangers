@@ -3,7 +3,6 @@ import { Deck } from '../../models';
 import { delay } from '../../utils';
 
 export const fetchDecks = (name = '', page = 1) => async (dispatch: (action: DeckAction) => void) => {
-  console.log(name, page)
 	dispatch(fetchDecksStarted());
 	try {
 		const decks: Deck[] = [];
