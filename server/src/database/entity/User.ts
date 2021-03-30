@@ -53,8 +53,9 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id })
+			.orderBy('deck.updated_at', 'DESC')
 			.skip((page - 1) * limit).take(limit)
-			.getManyAndCount();
+			.getMany();
 	}
 
 	async getDeckById(deckId: number) {
@@ -90,7 +91,8 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, name: Like(`%${name}%`) })
+			.orderBy('deck.updated_at', 'DESC')
 			.skip((page - 1) * limit).take(limit)
-			.getManyAndCount();
+			.getMany();
 	}
 }
