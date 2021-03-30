@@ -7,8 +7,10 @@ import { Home, SignUp, Profile, LogIn, PageNotFound } from './pages';
 import { User } from './models';
 import { checkAuth } from './redux/auth/actions';
 import { AppState } from './redux/store';
+import { checkPathIncludes } from './utils';
 
 interface RootProps {
+	didNavigateTo404: boolean;
 	user: User | null;
 	pathname: string;
 	onCheckAuth: () => void;
@@ -20,13 +22,16 @@ class Root extends Component<RootProps, {}> {
 	}
 
 	renderNav = () => {
-		const { user, pathname } = this.props;
-		if (pathname.includes('profile')) return null;
+		const { user, pathname, didNavigateTo404 } = this.props;
+		if (didNavigateTo404) return null;
+		if (checkPathIncludes(pathname, 'profile')) return null;
 		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
 	};
 
 	renderFooter = () => {
-		if (!this.props.pathname.includes('profile')) return <Footer />;
+		const { pathname, didNavigateTo404 } = this.props;
+		if (didNavigateTo404) return null;
+		if (!checkPathIncludes(pathname, 'profile')) return <Footer />;
 	};
 
 	render() {
@@ -58,6 +63,7 @@ class Root extends Component<RootProps, {}> {
 
 const mapStateToProps = (state: AppState) => {
 	return {
+		didNavigateTo404: state.notFoundPageDetector.didNavigateTo404,
 		user: state.auth.user,
 	};
 };
@@ -67,6 +73,7 @@ const mapDispatchToProps = {
 };
 
 interface RootHOCProps {
+	didNavigateTo404: boolean;
 	user: User | null;
 	onCheckAuth: () => void;
 }
