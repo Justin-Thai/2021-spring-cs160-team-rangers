@@ -98,6 +98,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
+			console.log(err)
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
