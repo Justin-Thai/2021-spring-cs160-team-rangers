@@ -24,6 +24,8 @@ import {
 	checkIfDeckExists,
 	checkIfCardExists,
 	checkIfStudyReportExists,
+	validateStudyReport,
+	validateStudyReportChanges,
 } from '../../middlewares';
 
 @Path('/profile/:userId')
@@ -371,7 +373,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
-	// @PreProcessor(validateStudyReport) TO-DO
+	@PreProcessor(validateStudyReport)
 	async createStudyReport(
 		@PathParam('userId') userId: string,
 		@PathParam('deckId') deckId: number,
@@ -397,7 +399,7 @@ export default class ProfileService {
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
 	@PreProcessor(checkIfStudyReportExists)
-	// @PreProcessor(validateStudyReportChanges) TO-DO
+	@PreProcessor(validateStudyReportChanges)
 	async updateStudyReport(
 		@PathParam('userId') userId: string,
 		@PathParam('deckId') deckId: number,
