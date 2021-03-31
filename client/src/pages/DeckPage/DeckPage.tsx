@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { PageHeader, DeckList } from './components';
 import { useQuery } from '../../hooks';
-import { Pagination } from '../../components';
+import { Pagination, Loading, Empty } from '../../components';
 import { encodeURIsearchParam } from '../../utils';
 import { env } from '../../config';
 import { Deck } from '../../models';
@@ -41,30 +41,25 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		onFetchDecks(name ? name : undefined, page ? page : undefined);
 	}
 
-	componentDidUpdate(prevProps: DeckPageProps, prevState: DeckPageState) {
-		// console.log('current', this.props.page);
-		// console.log('prev', prevProps.page);
-		if (this.props.page === 0 && this.props.page !== prevProps.page) {
-			console.log('back to 0');
+	componentDidUpdate(prevProps: DeckPageProps) {
+		const { name, page, onFetchDecks } = this.props;
+		if (page === 0 && ((page !== prevProps.page && name === null) || (name !== prevProps.name && name === null))) {
 			this.setState({ forcedPage: 0 }, () => {
-				// this.props.history.push(this.props.url);
-				// this.handlePageClick({ selected: 0 });
-				this.props.onFetchDecks();
+				onFetchDecks();
 			});
 		}
 	}
 
 	handlePageClick = ({ selected }: { selected: number }) => {
-		const page = selected + 1;
+		const page = selected;
 		this.setState({ currentPage: page, forcedPage: -1 }, () => {
-			// console.log('changed', this.state.currentPage);
 			const { name, history, url, onFetchDecks } = this.props;
 			if (name) {
-				history.push(`${url}?name=${name}&page=${page}`);
+				history.push(`${url}?name=${name}&page=${page + 1}`);
 			} else {
-				history.push(`${url}?page=${page}`);
+				history.push(`${url}?page=${page + 1}`);
 			}
-			onFetchDecks(name ? name : undefined, page);
+			onFetchDecks(name ? name : undefined, page + 1);
 		});
 	};
 
@@ -74,7 +69,6 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	};
 
 	renderPagination = () => {
-		// console.log('state cur', this.state.currentPage);
 		const totalPages = Math.ceil(this.props.deckCount / env.decksPerPage);
 		if (totalPages < 1) return null;
 		return (
@@ -92,16 +86,29 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	performSearch = (search: string) => {
 		const convertedSearchParam = encodeURIsearchParam(search);
 		const { history, onFetchDecks, url } = this.props;
-		history.push(`${url}?name=${convertedSearchParam}`);
-		onFetchDecks(convertedSearchParam);
+		this.setState({ currentPage: 0, forcedPage: 0 }, () => {
+			history.push(`${url}?name=${convertedSearchParam}`);
+			onFetchDecks(convertedSearchParam);
+		});
 	};
 
 	render() {
-		const { decks, loading } = this.props;
+		const { decks, loading, name } = this.props;
 		return (
 			<div className={styles.container}>
-				<PageHeader performSearch={this.performSearch} />
-				{loading ? <div>loading</div> : <DeckList decks={decks} goToDeck={this.goToDeck} />}
+				<PageHeader performSearch={this.performSearch} searchFromURI={name} />
+				{loading ? (
+					<div className={styles.loadingWrapper}>
+						<Loading />
+					</div>
+				) : decks.length ? (
+					<DeckList decks={decks} goToDeck={this.goToDeck} />
+				) : (
+					<div className={styles.emptyWrapper}>
+						<Empty />
+					</div>
+				)}
+
 				{this.renderPagination()}
 			</div>
 		);

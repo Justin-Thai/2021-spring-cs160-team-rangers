@@ -41,6 +41,8 @@ export const fetchDecks = (name = '', page = 1) => async (
 			cardCount: d.count,
 		}));
 
+		await delay(1000);
+
 		dispatch(fetchDecksSuccess(decks));
 	} catch (err) {
 		dispatch(fetchDecksFailure(err));
