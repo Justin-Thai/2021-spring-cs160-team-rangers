@@ -96,10 +96,51 @@
 
 import React from 'react'
 
+import background from './background.png';
+import styles from './styles.module.scss';
 export default function SignUp() {
 	return (
 		<div>
-			<h1>signup - Siyang work</h1>
+		<div className={styles.container}>
+			<div className={styles.center}>
+				<h1>SignUp with Email</h1>
+				<form>
+					<div className={styles.txt_field}>
+						<input type='text' required />
+						<span></span>
+						<label>Email</label> 
+					</div>
+					<div className={styles.txt_field}>
+						<input type='password' required />
+						<span></span>
+						<label>Password</label>
+					</div>
+					<div className={styles.txt_field}>
+						<input type='password' required />
+						<span></span>
+						<label>Confirm Password</label>
+					</div>
+					<div className={styles.txt_field}>
+						<input type='text' required />
+						<span></span>
+						<label>Choose Role</label>
+					</div>
+					<div className={styles.check}>
+						<i className='far fa-check-square'></i> Remember me
+					</div>
+					<input type='submit' value='SignUp' />
+					<div className={styles.signup_link}>
+						Already have an account? <a href='#'>Login</a>
+					</div>
+					<div className={styles.bottom}>
+						<i className='fab fa-google'></i>
+						<span>Google to SignUp</span>
+					</div>
+				</form>
+			</div>
+
+			<img className={styles.image} src={background} />
 		</div>
+	</div>
 	)
 }
