@@ -108,7 +108,7 @@ export default function SignUp() {
 					<div className={styles.txt_field}>
 						<input type='text' required />
 						<span></span>
-						<label>Email</label>
+						<label>Email</label> 
 					</div>
 					<div className={styles.txt_field}>
 						<input type='password' required />
