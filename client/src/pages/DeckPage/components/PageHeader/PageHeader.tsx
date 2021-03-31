@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 interface PageHeaderProps {
 	searchFromURI: string | null;
 	performSearch: (search: string) => void;
+	goToDeckCreation: () => void;
 }
 
 interface PageHeaderState {
@@ -52,12 +53,14 @@ class PageHeader extends Component<PageHeaderProps, PageHeaderState> {
 								value={this.state.searchValue}
 								onChange={this.onSetSearchValue}
 							/>
-							<button type='submit' className={`search-btn ${styles.searchBtn}`}>
+							<button type='submit' className={`submit-btn ${styles.searchBtn}`}>
 								<i className='fas fa-search'></i>
 							</button>
 						</div>
 					</form>
-					<button className={`primary-btn ${styles.createBtn}`}>Create</button>
+					<button className={`primary-btn ${styles.createBtn}`} onClick={this.props.goToDeckCreation}>
+						Create
+					</button>
 				</div>
 			</div>
 		);

@@ -5,5 +5,6 @@ import Footer from './Footer/Footer';
 import Pagination from './Pagination/Pagination';
 import Loading from './Loading/Loading';
 import Empty from './Empty/Empty';
+import ErrorView from './ErrorView/ErrorView';
 
-export { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer, Pagination, Loading, Empty};
+export { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer, Pagination, Loading, Empty, ErrorView };

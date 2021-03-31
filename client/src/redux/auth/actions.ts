@@ -156,3 +156,8 @@ const checkAuthFailure = (error: Error): AuthAction => ({
 	type: DispatchTypes.CHECKAUTH_FAILURE,
 	payload: error,
 });
+
+export const incrementDeckCount = (): AuthAction => ({
+	type: DispatchTypes.INCREMENT_DECK_COUNT,
+	payload: null,
+});

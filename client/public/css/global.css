@@ -37,11 +37,20 @@ input:focus {
 	border-radius: 40px;
 }
 
-.search-btn {
+.submit-btn {
 	background: #4346e1;
 	border: none;
 	cursor: pointer;
 	color: white;
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 40px;
+}
+
+.disabled-btn {
+	background: #ddd;
+	border: none;
+	cursor: pointer;
+	color: rgba(0, 0, 0, 0.5);
 	font-family: 'Montserrat', sans-serif;
 	border-radius: 40px;
 }

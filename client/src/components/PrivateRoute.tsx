@@ -4,6 +4,7 @@ import { Route, Redirect, RouteProps, useParams } from 'react-router-dom';
 
 import { User } from '../models';
 import { AppState } from '../redux/store';
+import Loading from './Loading/Loading';
 import { checkAuth } from '../redux/auth/actions';
 
 interface PrivateRouteProps extends RouteProps {
@@ -42,7 +43,11 @@ class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState> {
 		}
 
 		if (loading) {
-			return <div>loading</div>;
+			return (
+				<div style={{ height: '100vh' }}>
+					<Loading />
+				</div>
+			);
 		}
 
 		return (

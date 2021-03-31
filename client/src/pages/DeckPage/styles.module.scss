@@ -17,4 +17,8 @@
 	.emptyWrapper {
 		height: 80%;
 	}
+
+	.errorWrapper {
+		height: calc(100% - 67px);
+	}
 }

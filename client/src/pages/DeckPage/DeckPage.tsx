@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { PageHeader, DeckList } from './components';
 import { useQuery } from '../../hooks';
-import { Pagination, Loading, Empty } from '../../components';
+import { Pagination, Loading, Empty, ErrorView } from '../../components';
 import { encodeURIsearchParam } from '../../utils';
 import { env } from '../../config';
 import { Deck } from '../../models';
@@ -68,8 +68,15 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		history.push(`${url}/${deckId}`);
 	};
 
+	goToDeckCreation = () => {
+		const { url, history } = this.props;
+		history.push(`${url}/create`);
+	};
+
 	renderPagination = () => {
-		const totalPages = Math.ceil(this.props.deckCount / env.decksPerPage);
+		const { deckCount, error } = this.props;
+		if (error) return null;
+		const totalPages = Math.ceil(deckCount / env.decksPerPage);
 		if (totalPages < 1) return null;
 		return (
 			<div className={styles.paginationContainer}>
@@ -92,23 +99,41 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		});
 	};
 
+	renderDeckList = () => {
+		const { decks, loading, error } = this.props;
+		if (loading) {
+			return (
+				<div className={styles.loadingWrapper}>
+					<Loading />
+				</div>
+			);
+		}
+		if (error) {
+			return (
+				<div className={styles.errorWrapper}>
+					<ErrorView error={error.message} />
+				</div>
+			);
+		}
+		if (!decks.length) {
+			return (
+				<div className={styles.emptyWrapper}>
+					<Empty />
+				</div>
+			);
+		}
+		return <DeckList decks={decks} goToDeck={this.goToDeck} />;
+	};
+
 	render() {
-		const { decks, loading, name } = this.props;
 		return (
 			<div className={styles.container}>
-				<PageHeader performSearch={this.performSearch} searchFromURI={name} />
-				{loading ? (
-					<div className={styles.loadingWrapper}>
-						<Loading />
-					</div>
-				) : decks.length ? (
-					<DeckList decks={decks} goToDeck={this.goToDeck} />
-				) : (
-					<div className={styles.emptyWrapper}>
-						<Empty />
-					</div>
-				)}
-
+				<PageHeader
+					performSearch={this.performSearch}
+					searchFromURI={this.props.name}
+					goToDeckCreation={this.goToDeckCreation}
+				/>
+				{this.renderDeckList()}
 				{this.renderPagination()}
 			</div>
 		);
@@ -135,8 +160,8 @@ function DeckPageHOC(props: DeckPageHOCProps) {
 const mapStateToProps = (state: AppState) => ({
 	decks: state.deck.decks,
 	deckCount: state.auth.user?.deckCount ?? 0,
-	loading: state.deck.loading,
-	error: state.deck.error,
+	loading: state.deck.loadings.fetchDecksLoading,
+	error: state.deck.errors.fetchDecksError,
 });
 
 const mapDispatchToProps = {
