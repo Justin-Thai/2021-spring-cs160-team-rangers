@@ -78,18 +78,30 @@ export default class ProfileService {
 	@GET
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	async getAllDecks(@PathParam('userId') userId: string, @QueryParam('name') name: string) {
+	async getAllDecks(
+		@PathParam('userId') userId: string, 
+		@QueryParam('name') name: string,
+		@QueryParam('limit') limit: number,
+		@QueryParam('page') page: number
+	) {
 		const res = this.context.response;
 		try {
+			if(limit === undefined) {
+				limit = 9;
+			}
+			if(page === undefined) {
+				page = 1; 
+			}
+
 			if (name) {
 				const user = await User.findOneOrFail(userId);
-				const decks = await user.filterDeckByName(name);
+				const decks = await user.filterDeckByName(name, limit, page);
 				res.status(statusCodes.OK);
 				return resOK({ decks });
 			}
 
 			const user = await User.findOneOrFail(userId);
-			const decks = await user.getDecks();
+			const decks = await user.getDecks(limit, page);
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
