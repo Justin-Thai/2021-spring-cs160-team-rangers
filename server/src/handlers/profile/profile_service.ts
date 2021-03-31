@@ -43,7 +43,7 @@ export default class ProfileService {
 			}
 
 			res.status(statusCodes.OK);
-			return resOK({ user: { id: user.id, email: user.email } });
+			return resOK({ user: { id: user.id, email: user.email, name: user.name, deck_count: user.deck_count } });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();
@@ -66,6 +66,9 @@ export default class ProfileService {
 		try {
 			const newDeck = new Deck(userId, name, shared);
 			await newDeck.save();
+			const user = await User.findOneOrFail(userId);
+			user.deck_count += 1;
+			await user.save();
 			res.status(statusCodes.Created);
 			return resOK({ deck: newDeck });
 		} catch (err) {
@@ -175,6 +178,8 @@ export default class ProfileService {
 			const deck = await user.getDeckById(deckId);
 			await deck!.deleteCards();
 			await deck!.remove();
+			user.deck_count -= 1;
+			await user.save();
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted deck ${deckId}` });
 		} catch (err) {

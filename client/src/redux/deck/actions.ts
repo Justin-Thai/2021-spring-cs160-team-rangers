@@ -1,21 +1,46 @@
 import { DispatchTypes, DeckAction } from './types';
 import { Deck } from '../../models';
-import { delay } from '../../utils';
+import { delay, toReadableTime } from '../../utils';
+import { env } from '../../config';
+import { AppState } from '../store';
 
-export const fetchDecks = (name = '', page = 1) => async (dispatch: (action: DeckAction) => void) => {
+export const fetchDecks = (name = '', page = 1) => async (
+	dispatch: (action: DeckAction) => void,
+	getState: () => AppState
+) => {
 	dispatch(fetchDecksStarted());
 	try {
-		const decks: Deck[] = [];
-		for (let i = 0; i < 9; i++) {
-			decks.push({
-				id: `${i}`,
-				name: `Deck ${i}`,
-				updatedDate: 1617047811,
-				cardCount: 12,
-			});
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			await delay(50);
+			return dispatch(fetchDecksSuccess([]));
 		}
 
-		await delay(1000);
+		const { user } = getState().auth;
+		const res = await fetch(
+			`${env.serverUrl}/profile/${user!.id}/deck?name=${name}&limit=${env.decksPerPage}&page=${page}`,
+			{
+				method: 'GET',
+				headers: {
+					token,
+				},
+			}
+		);
+
+		if (res.status !== 200) {
+			return dispatch(fetchDecksSuccess([]));
+		}
+
+		const data = await res.json();
+
+		const decks = data.decks.map((d: any) => ({
+			id: String(d.id),
+			name: d.name,
+			updatedDate: toReadableTime(d.updated_at),
+			cardCount: d.count,
+		}));
+
 		dispatch(fetchDecksSuccess(decks));
 	} catch (err) {
 		dispatch(fetchDecksFailure(err));

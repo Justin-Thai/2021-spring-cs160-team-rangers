@@ -19,7 +19,7 @@ export default function DeckComponent({ deck, goToDeck }: DeckComponentProps) {
 					<h1 className={styles.name}>{deck.name}</h1>
 					<h3 className={styles.count}>{deck.cardCount} cards</h3>
 				</div>
-				<h3 className={styles.edit}>Edit 1 hr ago</h3>
+				<h3 className={styles.edit}>Edit {deck.updatedDate} ago</h3>
 			</div>
 		</div>
 	);

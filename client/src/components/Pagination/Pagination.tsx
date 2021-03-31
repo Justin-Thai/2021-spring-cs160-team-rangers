@@ -8,11 +8,12 @@ interface PaginationProps {
 	currentPage: number;
 	marginPagesDisplayed?: number;
 	pageRangeDisplayed?: number;
+	forcePage?: number;
 	onPageChange: ({ selected }: { selected: number }) => void;
 }
 
 export default function Pagination(props: PaginationProps) {
-	const { pageCount, currentPage, marginPagesDisplayed = 2, pageRangeDisplayed = 5, onPageChange } = props;
+	const { pageCount, currentPage, marginPagesDisplayed = 2, pageRangeDisplayed = 5, forcePage, onPageChange } = props;
 	return (
 		<ReactPaginate
 			previousLabel={<i className='fas fa-caret-left'></i>}
@@ -27,6 +28,7 @@ export default function Pagination(props: PaginationProps) {
 			containerClassName={styles.pagination}
 			pageLinkClassName={styles.page}
 			nextLinkClassName={styles.next}
+			forcePage={forcePage}
 			previousLinkClassName={styles.previous}
 			disableInitialCallback
 		/>

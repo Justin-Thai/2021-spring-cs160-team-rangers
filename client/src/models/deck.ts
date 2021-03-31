@@ -1,6 +1,6 @@
 export type Deck = {
   id: string;
   name: string;
-  updatedDate: number;
+  updatedDate: string;
   cardCount: number;
 }

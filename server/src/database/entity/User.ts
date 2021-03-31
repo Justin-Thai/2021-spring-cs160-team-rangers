@@ -35,6 +35,7 @@ export default class User extends Model {
 	@BeforeInsert()
 	createUuid() {
 		this.id = uuid();
+		this.deck_count = 0;
 	}
 
 	constructor(email: string, name: string, password: string) {
@@ -42,7 +43,6 @@ export default class User extends Model {
 		this.email = email;
 		this.name = name;
 		this.password = password;
-		this.deck_count = 0;
 	}
 
 	toInsensitiveJSON() {

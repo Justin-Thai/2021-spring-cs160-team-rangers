@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
-
 import { DispatchTypes, AuthAction } from './types';
 import { User } from '../../models';
-import { delay } from '../../utils';
+import { env } from '../../config';
+import { delay, fetchSelf, decodeJWT } from '../../utils';
 
 export const checkAuth = () => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(checkAuthStarted());
@@ -13,7 +12,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 			return dispatch(checkAuthSuccess(null));
 		}
 
-		const res = await fetch('http://localhost:5000/auth', {
+		const res = await fetch(`${env.serverUrl}/auth`, {
 			method: 'GET',
 			headers: {
 				token,
@@ -24,19 +23,13 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 			return dispatch(checkAuthSuccess(null));
 		}
 
-		const decodedData = jwt.decode(token) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-			name: 'Anh Nguyen',
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(checkAuthSuccess(user));
 	} catch (err) {
@@ -47,7 +40,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 export const signUp = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signUpStarted());
 	try {
-		const res = await fetch('http://localhost:5000/signup', {
+		const res = await fetch(`${env.serverUrl}/signup`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -61,19 +54,13 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 
 		const { token } = data;
 		localStorage.setItem('token', token as string);
-		const decodedData = jwt.decode(token as string) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-			name: 'Anh Nguyen',
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(signUpSuccess(user));
 	} catch (err) {
@@ -84,7 +71,7 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 export const logIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signInStarted());
 	try {
-		const res = await fetch('http://localhost:5000/signin', {
+		const res = await fetch(`${env.serverUrl}/signin`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -99,19 +86,13 @@ export const logIn = (email: string, password: string) => async (dispatch: (acti
 
 		const { token } = data;
 		localStorage.setItem('token', token as string);
-		const decodedData = jwt.decode(token as string) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-			name: 'Anh Nguyen',
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(signInSuccess(user));
 	} catch (err) {
