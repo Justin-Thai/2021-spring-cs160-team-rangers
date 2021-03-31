@@ -1,4 +1,4 @@
-import { IsEmail, Length, IsString } from 'class-validator';
+import { IsEmail, Length, IsString, IsInt } from 'class-validator';
 import { Entity, Column, getRepository, PrimaryColumn, BeforeInsert, OneToMany, Like } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -20,6 +20,15 @@ export default class User extends Model {
 	@Length(8, 255)
 	password: string;
 
+	@Column()
+	@IsString()
+	@Length(1, 255)
+	name: string;
+
+	@Column()
+	@IsInt()
+	deck_count: number;
+
 	@OneToMany(() => Deck, (deck) => deck.user)
 	decks: Deck[];
 
@@ -28,10 +37,12 @@ export default class User extends Model {
 		this.id = uuid();
 	}
 
-	constructor(email: string, password: string) {
+	constructor(email: string, name: string, password: string) {
 		super();
 		this.email = email;
+		this.name = name;
 		this.password = password;
+		this.deck_count = 0;
 	}
 
 	toInsensitiveJSON() {
@@ -54,7 +65,8 @@ export default class User extends Model {
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id })
 			.orderBy('deck.updated_at', 'DESC')
-			.skip((page - 1) * limit).take(limit)
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 
@@ -92,7 +104,8 @@ export default class User extends Model {
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, name: Like(`%${name}%`) })
 			.orderBy('deck.updated_at', 'DESC')
-			.skip((page - 1) * limit).take(limit)
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 }

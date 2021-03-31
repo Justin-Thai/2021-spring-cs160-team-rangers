@@ -3,9 +3,16 @@ import React from 'react';
 import { Deck } from '../../../../models';
 import styles from './styles.module.scss';
 
-export default function DeckComponent({ deck }: { deck: Deck }) {
+interface DeckComponentProps {
+	deck: Deck;
+	goToDeck: (deckId: string) => void;
+}
+
+export default function DeckComponent({ deck, goToDeck }: DeckComponentProps) {
+	const performGoToDeck = () => goToDeck(deck.id);
+
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} onClick={performGoToDeck}>
 			<i className={`fas fa-edit ${styles.editIcon}`}></i>
 			<div className={styles.wrapper}>
 				<div>

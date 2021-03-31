@@ -17,8 +17,7 @@ export default function Pagination(props: PaginationProps) {
 		<ReactPaginate
 			previousLabel={<i className='fas fa-caret-left'></i>}
 			nextLabel={<i className='fas fa-caret-right'></i>}
-			breakLabel={'...'}
-			breakClassName={'break-me'}
+			breakLabel='...'
 			activeLinkClassName={styles.pageActive}
 			initialPage={currentPage}
 			pageCount={pageCount}
@@ -26,9 +25,9 @@ export default function Pagination(props: PaginationProps) {
 			pageRangeDisplayed={pageRangeDisplayed}
 			onPageChange={onPageChange}
 			containerClassName={styles.pagination}
-      pageLinkClassName={styles.page}
-      nextLinkClassName={styles.next}
-      previousLinkClassName={styles.previous}
+			pageLinkClassName={styles.page}
+			nextLinkClassName={styles.next}
+			previousLinkClassName={styles.previous}
 			disableInitialCallback
 		/>
 	);

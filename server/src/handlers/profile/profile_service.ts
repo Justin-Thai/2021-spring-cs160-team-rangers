@@ -79,18 +79,18 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	async getAllDecks(
-		@PathParam('userId') userId: string, 
+		@PathParam('userId') userId: string,
 		@QueryParam('name') name: string,
 		@QueryParam('limit') limit: number,
 		@QueryParam('page') page: number
 	) {
 		const res = this.context.response;
 		try {
-			if(limit === undefined) {
+			if (limit === undefined) {
 				limit = 9;
 			}
-			if(page === undefined) {
-				page = 1; 
+			if (page === undefined) {
+				page = 1;
 			}
 
 			if (name) {
@@ -105,7 +105,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}

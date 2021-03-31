@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import ReactPaginate from 'react-paginate';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
 
-import { PageHeader, DeckComponent, DeckList } from './components';
+import { PageHeader, DeckList } from './components';
+import { useQuery } from '../../hooks';
 import { Pagination } from '../../components';
 import { Deck } from '../../models';
 import { AppState } from '../../redux/store';
@@ -37,13 +37,17 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	}
 
 	handlePageClick = ({ selected }: { selected: number }) => {
-		console.log('on page change');
 		const page = selected + 1;
 		this.setState({ currentPage: page }, () => {
-			const { name, history, onFetchDecks } = this.props;
-			history.push(`${this.props.url}?page=${page}`);
+			const { name, history, url, onFetchDecks } = this.props;
+			history.push(`${url}?page=${page}`);
 			onFetchDecks(name ? name : undefined, page);
 		});
+	};
+
+	goToDeck = (deckId: string) => {
+		const { url, history } = this.props;
+		history.push(`${url}/${deckId}`);
 	};
 
 	render() {
@@ -51,17 +55,13 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		return (
 			<div className={styles.container}>
 				<PageHeader />
-				{loading ? <div>loading</div> : <DeckList decks={decks} />}
+				{loading ? <div>loading</div> : <DeckList decks={decks} goToDeck={this.goToDeck} />}
 				<div className={styles.paginationContainer}>
 					<Pagination pageCount={30} currentPage={this.state.currentPage} onPageChange={this.handlePageClick} />
 				</div>
 			</div>
 		);
 	}
-}
-
-function useQuery() {
-	return new URLSearchParams(useLocation().search);
 }
 
 interface DeckPageHOCProps {
