@@ -110,6 +110,17 @@ export const signOut = () => {
 
 export const clearError = () => ({ type: DispatchTypes.CLEAR_ERROR, payload: null });
 
+export const incrementDeckCount = (): AuthAction => ({
+	type: DispatchTypes.INCREMENT_DECK_COUNT,
+	payload: null,
+});
+
+export const decrementDeckCount = (): AuthAction => ({
+	type: DispatchTypes.DECREMENT_DECK_COUNT,
+	payload: null,
+});
+
+
 /* ------------------ action dispatches ------------------ */
 
 const signInStarted = (): AuthAction => ({
@@ -157,7 +168,3 @@ const checkAuthFailure = (error: Error): AuthAction => ({
 	payload: error,
 });
 
-export const incrementDeckCount = (): AuthAction => ({
-	type: DispatchTypes.INCREMENT_DECK_COUNT,
-	payload: null,
-});

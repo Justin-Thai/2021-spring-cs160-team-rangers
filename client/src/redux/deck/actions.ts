@@ -2,7 +2,7 @@ import { DispatchTypes, DeckAction } from './types';
 import { AuthAction } from '../auth/types';
 import { Deck } from '../../models';
 import { delay, toReadableTime } from '../../utils';
-import { incrementDeckCount } from '../auth/actions';
+import { incrementDeckCount, decrementDeckCount } from '../auth/actions';
 import { env } from '../../config';
 import { AppState } from '../store';
 
@@ -97,7 +97,7 @@ export const createDeck = (name: string, shared = false) => async (
 };
 
 export const editDeck = (deckId: string, newName: string, newShared: boolean) => async (
-	dispatch: (action: DeckAction | AuthAction) => void,
+	dispatch: (action: DeckAction) => void,
 	getState: () => AppState
 ) => {
 	dispatch(editDeckStarted());
@@ -128,6 +128,41 @@ export const editDeck = (deckId: string, newName: string, newShared: boolean) =>
 		dispatch(editDeckSuccess());
 	} catch (err) {
 		dispatch(editDeckFailure(err));
+	}
+};
+
+export const deleteDeck = (deckId: string) => async (
+	dispatch: (action: DeckAction | AuthAction) => void,
+	getState: () => AppState
+) => {
+	dispatch(deleteDeckStarted(deckId));
+	try {
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			await delay(50);
+			return;
+		}
+
+		const { user } = getState().auth;
+		const res = await fetch(`${env.serverUrl}/profile/${user!.id}/deck/${deckId}`, {
+			method: 'DELETE',
+			headers: {
+				token,
+			},
+		});
+
+		console.log(res.status);
+
+		if (res.status !== 200) {
+			const data = await res.json();
+			throw new Error(data.message);
+		}
+
+		dispatch(decrementDeckCount());
+		dispatch(deleteDeckSuccess(deckId));
+	} catch (err) {
+		dispatch(deleteDeckFailure(err));
 	}
 };
 
@@ -180,5 +215,20 @@ const editDeckSuccess = (): DeckAction => ({
 
 const editDeckFailure = (error: Error): DeckAction => ({
 	type: DispatchTypes.EDIT_DECK_FAILURE,
+	payload: error,
+});
+
+const deleteDeckStarted = (deckId: string): DeckAction => ({
+	type: DispatchTypes.DELETE_DECK_STARTED,
+	payload: deckId,
+});
+
+const deleteDeckSuccess = (deckId: string): DeckAction => ({
+	type: DispatchTypes.DELETE_DECK_SUCCESS,
+	payload: deckId,
+});
+
+const deleteDeckFailure = (error: Error): DeckAction => ({
+	type: DispatchTypes.DELETE_DECK_FAILURE,
 	payload: error,
 });

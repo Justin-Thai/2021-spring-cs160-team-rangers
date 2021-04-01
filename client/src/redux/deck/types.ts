@@ -13,6 +13,10 @@ export enum DispatchTypes {
 	EDIT_DECK_SUCCESS = 'EDIT_DECK_SUCCESS',
 	EDIT_DECK_FAILURE = 'EDIT_DECK_FAILURE',
 
+	DELETE_DECK_STARTED = 'DELETE_DECK_STARTED',
+	DELETE_DECK_SUCCESS = 'DELETE_DECK_SUCCESS',
+	DELETE_DECK_FAILURE = 'DELETE_DECK_FAILURE',
+
 	CLEAR_ERRORS = 'CLEAR_ERRORS',
 }
 
@@ -27,10 +31,12 @@ export type DeckState = {
 		fetchDecksLoading: boolean;
 		createDeckLoading: boolean;
 		editDeckLoading: boolean;
+		deleting: string;
 	}
 	errors: {
 		fetchDecksError: Error | null;
 		createDeckError: Error | null;
 		editDeckError: Error | null;
+		deleteDeckError: Error | null;
 	}
 };

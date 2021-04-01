@@ -7,11 +7,13 @@ const initialState: DeckState = {
 		fetchDecksLoading: false,
 		createDeckLoading: false,
 		editDeckLoading: false,
+		deleting: '',
 	},
 	errors: {
 		fetchDecksError: null,
 		createDeckError: null,
 		editDeckError: null,
+		deleteDeckError: null,
 	},
 };
 
@@ -75,6 +77,27 @@ export default function deckReducer(state = initialState, action: DeckAction): D
 			const payload = action.payload as Error;
 			newState.loadings.editDeckLoading = false;
 			newState.errors.editDeckError = payload;
+			return newState;
+		}
+		case DispatchTypes.DELETE_DECK_STARTED: {
+			const newState = { ...state };
+			newState.loadings.deleting = action.payload as string;
+			newState.errors.deleteDeckError = null;
+			return newState;
+		}
+		case DispatchTypes.DELETE_DECK_SUCCESS: {
+			const newState = { ...state };
+			const payload = action.payload as string;
+			console.log('delete', payload);
+			newState.loadings.deleting = '';
+			newState.decks = [...newState.decks.filter((deck) => deck.id !== payload)];
+			return newState;
+		}
+		case DispatchTypes.DELETE_DECK_FAILURE: {
+			const newState = { ...state };
+			const payload = action.payload as Error;
+			newState.loadings.deleting = '';
+			newState.errors.deleteDeckError = payload;
 			return newState;
 		}
 		case DispatchTypes.CLEAR_ERRORS: {

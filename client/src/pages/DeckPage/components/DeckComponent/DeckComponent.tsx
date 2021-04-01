@@ -7,17 +7,25 @@ import styles from './styles.module.scss';
 interface DeckComponentProps {
 	deck: Deck;
 	goToDeck: (deckId: string) => void;
+	deleteDeck: (deckId: string) => void;
 	editDeck: (deckId: string, deckName: string, deckShared: boolean) => void;
 }
 
-export default function DeckComponent({ deck, goToDeck, editDeck }: DeckComponentProps) {
+export default function DeckComponent({ deck, goToDeck, editDeck, deleteDeck }: DeckComponentProps) {
 	const performGoToDeck = () => goToDeck(deck.id);
 
 	const performEditDeck = () => editDeck(deck.id, deck.name, deck.shared);
 
+	const performDeleteDeck = () => deleteDeck(deck.id);
+
 	return (
 		<div className={styles.container}>
-			<i className={`fas fa-edit ${styles.editIcon}`} onClick={performEditDeck} style={{ cursor: 'pointer' }}></i>
+			<i className={`fas fa-edit ${styles.editIcon}`} style={{ cursor: 'pointer' }} onClick={performEditDeck}></i>
+			<i
+				className={`fas fa-trash-alt ${styles.deleteIcon}`}
+				style={{ cursor: 'pointer' }}
+				onClick={performDeleteDeck}
+			></i>
 			<div className={styles.wrapper}>
 				<div>
 					<h1 className={styles.name} onClick={performGoToDeck}>

@@ -10,19 +10,21 @@ import { encodeURIsearchParam } from '../../utils';
 import { env } from '../../config';
 import { Deck } from '../../models';
 import { AppState } from '../../redux/store';
-import { fetchDecks } from '../../redux/deck/actions';
+import { fetchDecks, deleteDeck } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 
 interface DeckPageProps {
 	deckCount: number;
 	decks: Deck[];
 	loading: boolean;
-	error: Error | null;
+	fetchError: Error | null;
+	deleteError: Error | null;
 	name: string | null;
 	page: number | null;
 	url: string;
 	history: History<unknown>;
 	onFetchDecks: (name?: string, page?: number) => void;
+	onDeleteDeck: (deckId: string) => void;
 }
 
 interface DeckPageState {
@@ -42,12 +44,15 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	}
 
 	componentDidUpdate(prevProps: DeckPageProps) {
-		const { name, page, onFetchDecks } = this.props;
+		const { name, page, decks, onFetchDecks } = this.props;
 		if (page === 0 && ((page !== prevProps.page && name === null) || (name !== prevProps.name && name === null))) {
 			this.setState({ forcedPage: 0 }, () => {
 				onFetchDecks();
 			});
 		}
+		// if (decks.length < prevProps.decks.length) {
+		// 	onFetchDecks();
+		// }
 	}
 
 	handlePageClick = ({ selected }: { selected: number }) => {
@@ -74,8 +79,8 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	};
 
 	renderPagination = () => {
-		const { deckCount, error } = this.props;
-		if (error) return null;
+		const { deckCount, fetchError } = this.props;
+		if (fetchError) return null;
 		const totalPages = Math.ceil(deckCount / env.decksPerPage);
 		if (totalPages < 1) return null;
 		return (
@@ -107,8 +112,15 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		});
 	};
 
+	deleteDeck = (deckId: string) => {
+		const res = window.confirm('Are you sure to delete this deck?');
+		if (res) {
+			this.props.onDeleteDeck(deckId);
+		}
+	};
+
 	renderDeckList = () => {
-		const { decks, loading, error } = this.props;
+		const { decks, loading, fetchError, deleteError } = this.props;
 		if (loading) {
 			return (
 				<div className={styles.loadingWrapper}>
@@ -116,10 +128,17 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 				</div>
 			);
 		}
-		if (error) {
+		if (fetchError) {
 			return (
 				<div className={styles.errorWrapper}>
-					<ErrorView error={error.message} />
+					<ErrorView error={fetchError.message} />
+				</div>
+			);
+		}
+		if (deleteError) {
+			return (
+				<div className={styles.errorWrapper}>
+					<ErrorView error={deleteError.message} />
 				</div>
 			);
 		}
@@ -130,7 +149,7 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 				</div>
 			);
 		}
-		return <DeckList decks={decks} goToDeck={this.goToDeck} editDeck={this.editDeck} />;
+		return <DeckList decks={decks} goToDeck={this.goToDeck} editDeck={this.editDeck} deleteDeck={this.deleteDeck} />;
 	};
 
 	render() {
@@ -152,8 +171,10 @@ interface DeckPageHOCProps {
 	decks: Deck[];
 	deckCount: number;
 	loading: boolean;
-	error: Error | null;
+	fetchError: Error | null;
+	deleteError: Error | null;
 	onFetchDecks: (name?: string, page?: number) => void;
+	onDeleteDeck: (deckId: string) => void;
 }
 
 function DeckPageHOC(props: DeckPageHOCProps) {
@@ -169,11 +190,13 @@ const mapStateToProps = (state: AppState) => ({
 	decks: state.deck.decks,
 	deckCount: state.auth.user?.deckCount ?? 0,
 	loading: state.deck.loadings.fetchDecksLoading,
-	error: state.deck.errors.fetchDecksError,
+	fetchError: state.deck.errors.fetchDecksError,
+	deleteError: state.deck.errors.deleteDeckError,
 });
 
 const mapDispatchToProps = {
 	onFetchDecks: fetchDecks,
+	onDeleteDeck: deleteDeck,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckPageHOC);
