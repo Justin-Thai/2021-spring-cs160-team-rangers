@@ -126,7 +126,8 @@ export default function SignUp() {
 						<label>Choose Role</label>
 					</div>
 					<div className={styles.check}>
-						<i className='far fa-check-square'></i> Remember me
+						<i className='far fa-check-square'></i> By signing up for Adutrans, you agree to our Terms of 
+							Service and Privacy Policy.
 					</div>
 					<input type='submit' value='SignUp' />
 					<div className={styles.signup_link}>
