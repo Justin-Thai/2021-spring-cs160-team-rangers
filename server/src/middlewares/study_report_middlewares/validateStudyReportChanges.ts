@@ -9,9 +9,9 @@ function throwRedirect(res: express.Response) {
 }
 
 export default async function validateStudyReportChanges(req: express.Request, res?: express.Response) {
-	const { name, correct_count, start_time, end_time } = req.body;
+	const { name, correct_count, incorrect_count, start_time, end_time } = req.body;
 
-	if (!name && !correct_count && !start_time && !end_time) {
+	if (!name && !correct_count && !incorrect_count && !start_time && !end_time) {
 		throw throwRedirect(res!);
 	}
 
@@ -22,10 +22,11 @@ export default async function validateStudyReportChanges(req: express.Request, r
 
 		const areNamesSame = !name ? true : name === studyReport!.name;
 		const areCorrectCountsSame = !correct_count ? true : correct_count === studyReport!.correct_count;
+		const areIncorrectCountsSame = !incorrect_count ? true : incorrect_count === studyReport!.incorrect_count;
 		const areStartTimesSame = !start_time ? true : start_time === studyReport!.start_time;
 		const areEndTimesSame = !end_time ? true : end_time === studyReport!.end_time;
 
-		if (areNamesSame && areCorrectCountsSame && areStartTimesSame && areEndTimesSame) {
+		if (areNamesSame && areCorrectCountsSame && areIncorrectCountsSame && areStartTimesSame && areEndTimesSame) {
 			throw throwRedirect(res!);
 		}
 	} catch (err) {

@@ -72,6 +72,7 @@ export default class ProfileService {
 			res.status(statusCodes.Created);
 			return resOK({ deck: newDeck });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -96,6 +97,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -455,6 +457,68 @@ export default class ProfileService {
 			await studyReport!.remove();
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted study report ${reportId}` });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study/:reportId/:cardId')
+	@GET
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	@PreProcessor(checkIfStudyReportExists)
+	@PreProcessor(checkIfCardExists)
+	async getFrontSide(@PathParam('deckId') deckId: number, 
+	@PathParam('reportId') reportId: number, 
+	@PathParam('cardId') cardId: number) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const card = await deck.getCardById(cardId);
+			const front_side = await card!.getFrontSide();
+			res.status(statusCodes.OK);
+			return resOK({ front_side });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
+	@Path('/deck/:deckId/study/:reportId/:cardId')
+	@POST
+	@PreProcessor(checkAuthentication)
+	@PreProcessor(checkProfileAuthorization)
+	@PreProcessor(checkIfDeckExists)
+	@PreProcessor(checkIfStudyReportExists)
+	@PreProcessor(checkIfCardExists)
+	async answerBackSide(@PathParam('deckId') deckId: number, 
+	@PathParam('reportId') reportId: number,
+	@PathParam('cardId') cardId: number,
+	@FormParam('answer') answer: string
+	) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOneOrFail(deckId);
+			const studyReport = await deck.getStudyReportById(reportId);
+			const card = await deck.getCardById(cardId);
+			const back_side = await card!.getBackSide();
+
+			if(answer === back_side) {
+				// user answered card correctly
+				await studyReport!.correct_count++;
+				await card!.correct_count++;
+			} else {
+				// user answered card incorrectly
+				await studyReport!.incorrect_count++;
+				await card!.incorrect_count++;
+			}
+
+			await studyReport!.save();
+			await card!.save();
+			res.status(statusCodes.OK);
+			return resOK({ card });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();

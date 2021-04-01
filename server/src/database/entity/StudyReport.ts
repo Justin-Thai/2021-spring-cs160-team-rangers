@@ -26,7 +26,11 @@ export default class StudyReport extends Model {
 
     @Column()
     @IsInt()
-    correct_count: number;
+    correct_count: number; // number of times user answered a card correctly
+
+    @Column()
+    @IsInt()
+    incorrect_count: number; // number of times user answered a card incorrectly
 
     @Column()
     @IsDate()

@@ -40,7 +40,11 @@ export default class Card extends Model {
 
 	@Column({ type: 'integer' })
 	@IsInt()
-	correct_count: number;
+	correct_count: number; // number of times user answered this card correctly
+
+	@Column({ type: 'integer' })
+	@IsInt()
+	incorrect_count: number; // number of times user answered this card incorrectly
 
 	@ManyToOne(() => Deck, (deck) => deck.cards)
 	@JoinColumn({ name: 'deck_id', referencedColumnName: 'id' })
@@ -62,5 +66,17 @@ export default class Card extends Model {
 		this.font = font;
 		this.font_color = font_color;
     	this.correct_count = 0;
+	}
+
+	async getFrontSide() {
+		return this.front_side;
+	}
+
+	async getBackSide() {
+		return this.back_side;
+	}
+
+	async getCorrectCount() {
+		return this.correct_count;
 	}
 }

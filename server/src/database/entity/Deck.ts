@@ -47,6 +47,7 @@ export default class Deck extends Model {
 		this.user_id = user_id;
 		this.name = name;
 		this.card_count = 0;
+		this.report_count = 0;
 		this.shared = shared;
 	}
 
