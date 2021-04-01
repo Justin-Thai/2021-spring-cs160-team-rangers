@@ -6,10 +6,12 @@ const initialState: DeckState = {
 	loadings: {
 		fetchDecksLoading: false,
 		createDeckLoading: false,
+		editDeckLoading: false,
 	},
 	errors: {
 		fetchDecksError: null,
 		createDeckError: null,
+		editDeckError: null,
 	},
 };
 
@@ -55,6 +57,24 @@ export default function deckReducer(state = initialState, action: DeckAction): D
 			const payload = action.payload as Error;
 			newState.loadings.createDeckLoading = false;
 			newState.errors.createDeckError = payload;
+			return newState;
+		}
+		case DispatchTypes.EDIT_DECK_STARTED: {
+			const newState = { ...state };
+			newState.loadings.editDeckLoading = true;
+			newState.errors.editDeckError = null;
+			return newState;
+		}
+		case DispatchTypes.EDIT_DECK_SUCCESS: {
+			const newState = { ...state };
+			newState.loadings.editDeckLoading = false;
+			return newState;
+		}
+		case DispatchTypes.EDIT_DECK_FAILURE: {
+			const newState = { ...state };
+			const payload = action.payload as Error;
+			newState.loadings.editDeckLoading = false;
+			newState.errors.editDeckError = payload;
 			return newState;
 		}
 		case DispatchTypes.CLEAR_ERRORS: {

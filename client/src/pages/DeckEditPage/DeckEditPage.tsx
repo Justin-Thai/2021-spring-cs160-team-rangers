@@ -1,55 +1,54 @@
 import React, { Component } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import { PageHeader } from './components';
-import { createDeck, clearErrors } from '../../redux/deck/actions';
+import { editDeck } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface DeckCreationPageProps {
+interface DeckEditPageProps {
 	history: History<unknown>;
-	loading: boolean;
 	userId: string;
+	deckId: string;
+	deckName: string;
+	deckShared: boolean;
+	loading: boolean;
 	error: Error | null;
-	onCreateDeck: (name: string, shared?: boolean) => void;
-	onClearErrors: () => void;
+	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
 }
 
-interface DeckCreationPageState {
+interface DeckEditPageState {
 	name: string;
 	shared: boolean;
 }
 
-class DeckCreationPage extends Component<DeckCreationPageProps, DeckCreationPageState> {
+class DeckEditPage extends Component<DeckEditPageProps, DeckEditPageState> {
 	state = {
-		name: '',
-		shared: false,
+		name: this.props.deckName,
+		shared: this.props.deckShared,
 	};
 
-	componentDidUpdate(prevProps: DeckCreationPageProps) {
+	componentDidUpdate(prevProps: DeckEditPageProps) {
 		const { loading, error, history, userId } = this.props;
 		if (loading !== prevProps.loading && !loading && !error) {
 			history.replace(`/profile/${userId}/deck`);
 		}
 	}
 
-	componentWillUnmount() {
-		this.props.onClearErrors();
-	}
+	goBack = () => this.props.history.goBack();
 
 	setName = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ name: e.target.value });
 
 	setShared = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ shared: e.target.checked });
 
-	goBack = () => this.props.history.goBack();
-
-	onSubmitDeck = (e: React.SyntheticEvent) => {
+	onEditDeck = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		const { name, shared } = this.state;
+		const { deckId, onEditDeck } = this.props;
 		if (name) {
-			this.props.onCreateDeck(name, shared);
+			onEditDeck(deckId, name, shared);
 		}
 	};
 
@@ -59,7 +58,7 @@ class DeckCreationPage extends Component<DeckCreationPageProps, DeckCreationPage
 			<div className={styles.container}>
 				<PageHeader goBack={this.goBack} />
 				<div className={styles.wrapper}>
-					<form onSubmit={this.onSubmitDeck}>
+					<form onSubmit={this.onEditDeck}>
 						<div className={styles.inputWrapper}>
 							<input
 								className={styles.textInput}
@@ -68,7 +67,6 @@ class DeckCreationPage extends Component<DeckCreationPageProps, DeckCreationPage
 								value={this.state.name}
 								onChange={this.setName}
 							/>
-							<br />
 							<label className={styles.checkBoxWrapper}>
 								Shared with link
 								<input
@@ -93,28 +91,29 @@ class DeckCreationPage extends Component<DeckCreationPageProps, DeckCreationPage
 	}
 }
 
-interface DeckCreationPageHOCProps {
-	loading: boolean;
+interface EditDeckPageHOCProps {
 	userId: string;
+	loading: boolean;
 	error: Error | null;
-	onCreateDeck: (name: string) => void;
-	onClearErrors: () => void;
+	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
 }
 
-function DeckCreationPageHOC(props: DeckCreationPageHOCProps) {
+function EditDeckPageHOC(props: EditDeckPageHOCProps) {
+	const { deckId } = useParams<{ deckId: string }>();
+	const location = useLocation<{ deckName: string; deckShared: boolean }>();
+	const { deckName, deckShared } = location.state;
 	const history = useHistory();
-	return <DeckCreationPage {...props} history={history} />;
+	return <DeckEditPage {...props} history={history} deckId={deckId} deckName={deckName} deckShared={deckShared} />;
 }
 
 const mapStateToProps = (state: AppState) => ({
 	userId: state.auth.user!.id as string,
-	loading: state.deck.loadings.createDeckLoading,
-	error: state.deck.errors.createDeckError,
+	loading: state.deck.loadings.editDeckLoading,
+	error: state.deck.errors.editDeckError,
 });
 
 const mapDispatchToProps = {
-	onCreateDeck: createDeck,
-	onClearErrors: clearErrors,
+	onEditDeck: editDeck,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeckCreationPageHOC);
+export default connect(mapStateToProps, mapDispatchToProps)(EditDeckPageHOC);

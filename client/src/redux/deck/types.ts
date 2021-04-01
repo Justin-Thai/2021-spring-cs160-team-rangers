@@ -9,12 +9,16 @@ export enum DispatchTypes {
 	CREATE_DECK_SUCCESS = 'CREATE_DECK_SUCCESS',
 	CREATE_DECK_FAILURE = 'CREATE_DECK_FAILURE',
 
+	EDIT_DECK_STARTED = 'EDIT_DECK_STARTED',
+	EDIT_DECK_SUCCESS = 'EDIT_DECK_SUCCESS',
+	EDIT_DECK_FAILURE = 'EDIT_DECK_FAILURE',
+
 	CLEAR_ERRORS = 'CLEAR_ERRORS',
 }
 
 export type DeckAction = {
 	type: string;
-	payload: Deck[] | Deck | Error | null;
+	payload: Deck[] | Deck | string | Error | null;
 };
 
 export type DeckState = {
@@ -22,9 +26,11 @@ export type DeckState = {
 	loadings: {
 		fetchDecksLoading: boolean;
 		createDeckLoading: boolean;
+		editDeckLoading: boolean;
 	}
 	errors: {
 		fetchDecksError: Error | null;
 		createDeckError: Error | null;
+		editDeckError: Error | null;
 	}
 };

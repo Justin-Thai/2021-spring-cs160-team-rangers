@@ -3,4 +3,5 @@ export type Deck = {
   name: string;
   updatedDate: string;
   cardCount: number;
+  shared: boolean;
 }

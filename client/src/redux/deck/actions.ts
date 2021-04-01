@@ -35,11 +35,12 @@ export const fetchDecks = (name = '', page = 1) => async (
 			throw new Error(data.message);
 		}
 
-		const decks = data.decks.map((d: any) => ({
+		const decks: Deck[] = data.decks.map((d: any) => ({
 			id: String(d.id),
 			name: d.name,
 			updatedDate: toReadableTime(d.updated_at),
 			cardCount: d.count,
+			shared: Boolean(d.shared),
 		}));
 
 		await delay(600);
@@ -50,7 +51,7 @@ export const fetchDecks = (name = '', page = 1) => async (
 	}
 };
 
-export const createDeck = (name: string) => async (
+export const createDeck = (name: string, shared = false) => async (
 	dispatch: (action: DeckAction | AuthAction) => void,
 	getState: () => AppState
 ) => {
@@ -70,7 +71,7 @@ export const createDeck = (name: string) => async (
 				'Content-Type': 'application/json',
 				token,
 			},
-			body: JSON.stringify({ name }),
+			body: JSON.stringify({ name, shared: String(shared) }),
 		});
 
 		const data = await res.json();
@@ -78,19 +79,55 @@ export const createDeck = (name: string) => async (
 			throw new Error(data.message);
 		}
 
-		await delay(1000);
+		await delay(600);
 
 		const newDeck = {
 			id: data.deck.id,
 			name: data.deck.name,
 			updatedDate: toReadableTime(data.deck.updated_at),
 			cardCount: data.deck.count,
+			shared: false,
 		};
 
 		dispatch(incrementDeckCount());
 		dispatch(createDeckSuccess(newDeck));
 	} catch (err) {
 		dispatch(createDeckFailure(err));
+	}
+};
+
+export const editDeck = (deckId: string, newName: string, newShared: boolean) => async (
+	dispatch: (action: DeckAction | AuthAction) => void,
+	getState: () => AppState
+) => {
+	dispatch(editDeckStarted());
+	try {
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			await delay(50);
+			return;
+		}
+
+		const { user } = getState().auth;
+		const res = await fetch(`${env.serverUrl}/profile/${user!.id}/deck/${deckId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				token,
+			},
+			body: JSON.stringify({ name: newName, shared: String(newShared) }),
+		});
+
+		if (res.status !== 200 && res.status !== 304) {
+			const data = await res.json();
+			throw new Error(data.message);
+		}
+
+		await delay(600);
+		dispatch(editDeckSuccess());
+	} catch (err) {
+		dispatch(editDeckFailure(err));
 	}
 };
 
@@ -128,5 +165,20 @@ const createDeckSuccess = (deck: Deck): DeckAction => ({
 
 const createDeckFailure = (error: Error): DeckAction => ({
 	type: DispatchTypes.CREATE_DECK_FAILURE,
+	payload: error,
+});
+
+const editDeckStarted = (): DeckAction => ({
+	type: DispatchTypes.EDIT_DECK_STARTED,
+	payload: null,
+});
+
+const editDeckSuccess = (): DeckAction => ({
+	type: DispatchTypes.EDIT_DECK_SUCCESS,
+	payload: null,
+});
+
+const editDeckFailure = (error: Error): DeckAction => ({
+	type: DispatchTypes.EDIT_DECK_FAILURE,
 	payload: error,
 });

@@ -144,7 +144,6 @@ export default class ProfileService {
 		@FormParam('name') name: string,
 		@FormParam('shared') sharedValueInString: string
 	) {
-		console.log('deck put');
 		const res = this.context.response;
 		try {
 			const user = await User.findOneOrFail(userId);
@@ -158,7 +157,7 @@ export default class ProfileService {
 			}
 
 			await deck!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ deck });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);

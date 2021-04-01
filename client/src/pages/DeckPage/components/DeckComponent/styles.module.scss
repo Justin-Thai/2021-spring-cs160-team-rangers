@@ -20,6 +20,7 @@
 
 		.name {
 			margin-left: 24px;
+			cursor: pointer;
 		}
 
 		.count {
@@ -28,11 +29,21 @@
 			font-weight: 500;
 		}
 
-		.edit {
+		.right {
 			align-self: center;
-			opacity: 0.5;
+			text-align: right;
 			font-weight: 500;
 			margin-right: 24px;
+
+			.edit {
+				opacity: 0.5;
+				margin-bottom: 6px;
+			}
+
+			.shared {
+				opacity: 0.3;
+				margin-top: 6px;
+			}
 		}
 	}
 }

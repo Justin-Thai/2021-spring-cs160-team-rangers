@@ -99,6 +99,14 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		});
 	};
 
+	editDeck = (deckId: string, deckName: string, deckShared: boolean) => {
+		const { history, url } = this.props;
+		history.push({
+			pathname: `${url}/${deckId}/edit`,
+			state: { deckName, deckShared },
+		});
+	};
+
 	renderDeckList = () => {
 		const { decks, loading, error } = this.props;
 		if (loading) {
@@ -122,7 +130,7 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 				</div>
 			);
 		}
-		return <DeckList decks={decks} goToDeck={this.goToDeck} />;
+		return <DeckList decks={decks} goToDeck={this.goToDeck} editDeck={this.editDeck} />;
 	};
 
 	render() {

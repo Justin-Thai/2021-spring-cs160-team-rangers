@@ -82,7 +82,7 @@ const mapDispatchToProps = {
 };
 
 function Children({ children, user }: { children: React.ReactNode; user: User }): JSX.Element {
-	let { userId } = useParams<{ userId: string }>();
+	const { userId } = useParams<{ userId: string }>();
 	if (userId !== user.id) {
 		return (
 			<Redirect
