@@ -10,6 +10,7 @@ export default function PageHeader({ goBack }: { goBack: () => void }) {
 				style={{ color: 'grey', fontSize: 36, marginLeft: 18, cursor: 'pointer' }}
 				onClick={goBack}
 			></i>
+			<button className={`primary-btn ${styles.createBtn}`}>Create</button>
 		</div>
 	);
 }

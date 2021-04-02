@@ -152,8 +152,6 @@ export const deleteDeck = (deckId: string) => async (
 			},
 		});
 
-		console.log(res.status);
-
 		if (res.status !== 200) {
 			const data = await res.json();
 			throw new Error(data.message);

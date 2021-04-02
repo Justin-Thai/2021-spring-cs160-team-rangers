@@ -1,0 +1,38 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	@include flex-row;
+	width: 100%;
+	height: calc(100% - 67px);
+	justify-content: center;
+	align-items: center;
+
+	.arrow {
+		font-size: 44px;
+		color: grey;
+		cursor: pointer;
+	}
+
+	.cardsWrapper {
+		position: relative;
+		overflow: hidden;
+		padding: 22px;
+
+		.present {
+			left: 0;
+			visibility: visible;
+		}
+		.next {
+			position: absolute;
+			top: 22px;
+			left: 912px;
+			visibility: hidden;
+		}
+		.previous {
+			position: absolute;
+			top: 22px;
+			left: -868px;
+			visibility: hidden;
+		}
+	}
+}

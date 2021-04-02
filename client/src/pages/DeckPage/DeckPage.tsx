@@ -44,15 +44,12 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 	}
 
 	componentDidUpdate(prevProps: DeckPageProps) {
-		const { name, page, decks, onFetchDecks } = this.props;
+		const { name, page, onFetchDecks } = this.props;
 		if (page === 0 && ((page !== prevProps.page && name === null) || (name !== prevProps.name && name === null))) {
 			this.setState({ forcedPage: 0 }, () => {
 				onFetchDecks();
 			});
 		}
-		// if (decks.length < prevProps.decks.length) {
-		// 	onFetchDecks();
-		// }
 	}
 
 	handlePageClick = ({ selected }: { selected: number }) => {
@@ -82,7 +79,7 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		const { deckCount, fetchError } = this.props;
 		if (fetchError) return null;
 		const totalPages = Math.ceil(deckCount / env.decksPerPage);
-		if (totalPages < 1) return null;
+		if (totalPages < 1 || deckCount <= 9) return null;
 		return (
 			<div className={styles.paginationContainer}>
 				<Pagination

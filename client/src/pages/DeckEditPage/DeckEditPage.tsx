@@ -3,7 +3,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
 
-import { PageHeader } from './components';
+import { SimplePageHeader } from '../../components';
 import { editDeck } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
@@ -56,7 +56,7 @@ class DeckEditPage extends Component<DeckEditPageProps, DeckEditPageState> {
 		const { loading, error } = this.props;
 		return (
 			<div className={styles.container}>
-				<PageHeader goBack={this.goBack} />
+				<SimplePageHeader title='Edit deck' goBack={this.goBack} />
 				<div className={styles.wrapper}>
 					<form onSubmit={this.onEditDeck}>
 						<div className={styles.inputWrapper}>

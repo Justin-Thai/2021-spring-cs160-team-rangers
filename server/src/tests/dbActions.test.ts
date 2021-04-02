@@ -3,7 +3,7 @@ import { User } from '../database/entity';
 
 describe('Db actions test suite', () => {
 	const conn = new DbConnection();
-    const user = new User('test@test.com', 'test-password');
+    const user = new User('test@test.com', 'test-password', 'Test Name');
 	beforeAll(async () => {
 		await conn.create();
 	});
