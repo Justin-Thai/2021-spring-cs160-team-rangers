@@ -1,6 +1,7 @@
 export type Deck = {
   id: string;
   name: string;
-  updatedDate: number;
-  count: number;
+  updatedDate: string;
+  cardCount: number;
+  shared: boolean;
 }

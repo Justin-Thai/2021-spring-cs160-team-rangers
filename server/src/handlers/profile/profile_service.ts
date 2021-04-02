@@ -43,7 +43,7 @@ export default class ProfileService {
 			}
 
 			res.status(statusCodes.OK);
-			return resOK({ user: { id: user.id, email: user.email } });
+			return resOK({ user: { id: user.id, email: user.email, name: user.name, deck_count: user.deck_count } });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();
@@ -66,6 +66,9 @@ export default class ProfileService {
 		try {
 			const newDeck = new Deck(userId, name, shared);
 			await newDeck.save();
+			const user = await User.findOneOrFail(userId);
+			user.deck_count += 1;
+			await user.save();
 			res.status(statusCodes.Created);
 			return resOK({ deck: newDeck });
 		} catch (err) {
@@ -79,18 +82,18 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	async getAllDecks(
-		@PathParam('userId') userId: string, 
+		@PathParam('userId') userId: string,
 		@QueryParam('name') name: string,
 		@QueryParam('limit') limit: number,
 		@QueryParam('page') page: number
 	) {
 		const res = this.context.response;
 		try {
-			if(limit === undefined) {
+			if (limit === undefined) {
 				limit = 9;
 			}
-			if(page === undefined) {
-				page = 1; 
+			if (page === undefined) {
+				page = 1;
 			}
 
 			if (name) {
@@ -105,6 +108,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -140,7 +144,6 @@ export default class ProfileService {
 		@FormParam('name') name: string,
 		@FormParam('shared') sharedValueInString: string
 	) {
-		console.log('deck put');
 		const res = this.context.response;
 		try {
 			const user = await User.findOneOrFail(userId);
@@ -154,7 +157,7 @@ export default class ProfileService {
 			}
 
 			await deck!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ deck });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
@@ -174,6 +177,8 @@ export default class ProfileService {
 			const deck = await user.getDeckById(deckId);
 			await deck!.deleteCards();
 			await deck!.remove();
+			user.deck_count -= 1;
+			await user.save();
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted deck ${deckId}` });
 		} catch (err) {

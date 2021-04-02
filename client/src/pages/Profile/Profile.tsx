@@ -11,6 +11,9 @@ import MyAccount from '../MyAccount/MyAccount';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import SharedPage from '../SharedPage/SharedPage';
 import ReportPage from '../ReportPage/ReportPage';
+import CardPage from '../CardPage/CardPage';
+import DeckCreationPage from '../DeckCreationPage/DeckCreationPage';
+import DeckEditPage from '../DeckEditPage/DeckEditPage';
 import styles from './styles.module.scss';
 
 interface ProfileProps {
@@ -30,6 +33,15 @@ function Profile({ user }: ProfileProps) {
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck`}>
 						<DeckPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/create`}>
+						<DeckCreationPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId/edit`}>
+						<DeckEditPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId`}>
+						<CardPage />
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/shared`}>
 						<SharedPage />
