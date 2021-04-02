@@ -88,7 +88,6 @@ export default function deckReducer(state = initialState, action: DeckAction): D
 		case DispatchTypes.DELETE_DECK_SUCCESS: {
 			const newState = { ...state };
 			const payload = action.payload as string;
-			console.log('delete', payload);
 			newState.loadings.deleting = '';
 			newState.decks = [...newState.decks.filter((deck) => deck.id !== payload)];
 			return newState;
@@ -104,6 +103,8 @@ export default function deckReducer(state = initialState, action: DeckAction): D
 			const newState = { ...state };
 			newState.errors.createDeckError = null;
 			newState.errors.fetchDecksError = null;
+			newState.errors.editDeckError = null;
+			newState.errors.deleteDeckError = null;
 			return newState;
 		}
 		default:

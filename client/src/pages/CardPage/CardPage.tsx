@@ -1,45 +1,100 @@
 import React, { Component } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { History } from 'history';
+import { connect } from 'react-redux';
 
 import { PageHeader, CardList } from './components';
+import { fetchCards } from '../../redux/card/actions';
 import { Card } from '../../models';
 import styles from './styles.module.scss';
+import { Loading, Empty, ErrorView } from '../../components';
+import { AppState } from '../../redux/store';
 
 interface CardPageProps {
+	cards: Card[];
+	loading: boolean;
+	error: Error | null;
 	history: History<unknown>;
+	url: string;
+	deckId: string;
+	onFetchCards: (deckId: string) => void;
 }
 
 class CardPage extends Component<CardPageProps> {
+	componentDidMount() {
+		const { deckId, onFetchCards } = this.props;
+		onFetchCards(deckId);
+	}
+
 	goBack = () => this.props.history.goBack();
 
+	goToCardCreations = () => {
+		const { url, history } = this.props;
+		history.push(`${url}/card/create`);
+	};
+
+	renderCardList = () => {
+		const { cards, loading, error } = this.props;
+
+		if (loading) {
+			return (
+				<div className={styles.wrapper}>
+					<Loading />
+				</div>
+			);
+		}
+
+		if (error) {
+			return (
+				<div className={styles.wrapper}>
+					<ErrorView error={error.message} />
+				</div>
+			);
+		}
+
+		if (!cards.length) {
+			return (
+				<div className={styles.wrapper}>
+					<Empty />
+				</div>
+			);
+		}
+
+		return <CardList cards={cards} />;
+	};
+
 	render() {
-		const cards: Card[] = [
-			{
-				id: '1',
-				frontSide: 'First card',
-				backSide: 'Back side',
-				backgroundColor: 'white',
-			},
-			{
-				id: '2',
-				frontSide: 'First card 2',
-				backSide: 'Back side 2',
-				backgroundColor: 'white',
-			},
-		];
 		return (
 			<div className={styles.container}>
-				<PageHeader goBack={this.goBack} />
-				<CardList cards={cards} />
+				<PageHeader goBack={this.goBack} goToCardCreations={this.goToCardCreations} />
+				{this.renderCardList()}
 			</div>
 		);
 	}
 }
 
-function CardPageHOC() {
-	const history = useHistory();
-	return <CardPage history={history} />;
+interface CardPageHOCProps {
+	cards: Card[];
+	loading: boolean;
+	error: Error | null;
+	onFetchCards: (deckId: string) => void;
 }
 
-export default CardPageHOC;
+function CardPageHOC(props: CardPageHOCProps) {
+	const history = useHistory();
+	const { url } = useRouteMatch();
+	const { deckId } = useParams<{ deckId: string }>();
+	return <CardPage {...props} history={history} url={url} deckId={deckId} />;
+}
+
+const mapStateToProps = (state: AppState) => ({
+	cards: state.card.cards,
+	loading: state.card.loadings.fetchCardsLoading,
+	error: state.card.errors.fetchCardsError,
+});
+
+const mapDispatchToProps = {
+	onFetchCards: fetchCards,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardPageHOC);

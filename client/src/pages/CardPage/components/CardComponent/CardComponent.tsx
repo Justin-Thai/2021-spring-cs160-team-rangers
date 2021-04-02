@@ -22,7 +22,9 @@ export default function CardComponent({ card, classList }: CardComponentProps) {
 				<h1 className={styles.frontText}>{card.frontSide}</h1>
 			</div>
 			<div className={styles.backSide}>
-				<p className={styles.backText}>{card.backSide}</p>
+				<div className={styles.wrapper}>
+					<div className={styles.backText} dangerouslySetInnerHTML={{ __html: card.backSide }} />
+				</div>
 			</div>
 		</div>
 	);

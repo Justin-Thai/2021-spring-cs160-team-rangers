@@ -42,17 +42,20 @@
 		border-left: 1px solid rgba(0, 0, 0, 0.16);
 		border-radius: 35px;
 		box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
-		font-family: 'Montserrat', sans-serif;
 		backface-visibility: hidden;
 		transform: rotateX(180deg);
 		background: white;
 
-		.backText {
+		.wrapper {
 			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin: 0;
+			position: relative;
+			.backText {
+				height: 100%;
+				position: absolute;
+				top: 0;
+				overflow: hidden;
+				margin: 24px;
+			}
 		}
 	}
 }

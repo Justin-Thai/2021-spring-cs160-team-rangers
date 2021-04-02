@@ -4,10 +4,13 @@
 	@include flex-row;
 	padding: 15.5px 0;
 	box-shadow: 0 5px 7px #eee;
+	max-height: 67px;
 
 	.title {
+		font-family: 'Montserrat', sans-serif;
 		margin: 0;
 		margin-left: 12px;
 		color: grey;
+		font-size: 31px;
 	}
 }

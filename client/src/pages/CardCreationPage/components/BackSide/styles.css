@@ -1,0 +1,57 @@
+.ql-picker.ql-font .ql-picker-label[data-value='Roboto']::before,
+.ql-picker.ql-font .ql-picker-item[data-value='Roboto']::before {
+	font-family: 'Roboto';
+	content: 'Roboto' !important;
+}
+
+.ql-picker.ql-font .ql-picker-label[data-value='Raleway']::before,
+.ql-picker.ql-font .ql-picker-item[data-value='Raleway']::before {
+	font-family: 'Raleway';
+	content: 'Raleway' !important;
+}
+
+.ql-picker.ql-font .ql-picker-label[data-value='Montserrat']::before,
+.ql-picker.ql-font .ql-picker-item[data-value='Montserrat']::before {
+	font-family: 'Montserrat';
+	content: 'Montserrat' !important;
+}
+
+.ql-picker.ql-font .ql-picker-label[data-value='Lato']::before,
+.ql-picker.ql-font .ql-picker-item[data-value='Lato']::before {
+	font-family: 'Lato';
+	content: 'Lato' !important;
+}
+
+.ql-picker.ql-font .ql-picker-label[data-value='Rubik']::before,
+.ql-picker.ql-font .ql-picker-item[data-value='Rubik']::before {
+	font-family: 'Rubik';
+	content: 'Rubik' !important;
+}
+
+/* Set content font-families */
+.ql-font-Roboto {
+	font-family: 'Roboto';
+}
+.ql-font-Raleway {
+	font-family: 'Raleway';
+}
+.ql-font-Montserrat {
+	font-family: 'Montserrat';
+}
+.ql-font-Lato {
+	font-family: 'Lato';
+}
+.ql-font-Rubik {
+	font-family: 'Rubik';
+}
+
+.ql-container {
+	border-top: 1px solid rgba(0, 0, 0, 0.16) !important;
+	border-left: 1px solid rgba(0, 0, 0, 0.16);
+	border-radius: 35px;
+	box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+
+	width: 828px;
+	height: 342px;
+  margin-top: 14px;
+}

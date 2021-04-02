@@ -1,0 +1,57 @@
+@import '../../scss/global.scss';
+
+.container {
+	height: calc(100% - 67px);
+	position: relative;
+
+	.wrapper {
+		height: 100%;
+		@include flex-col;
+		align-items: center;
+		justify-content: center;
+
+		.front {
+			width: 828px;
+			height: 342px;
+			border-top: 1px solid rgba(0, 0, 0, 0.16);
+			border-left: 1px solid rgba(0, 0, 0, 0.16);
+			border-radius: 35px;
+			box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+			font-family: 'Montserrat', sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.frontInput {
+				border: none;
+				border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+				width: 564px;
+				font-size: 46px;
+			}
+		}
+
+		.back {
+			width: 828px;
+			margin-top: 24px;
+		}
+	}
+
+	.submit {
+		position: absolute;
+		top: 72px;
+		right: 54px;
+
+		.submitBtn {
+			padding: 14px 54px;
+			font-size: 26px;
+			margin-top: 22px;
+		}
+
+		.error {
+			font-family: 'Montserrat', sans-serif;
+			color: $error;
+			text-align: right;
+			margin-bottom: 0;
+		}
+	}
+}

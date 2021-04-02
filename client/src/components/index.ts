@@ -8,4 +8,14 @@ import Empty from './Empty/Empty';
 import ErrorView from './ErrorView/ErrorView';
 import SimplePageHeader from './SimplePageHeader/SimplePageHeader';
 
-export { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer, Pagination, Loading, Empty, ErrorView, SimplePageHeader };
+export {
+	NavBarNotAuth,
+	NavBarAuth,
+	PrivateRoute,
+	Footer,
+	Pagination,
+	Loading,
+	Empty,
+	ErrorView,
+	SimplePageHeader,
+};

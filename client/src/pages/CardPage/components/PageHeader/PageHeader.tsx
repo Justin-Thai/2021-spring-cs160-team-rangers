@@ -2,7 +2,12 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 
-export default function PageHeader({ goBack }: { goBack: () => void }) {
+interface PageHeaderProps {
+	goToCardCreations: () => void;
+	goBack: () => void;
+}
+
+export default function PageHeader({ goBack, goToCardCreations }: PageHeaderProps) {
 	return (
 		<div className={styles.container}>
 			<i
@@ -10,7 +15,7 @@ export default function PageHeader({ goBack }: { goBack: () => void }) {
 				style={{ color: 'grey', fontSize: 36, marginLeft: 18, cursor: 'pointer' }}
 				onClick={goBack}
 			></i>
-			<button className={`primary-btn ${styles.createBtn}`}>Create</button>
+			<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreations}>Create</button>
 		</div>
 	);
 }
