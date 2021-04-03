@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import Select from 'react-select';
 import { ValueType, ActionMeta } from 'react-select';
 
@@ -12,76 +12,98 @@ interface CardListProps {
 	deleteCard: (cardId: string) => void;
 }
 
-export default function CardList({ cards, goToCardEdit, deleteCard }: CardListProps) {
-	const [current, setCurrent] = useState(0);
+interface CardListState {
+	current: number;
+}
 
-	const goForward = () => {
-		if (current + 1 < cards.length) {
-			setCurrent(current + 1);
+class CardList extends Component<CardListProps, CardListState> {
+	state = { current: 0 };
+
+	componentDidUpdate(prevProps: CardListProps, prevState: CardListState) {
+		const { cards } = this.props;
+		if (cards.length < prevProps.cards.length && this.state.current >= cards.length) {
+			this.setState({ current: 0 });
+		}
+	}
+
+	goForward = () => {
+		if (this.state.current + 1 < this.props.cards.length) {
+			this.setState((prevState) => ({ current: prevState.current + 1 }));
 		}
 	};
 
-	const goBack = () => {
-		if (current - 1 >= 0) {
-			setCurrent(current - 1);
+	goBack = () => {
+		if (this.state.current - 1 >= 0) {
+			this.setState((prevState) => ({ current: prevState.current - 1 }));
 		}
 	};
 
-	const goTo = (
+	goTo = (
 		value: ValueType<{ value: number; label: string }, false>,
 		_: ActionMeta<{ value: number; label: string }>
 	) => {
-		setCurrent(value!.value);
+		this.setState({ current: value!.value });
 	};
 
-	const setClass = (num: number) => {
+	setClass = (num: number) => {
 		const classArr = [''];
+		const { current } = this.state;
 		if (num === current) classArr.push(styles.present);
 		if (num > current) classArr.push(styles.next);
 		if (num < current) classArr.push(styles.previous);
 		return classArr.join(' ');
 	};
 
-	const performGoToCardEdit = () => {
-		const { id, frontSide, backSide } = cards[current];
-		goToCardEdit(id, frontSide, backSide);
+	performGoToCardEdit = () => {
+		const { id, frontSide, backSide } = this.props.cards[this.state.current];
+		this.props.goToCardEdit(id, frontSide, backSide);
 	};
 
-	const performDeleteCard = () => deleteCard(cards[current].id);
+	performDeleteCard = () => this.props.deleteCard(this.props.cards[this.state.current].id);
 
-	return (
-		<div className={styles.container}>
-			<div className={styles.wrapper}>
-				<div className={styles.editAndDelete}>
-					<i className={`fas fa-edit`} style={{ cursor: 'pointer', marginRight: 12 }} onClick={performGoToCardEdit}></i>
-					<i
-						className={`fas fa-trash-alt ${styles.deleteIcon}`}
-						style={{ cursor: 'pointer' }}
-						onClick={performDeleteCard}
-					></i>
-				</div>
-				<div className={styles.inner}>
-					<i className={`fas fa-angle-left ${styles.arrow}`} onClick={goBack}></i>
-					<div className={styles.cardsWrapper}>
-						{cards.map((c, i) => (
-							<CardComponent key={c.id} card={c} classList={setClass(i)} />
-						))}
+	render() {
+		const { cards } = this.props;
+		const { current } = this.state;
+		return (
+			<div className={styles.container}>
+				<div className={styles.wrapper}>
+					<div className={styles.editAndDelete}>
+						<i
+							className={`fas fa-edit`}
+							style={{ cursor: 'pointer', marginRight: 12 }}
+							onClick={this.performGoToCardEdit}
+						></i>
+						<i
+							className={`fas fa-trash-alt ${styles.deleteIcon}`}
+							style={{ cursor: 'pointer' }}
+							onClick={this.performDeleteCard}
+						></i>
 					</div>
-					<i className={`fas fa-angle-right ${styles.arrow}`} onClick={goForward}></i>
+					<div className={styles.inner}>
+						<i className={`fas fa-angle-left ${styles.arrow}`} onClick={this.goBack}></i>
+						<div className={styles.cardsWrapper}>
+							{cards.map((c, i) => (
+								<CardComponent key={c.id} card={c} classList={this.setClass(i)} />
+							))}
+						</div>
+						<i className={`fas fa-angle-right ${styles.arrow}`} onClick={this.goForward}></i>
+					</div>
+				</div>
+				<h1 className={styles.pageNum}>
+					{current + 1} / {cards.length}
+				</h1>
+				<div className={styles.goTo}>
+					<h3 className={styles.goToLabel}>Go to card</h3>
+					<Select
+						className={styles.selector}
+						options={cards.map((_, i) => ({ value: i, label: `${i + 1}` }))}
+						value={{ value: current, label: `${current + 1}` }}
+						onChange={this.goTo}
+					/>
 				</div>
 			</div>
-			<h1 className={styles.pageNum}>
-				{current + 1} / {cards.length}
-			</h1>
-			<div className={styles.goTo}>
-				<h3 className={styles.goToLabel}>Go to card</h3>
-				<Select
-					className={styles.selector}
-					options={cards.map((_, i) => ({ value: i, label: `${i + 1}` }))}
-					value={{ value: current, label: `${current + 1}` }}
-					onChange={goTo}
-				/>
-			</div>
-		</div>
-	);
+		);
+	}
 }
+
+export default CardList;
