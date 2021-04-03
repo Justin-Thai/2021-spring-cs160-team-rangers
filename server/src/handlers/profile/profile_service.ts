@@ -292,7 +292,7 @@ export default class ProfileService {
 			}
 
 			await card!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ card });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);

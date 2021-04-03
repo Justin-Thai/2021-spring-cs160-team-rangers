@@ -28,9 +28,20 @@ class CardPage extends Component<CardPageProps> {
 
 	goBack = () => this.props.history.goBack();
 
-	goToCardCreations = () => {
+	goToCardCreation = () => {
 		const { url, history } = this.props;
 		history.push(`${url}/card/create`);
+	};
+
+	goToCardEdit = (cardId: string, frontSide: string, backSide: string) => {
+		const { url, history } = this.props;
+		history.push({
+			pathname: `${url}/card/${cardId}/edit`,
+			state: {
+				frontSide,
+				backSide,
+			},
+		});
 	};
 
 	renderCardList = () => {
@@ -60,13 +71,13 @@ class CardPage extends Component<CardPageProps> {
 			);
 		}
 
-		return <CardList cards={cards} />;
+		return <CardList cards={cards} goToCardEdit={this.goToCardEdit} />;
 	};
 
 	render() {
 		return (
 			<div className={styles.container}>
-				<PageHeader goBack={this.goBack} goToCardCreations={this.goToCardCreations} />
+				<PageHeader goBack={this.goBack} goToCardCreation={this.goToCardCreation} />
 				{this.renderCardList()}
 			</div>
 		);

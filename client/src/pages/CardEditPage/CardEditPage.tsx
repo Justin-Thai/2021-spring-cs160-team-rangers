@@ -1,55 +1,58 @@
 import React, { Component } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
 
-import { SimplePageHeader, BackSideEditor } from '../../components';
-import { createCard, clearErrors } from '../../redux/card/actions';
+import { BackSideEditor, SimplePageHeader } from '../../components';
+import { editCard, clearErrors } from '../../redux/card/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface CardCreationPageProps {
+interface CardEditPageProps {
 	history: History<unknown>;
 	deckId: string;
+	cardId: string;
+	frontSide: string;
+	backSide: string;
 	loading: boolean;
 	error: Error | null;
-	onCreateCard: (deckId: string, front: string, back: string) => void;
-	onClearErrors: () => void;
+	onEditCard: (deckId: string, cardId: string, front: string, back: string) => void;
+  onClearErrors: () => void;
 }
 
-interface CardCreationPageState {
+interface CardEditPageState {
 	front: string;
 	back: string;
 }
 
-class CardCreationPage extends Component<CardCreationPageProps, CardCreationPageState> {
+class CardEditPage extends Component<CardEditPageProps, CardEditPageState> {
 	state = {
-		front: '',
-		back: '',
+		front: this.props.frontSide,
+		back: this.props.backSide,
 	};
 
-	componentDidUpdate(prevProps: CardCreationPageProps) {
+  componentDidUpdate(prevProps: CardEditPageProps) {
 		const { loading, error } = this.props;
 		if (loading !== prevProps.loading && !loading && !error) {
 			this.goBack();
 		}
 	}
 
-	componentWillUnmount() {
+  componentWillUnmount() {
 		this.props.onClearErrors();
 	}
+
+	goBack = () => this.props.history.goBack();
 
 	setFront = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ front: e.target.value });
 
 	setBack = (html: string) => this.setState({ back: html });
 
-	goBack = () => this.props.history.goBack();
-
-	onSubmitCard = () => {
+	onSubmitCardEdit = () => {
 		const { front, back } = this.state;
 		if (front && back) {
-			const { onCreateCard, deckId } = this.props;
-			onCreateCard(deckId, front, back);
+			const { onEditCard, deckId, cardId } = this.props;
+			onEditCard(deckId, cardId, front, back);
 		}
 	};
 
@@ -75,7 +78,7 @@ class CardCreationPage extends Component<CardCreationPageProps, CardCreationPage
 				<div className={styles.submit}>
 					<button
 						className={`${loading ? 'disabled-btn' : 'submit-btn'} ${styles.submitBtn}`}
-						onClick={this.onSubmitCard}
+						onClick={this.onSubmitCardEdit}
 					>
 						Save
 					</button>
@@ -86,27 +89,38 @@ class CardCreationPage extends Component<CardCreationPageProps, CardCreationPage
 	}
 }
 
-interface CardCreationPageHOCProps {
+interface CardEditPageHOCProps {
 	loading: boolean;
 	error: Error | null;
-	onCreateCard: (deckId: string, front: string, back: string) => void;
-	onClearErrors: () => void;
+	onEditCard: (deckId: string, cardId: string, front: string, back: string) => void;
+  onClearErrors: () => void;
 }
 
-function CardCreationPageHOC(props: CardCreationPageHOCProps) {
+function CardEditPageHOC(props: CardEditPageHOCProps) {
+	const { deckId, cardId } = useParams<{ deckId: string; cardId: string }>();
+	const location = useLocation<{ frontSide: string; backSide: string }>();
+	const { frontSide, backSide } = location.state;
 	const history = useHistory();
-	const { deckId } = useParams<{ deckId: string }>();
-	return <CardCreationPage {...props} history={history} deckId={deckId} />;
+	return (
+		<CardEditPage
+			{...props}
+			history={history}
+			deckId={deckId}
+			cardId={cardId}
+			frontSide={frontSide}
+			backSide={backSide}
+		/>
+	);
 }
 
 const mapStateToProps = (state: AppState) => ({
-	loading: state.card.loadings.createCardLoading,
-	error: state.card.errors.createCardError,
+	loading: state.card.loadings.editCardLoading,
+	error: state.card.errors.editCardError,
 });
 
 const mapDispatchToProps = {
-	onCreateCard: createCard,
-	onClearErrors: clearErrors,
+	onEditCard: editCard,
+  onClearErrors: clearErrors,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardCreationPageHOC);
+export default connect(mapStateToProps, mapDispatchToProps)(CardEditPageHOC);

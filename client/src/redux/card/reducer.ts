@@ -60,6 +60,24 @@ export default function cardReducer(state = initialState, action: CardAction): C
 			newState.errors.createCardError = payload;
 			return newState;
 		}
+		case DispatchTypes.EDIT_CARD_STARTED: {
+			const newState = { ...state };
+			newState.loadings.editCardLoading = true;
+			newState.errors.editCardError = null;
+			return newState;
+		}
+		case DispatchTypes.EDIT_CARD_SUCCESS: {
+			const newState = { ...state };
+			newState.loadings.editCardLoading = false;
+			return newState;
+		}
+		case DispatchTypes.EDIT_CARD_FAILURE: {
+			const newState = { ...state };
+			const payload = action.payload as Error;
+			newState.loadings.editCardLoading = false;
+			newState.errors.editCardError = payload;
+			return newState;
+		}
 		case DispatchTypes.CLEAR_ERRORS: {
 			const newState = { ...state };
 			newState.errors.createCardError = null;
@@ -68,6 +86,7 @@ export default function cardReducer(state = initialState, action: CardAction): C
 			newState.errors.deleteCardError = null;
 			return newState;
 		}
+
 		default:
 			return state;
 	}

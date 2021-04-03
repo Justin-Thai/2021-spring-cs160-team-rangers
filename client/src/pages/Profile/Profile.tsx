@@ -15,6 +15,7 @@ import CardPage from '../CardPage/CardPage';
 import DeckCreationPage from '../DeckCreationPage/DeckCreationPage';
 import DeckEditPage from '../DeckEditPage/DeckEditPage';
 import CardCreationPage from '../CardCreationPage/CardCreationPage';
+import CardEditPage from '../CardEditPage/CardEditPage';
 import styles from './styles.module.scss';
 
 interface ProfileProps {
@@ -43,6 +44,9 @@ function Profile({ user }: ProfileProps) {
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck/:deckId/card/create`}>
 						<CardCreationPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId/card/:cardId/edit`}>
+						<CardEditPage />
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck/:deckId`}>
 						<CardPage />

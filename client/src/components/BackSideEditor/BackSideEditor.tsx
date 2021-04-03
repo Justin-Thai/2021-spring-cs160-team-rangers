@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 
 import './styles.css';
 
@@ -9,7 +8,11 @@ const Font = Quill.import('formats/font');
 Font.whitelist = ['Roboto', 'Raleway', 'Montserrat', 'Lato', 'Rubik'];
 Quill.register(Font, true);
 
-export default function BackSide({ value, setBack }: { value: string; setBack: (html: string) => void }) {
+const Size = Quill.import('attributors/style/size');
+Size.whitelist = ['14px', '20px', '28px'];
+Quill.register(Size, true);
+
+export default function BackSideEditor({ value, setBack }: { value: string; setBack: (html: string) => void }) {
 	const handleChange = (html: string) => {
 		setBack(html);
 	};
@@ -17,8 +20,9 @@ export default function BackSide({ value, setBack }: { value: string; setBack: (
 	const modules = {
 		toolbar: [
 			[{ font: Font.whitelist }],
-			[{ size: [] }],
-			['bold', 'italic', 'underline', 'strike', 'blockquote'],
+			[{ size: Size.whitelist }],
+			['bold', 'italic', 'underline', 'strike'],
+			[{ align: [] }],
 			[{ color: [] }, { background: [] }],
 			[{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
 			['clean'],
@@ -37,7 +41,7 @@ export default function BackSide({ value, setBack }: { value: string; setBack: (
 		'italic',
 		'underline',
 		'strike',
-		'blockquote',
+		'align',
 		'color',
 		'background',
 		'list',
@@ -47,7 +51,14 @@ export default function BackSide({ value, setBack }: { value: string; setBack: (
 
 	return (
 		<div className='text-editor' style={{ width: '100%' }}>
-			<ReactQuill value={value} onChange={handleChange} placeholder='Back side' modules={modules} formats={formats} />
+			<ReactQuill
+				theme='snow'
+				value={value}
+				onChange={handleChange}
+				placeholder='Back side'
+				modules={modules}
+				formats={formats}
+			/>
 		</div>
 	);
 }

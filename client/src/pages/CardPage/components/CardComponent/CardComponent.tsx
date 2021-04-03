@@ -23,7 +23,7 @@ export default function CardComponent({ card, classList }: CardComponentProps) {
 			</div>
 			<div className={styles.backSide}>
 				<div className={styles.wrapper}>
-					<div className={styles.backText} dangerouslySetInnerHTML={{ __html: card.backSide }} />
+					<div className={`${styles.backText} ql-editor`} dangerouslySetInnerHTML={{ __html: card.backSide }} />
 				</div>
 			</div>
 		</div>

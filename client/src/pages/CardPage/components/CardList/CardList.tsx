@@ -8,9 +8,10 @@ import styles from './styles.module.scss';
 
 interface CardListProps {
 	cards: Card[];
+	goToCardEdit: (cardId: string, frontSide: string, backSide: string) => void;
 }
 
-export default function CardList({ cards }: CardListProps) {
+export default function CardList({ cards, goToCardEdit }: CardListProps) {
 	const [current, setCurrent] = useState(0);
 
 	const goForward = () => {
@@ -40,11 +41,16 @@ export default function CardList({ cards }: CardListProps) {
 		return classArr.join(' ');
 	};
 
+	const performGoToCardEdit = () => {
+		const { id, frontSide, backSide} = cards[current];
+		goToCardEdit(id, frontSide, backSide);
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
 				<div className={styles.editAndDelete}>
-					<i className={`fas fa-edit`} style={{ cursor: 'pointer', marginRight: 12 }}></i>
+					<i className={`fas fa-edit`} style={{ cursor: 'pointer', marginRight: 12 }} onClick={performGoToCardEdit}></i>
 					<i className={`fas fa-trash-alt ${styles.deleteIcon}`} style={{ cursor: 'pointer' }}></i>
 				</div>
 				<div className={styles.inner}>

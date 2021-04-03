@@ -3,11 +3,11 @@ import React from 'react';
 import styles from './styles.module.scss';
 
 interface PageHeaderProps {
-	goToCardCreations: () => void;
+	goToCardCreation: () => void;
 	goBack: () => void;
 }
 
-export default function PageHeader({ goBack, goToCardCreations }: PageHeaderProps) {
+export default function PageHeader({ goBack, goToCardCreation }: PageHeaderProps) {
 	return (
 		<div className={styles.container}>
 			<i
@@ -15,7 +15,9 @@ export default function PageHeader({ goBack, goToCardCreations }: PageHeaderProp
 				style={{ color: 'grey', fontSize: 36, marginLeft: 18, cursor: 'pointer' }}
 				onClick={goBack}
 			></i>
-			<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreations}>Create</button>
+			<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreation}>
+				Create
+			</button>
 		</div>
 	);
 }

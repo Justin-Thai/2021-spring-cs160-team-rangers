@@ -7,6 +7,7 @@ import Loading from './Loading/Loading';
 import Empty from './Empty/Empty';
 import ErrorView from './ErrorView/ErrorView';
 import SimplePageHeader from './SimplePageHeader/SimplePageHeader';
+import BackSideEditor from './BackSideEditor/BackSideEditor';
 
 export {
 	NavBarNotAuth,
@@ -18,4 +19,5 @@ export {
 	Empty,
 	ErrorView,
 	SimplePageHeader,
+	BackSideEditor,
 };

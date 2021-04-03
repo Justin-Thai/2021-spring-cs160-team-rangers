@@ -45,6 +45,21 @@
 	font-family: 'Rubik';
 }
 
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='14px']::before {
+	content: 'Normal';
+	font-size: 14px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='20px']::before {
+	content: 'Large';
+	font-size: 20px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='28px']::before {
+	content: 'Huge';
+	font-size: 28px !important;
+}
+
 .ql-container {
 	border-top: 1px solid rgba(0, 0, 0, 0.16) !important;
 	border-left: 1px solid rgba(0, 0, 0, 0.16);
@@ -53,5 +68,5 @@
 
 	width: 828px;
 	height: 342px;
-  margin-top: 14px;
+	margin-top: 14px;
 }
