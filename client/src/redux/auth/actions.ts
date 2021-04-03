@@ -37,7 +37,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 	}
 };
 
-export const signUp = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
+export const signUp = (email: string, name: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signUpStarted());
 	try {
 		const res = await fetch(`${env.serverUrl}/signup`, {
@@ -45,7 +45,7 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ email, password }),
+			body: JSON.stringify({ email, name, password }),
 		});
 		const data = await res.json();
 		if (res.status !== 200) {

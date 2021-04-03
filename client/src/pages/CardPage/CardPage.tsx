@@ -4,7 +4,7 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 
 import { PageHeader, CardList } from './components';
-import { fetchCards } from '../../redux/card/actions';
+import { fetchCards, deleteCard } from '../../redux/card/actions';
 import { Card } from '../../models';
 import styles from './styles.module.scss';
 import { Loading, Empty, ErrorView } from '../../components';
@@ -13,11 +13,13 @@ import { AppState } from '../../redux/store';
 interface CardPageProps {
 	cards: Card[];
 	loading: boolean;
-	error: Error | null;
+	fetchError: Error | null;
+	deleteError: Error | null;
 	history: History<unknown>;
 	url: string;
 	deckId: string;
 	onFetchCards: (deckId: string) => void;
+	onDeleteCard: (deckId: string, cardId: string) => void;
 }
 
 class CardPage extends Component<CardPageProps> {
@@ -44,8 +46,16 @@ class CardPage extends Component<CardPageProps> {
 		});
 	};
 
+	deleteCard = (cardId: string) => {
+		const res = window.confirm('Are you sure to delete this card?');
+		if (res) {
+			const { deckId, onDeleteCard } = this.props;
+			onDeleteCard(deckId, cardId);
+		}
+	};
+
 	renderCardList = () => {
-		const { cards, loading, error } = this.props;
+		const { cards, loading, fetchError, deleteError } = this.props;
 
 		if (loading) {
 			return (
@@ -55,10 +65,18 @@ class CardPage extends Component<CardPageProps> {
 			);
 		}
 
-		if (error) {
+		if (fetchError) {
 			return (
 				<div className={styles.wrapper}>
-					<ErrorView error={error.message} />
+					<ErrorView error={fetchError.message} />
+				</div>
+			);
+		}
+
+		if (deleteError) {
+			return (
+				<div className={styles.wrapper}>
+					<ErrorView error={deleteError.message} />
 				</div>
 			);
 		}
@@ -71,7 +89,7 @@ class CardPage extends Component<CardPageProps> {
 			);
 		}
 
-		return <CardList cards={cards} goToCardEdit={this.goToCardEdit} />;
+		return <CardList cards={cards} goToCardEdit={this.goToCardEdit} deleteCard={this.deleteCard} />;
 	};
 
 	render() {
@@ -87,8 +105,10 @@ class CardPage extends Component<CardPageProps> {
 interface CardPageHOCProps {
 	cards: Card[];
 	loading: boolean;
-	error: Error | null;
+	fetchError: Error | null;
+	deleteError: Error | null;
 	onFetchCards: (deckId: string) => void;
+	onDeleteCard: (deckId: string, cardId: string) => void;
 }
 
 function CardPageHOC(props: CardPageHOCProps) {
@@ -101,11 +121,13 @@ function CardPageHOC(props: CardPageHOCProps) {
 const mapStateToProps = (state: AppState) => ({
 	cards: state.card.cards,
 	loading: state.card.loadings.fetchCardsLoading,
-	error: state.card.errors.fetchCardsError,
+	fetchError: state.card.errors.fetchCardsError,
+	deleteError: state.card.errors.deleteCardError,
 });
 
 const mapDispatchToProps = {
 	onFetchCards: fetchCards,
+	onDeleteCard: deleteCard,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardPageHOC);

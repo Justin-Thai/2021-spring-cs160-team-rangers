@@ -9,9 +9,10 @@ import styles from './styles.module.scss';
 interface CardListProps {
 	cards: Card[];
 	goToCardEdit: (cardId: string, frontSide: string, backSide: string) => void;
+	deleteCard: (cardId: string) => void;
 }
 
-export default function CardList({ cards, goToCardEdit }: CardListProps) {
+export default function CardList({ cards, goToCardEdit, deleteCard }: CardListProps) {
 	const [current, setCurrent] = useState(0);
 
 	const goForward = () => {
@@ -42,16 +43,22 @@ export default function CardList({ cards, goToCardEdit }: CardListProps) {
 	};
 
 	const performGoToCardEdit = () => {
-		const { id, frontSide, backSide} = cards[current];
+		const { id, frontSide, backSide } = cards[current];
 		goToCardEdit(id, frontSide, backSide);
 	};
+
+	const performDeleteCard = () => deleteCard(cards[current].id);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
 				<div className={styles.editAndDelete}>
 					<i className={`fas fa-edit`} style={{ cursor: 'pointer', marginRight: 12 }} onClick={performGoToCardEdit}></i>
-					<i className={`fas fa-trash-alt ${styles.deleteIcon}`} style={{ cursor: 'pointer' }}></i>
+					<i
+						className={`fas fa-trash-alt ${styles.deleteIcon}`}
+						style={{ cursor: 'pointer' }}
+						onClick={performDeleteCard}
+					></i>
 				</div>
 				<div className={styles.inner}>
 					<i className={`fas fa-angle-left ${styles.arrow}`} onClick={goBack}></i>

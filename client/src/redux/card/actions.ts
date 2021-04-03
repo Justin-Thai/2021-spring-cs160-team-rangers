@@ -125,6 +125,41 @@ export const editCard = (deckId: string, cardId: string, front: string, back: st
 	}
 };
 
+export const deleteCard = (deckId: string, cardId: string) => async (
+	dispatch: (action: CardAction) => void,
+	getState: () => AppState
+) => {
+	dispatch(deleteCardStarted(cardId));
+	try {
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			await delay(50);
+			return;
+		}
+
+		const { user } = getState().auth;
+		const res = await fetch(`${env.serverUrl}/profile/${user!.id}/deck/${deckId}/card/${cardId}`, {
+			method: 'DELETE',
+			headers: {
+				token,
+			},
+		});
+
+		const data = await res.json();
+
+		if (res.status !== 200) {
+			throw new Error(data.message);
+		}
+
+		await delay(600);
+
+		dispatch(deleteCardSuccess(cardId));
+	} catch (err) {
+		dispatch(deleteCardFailure(err));
+	}
+};
+
 export const clearErrors = () => ({
 	type: DispatchTypes.CLEAR_ERRORS,
 	payload: null,
@@ -177,14 +212,14 @@ const editCardFailure = (error: Error): CardAction => ({
 	payload: error,
 });
 
-const deleteCardStarted = (deckId: string): CardAction => ({
+const deleteCardStarted = (cardId: string): CardAction => ({
 	type: DispatchTypes.DELETE_CARD_STARTED,
-	payload: deckId,
+	payload: cardId,
 });
 
-const deleteCardSuccess = (deckId: string): CardAction => ({
+const deleteCardSuccess = (cardId: string): CardAction => ({
 	type: DispatchTypes.DELETE_CARD_SUCCESS,
-	payload: deckId,
+	payload: cardId,
 });
 
 const deleteCardFailure = (error: Error): CardAction => ({

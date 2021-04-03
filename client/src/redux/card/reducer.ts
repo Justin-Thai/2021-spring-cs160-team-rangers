@@ -78,6 +78,26 @@ export default function cardReducer(state = initialState, action: CardAction): C
 			newState.errors.editCardError = payload;
 			return newState;
 		}
+		case DispatchTypes.DELETE_CARD_STARTED: {
+			const newState = { ...state };
+			newState.loadings.deleting = action.payload as string;
+			newState.errors.deleteCardError = null;
+			return newState;
+		}
+		case DispatchTypes.DELETE_CARD_SUCCESS: {
+			const newState = { ...state };
+			const payload = action.payload as string;
+			newState.loadings.deleting = '';
+			newState.cards = [...newState.cards.filter((card) => card.id !== payload)];
+			return newState;
+		}
+		case DispatchTypes.DELETE_CARD_FAILURE: {
+			const newState = { ...state };
+			const payload = action.payload as Error;
+			newState.loadings.deleting = '';
+			newState.errors.deleteCardError = payload;
+			return newState;
+		}
 		case DispatchTypes.CLEAR_ERRORS: {
 			const newState = { ...state };
 			newState.errors.createCardError = null;
