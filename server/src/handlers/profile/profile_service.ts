@@ -339,9 +339,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
-	async getAllStudyReports(
-		@PathParam('deckId') deckId: number,
-	) {
+	async getAllStudyReports(@PathParam('deckId') deckId: number) {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
@@ -380,14 +378,12 @@ export default class ProfileService {
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
 	@PreProcessor(validateStudyReport)
-	async createStudyReport(
-		@PathParam('userId') userId: string,
-		@PathParam('deckId') deckId: number,
-	) {
+	async createStudyReport(@PathParam('userId') userId: string, @PathParam('deckId') deckId: number) {
 		const res = this.context.response;
 		try {
-			const newStudyReport = new StudyReport(userId, deckId);
 			const deck = await Deck.findOneOrFail(deckId);
+			const name = deck.name + " Study Report"
+			const newStudyReport = new StudyReport(userId, deckId, name);
 			deck.report_count++;
 			await newStudyReport.save();
 			await deck.save();
@@ -408,14 +404,12 @@ export default class ProfileService {
 	@PreProcessor(checkIfStudyReportExists)
 	@PreProcessor(validateStudyReportChanges)
 	async updateStudyReport(
-		@PathParam('userId') userId: string,
+		@PathParam('userId') userId: string, 
 		@PathParam('deckId') deckId: number,
 		@PathParam('reportId') reportId: number,
 		@FormParam('name') name: string,
 		@FormParam('correct_count') correct_count: number,
-		@FormParam('incorrect_count') incorrect_count: number,
-		@FormParam('end_time') end_time: Date,
-	) {
+		@FormParam('incorrect_count') incorrect_count: number) {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
@@ -431,10 +425,6 @@ export default class ProfileService {
 
 			if (incorrect_count) {
 				studyReport!.incorrect_count = incorrect_count;
-			}
-
-			if (end_time) {
-				studyReport!.end_time = end_time;
 			}
 
 			await studyReport!.save();
@@ -475,9 +465,10 @@ export default class ProfileService {
 	@PreProcessor(checkIfDeckExists)
 	@PreProcessor(checkIfStudyReportExists)
 	@PreProcessor(checkIfCardExists)
-	async getFrontSide(@PathParam('deckId') deckId: number, 
-	@PathParam('reportId') reportId: number, 
-	@PathParam('cardId') cardId: number) {
+	async getFrontSide(
+		@PathParam('deckId') deckId: number,
+		@PathParam('reportId') reportId: number,
+		@PathParam('cardId') cardId: number) {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
@@ -498,11 +489,11 @@ export default class ProfileService {
 	@PreProcessor(checkIfDeckExists)
 	@PreProcessor(checkIfStudyReportExists)
 	@PreProcessor(checkIfCardExists)
-	async answerBackSide(@PathParam('deckId') deckId: number, 
-	@PathParam('reportId') reportId: number,
-	@PathParam('cardId') cardId: number,
-	@FormParam('answer') answer: string
-	) {
+	async answerBackSide(
+		@PathParam('deckId') deckId: number,
+		@PathParam('reportId') reportId: number,
+		@PathParam('cardId') cardId: number,
+		@FormParam('answer') answer: string) {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
@@ -512,12 +503,12 @@ export default class ProfileService {
 
 			if(answer === back_side) {
 				// user answered card correctly
-				await studyReport!.correct_count++;
-				await card!.correct_count++;
+				studyReport!.correct_count++;
+				card!.correct_count++;
 			} else {
 				// user answered card incorrectly
-				await studyReport!.incorrect_count++;
-				await card!.incorrect_count++;
+				studyReport!.incorrect_count++;
+				card!.incorrect_count++;
 			}
 
 			await studyReport!.save();

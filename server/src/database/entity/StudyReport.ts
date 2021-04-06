@@ -1,5 +1,5 @@
 import { IsDate, IsInt, IsUUID, IsString, Length } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import Model from './Model';
 import User from './User';
@@ -31,10 +31,6 @@ export default class StudyReport extends Model {
     @Column()
     @IsInt()
     incorrect_count: number; // number of times user answered a card incorrectly
-
-    @Column()
-    @IsDate()
-    end_time: Date;
     
     @ManyToOne(() => User, (user) => user.study_reports)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id'})
@@ -44,13 +40,12 @@ export default class StudyReport extends Model {
     @JoinColumn({ name: 'deck_id', referencedColumnName: 'id'})
     deck: Deck;
 
-    constructor(user_id: string, deck_id: number) {
+    constructor(user_id: string, deck_id: number, name: string) {
         super();
         this.user_id = user_id;
         this.deck_id = deck_id;
+        this.name = name;
         this.correct_count = 0;
         this.incorrect_count = 0;
-        this.end_time = new Date(); // in the future, this will be updated when the user finishes studying every card in a deck
-        this.name = "Report generated at " + this.end_time;
     } 
 }
