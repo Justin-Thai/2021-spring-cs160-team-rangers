@@ -66,6 +66,7 @@ export default class Card extends Model {
 		this.font = font;
 		this.font_color = font_color;
     	this.correct_count = 0;
+		this.incorrect_count = 0;
 	}
 
 	async getFrontSide() {

@@ -11,6 +11,7 @@ export default async function validateStudyReport(req: express.Request, res?: ex
 		const studyReport = new StudyReport(userId, Number(deckId));
 		await validateOrReject(studyReport);
 	} catch (errors) {
+		console.log(errors);
 		throw sendErrorJSON(res!, statusCodes.InternalServerError);
 	}
 }

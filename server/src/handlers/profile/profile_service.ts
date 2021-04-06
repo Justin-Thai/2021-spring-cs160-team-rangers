@@ -116,6 +116,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ deck });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -203,6 +204,7 @@ export default class ProfileService {
 			res.status(statusCodes.Created);
 			return resOK({ card: newCard });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -232,6 +234,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ cards });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -346,6 +349,7 @@ export default class ProfileService {
 			res.status(statusCodes.OK);
 			return resOK({ studyReports });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -390,6 +394,7 @@ export default class ProfileService {
 			res.status(statusCodes.Created);
 			return resOK({ studyReport: newStudyReport });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -408,7 +413,7 @@ export default class ProfileService {
 		@PathParam('reportId') reportId: number,
 		@FormParam('name') name: string,
 		@FormParam('correct_count') correct_count: number,
-		@FormParam('start_time') start_time: Date,
+		@FormParam('incorrect_count') incorrect_count: number,
 		@FormParam('end_time') end_time: Date,
 	) {
 		const res = this.context.response;
@@ -424,8 +429,8 @@ export default class ProfileService {
 				studyReport!.correct_count = correct_count;
 			}
 
-			if (start_time) {
-				studyReport!.start_time = start_time;
+			if (incorrect_count) {
+				studyReport!.incorrect_count = incorrect_count;
 			}
 
 			if (end_time) {

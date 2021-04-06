@@ -48,7 +48,8 @@ export default class User extends Model {
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
@@ -66,7 +67,8 @@ export default class User extends Model {
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
@@ -84,7 +86,8 @@ export default class User extends Model {
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',

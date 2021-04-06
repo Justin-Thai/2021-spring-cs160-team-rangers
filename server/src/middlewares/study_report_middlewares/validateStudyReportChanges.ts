@@ -23,10 +23,9 @@ export default async function validateStudyReportChanges(req: express.Request, r
 		const areNamesSame = !name ? true : name === studyReport!.name;
 		const areCorrectCountsSame = !correct_count ? true : correct_count === studyReport!.correct_count;
 		const areIncorrectCountsSame = !incorrect_count ? true : incorrect_count === studyReport!.incorrect_count;
-		const areStartTimesSame = !start_time ? true : start_time === studyReport!.start_time;
 		const areEndTimesSame = !end_time ? true : end_time === studyReport!.end_time;
 
-		if (areNamesSame && areCorrectCountsSame && areIncorrectCountsSame && areStartTimesSame && areEndTimesSame) {
+		if (areNamesSame && areCorrectCountsSame && areIncorrectCountsSame && areEndTimesSame) {
 			throw throwRedirect(res!);
 		}
 	} catch (err) {

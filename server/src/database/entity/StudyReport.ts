@@ -34,10 +34,6 @@ export default class StudyReport extends Model {
 
     @Column()
     @IsDate()
-    start_time: Date;
-
-    @Column()
-    @IsDate()
     end_time: Date;
     
     @ManyToOne(() => User, (user) => user.study_reports)
@@ -53,8 +49,8 @@ export default class StudyReport extends Model {
         this.user_id = user_id;
         this.deck_id = deck_id;
         this.correct_count = 0;
-        this.start_time = new Date();
-        // this.end_time = ; TO-DO
-        this.name = "Report " + this.id + " generated at " + this.start_time;
+        this.incorrect_count = 0;
+        this.end_time = new Date(); // in the future, this will be updated when the user finishes studying every card in a deck
+        this.name = "Report generated at " + this.end_time;
     } 
 }
