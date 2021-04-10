@@ -89,11 +89,13 @@ export default class Deck extends Model {
 		cards.forEach(async (card) => await card.remove());
 	}
 
-	async getStudyReports() {
+	async getStudyReports(limit: number, page: number) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.deck', 'deck')
-			.where({ deck_id: this.id})
+			.where({ deck_id: this.id} )
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
 			.getMany();
 	}
 
@@ -103,5 +105,15 @@ export default class Deck extends Model {
 			.leftJoin('study_report.deck', 'deck')
 			.where({ deck_id: this.id, id: reportId })
 			.getOne();
+	}
+
+	async filterStudyReportByName(name: string, limit: number, page: number) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.deck', 'deck')
+			.where({ deck_id: this.id, name: Like(`%${name}%`) })
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
+			.getMany();
 	}
 }

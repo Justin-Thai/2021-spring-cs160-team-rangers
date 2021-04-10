@@ -1,10 +1,10 @@
 import express from 'express';
 
 import { sendErrorJSON, statusCodes, isItemsIdValid, nil } from '../../utils';
-import { Deck } from '../../database/entity';
+import { User, Deck } from '../../database/entity';
 
 export default async function checkIfStudyReportExists(req: express.Request, res?: express.Response) {
-	const { deckId, reportId } = req.params;
+	const { userId, deckId, reportId } = req.params;
 
 	if (!isItemsIdValid(reportId)) {
 		throw sendErrorJSON(res!, statusCodes.BadRequest, 'Invalid study report id format');
@@ -13,9 +13,11 @@ export default async function checkIfStudyReportExists(req: express.Request, res
 	const reportIdNo = Number(reportId);
 	try {
 		const deck = await Deck.findOneOrFail(deckId);
-		const studyReport = await deck.getStudyReportById(reportIdNo);
+		const deckStudyReport = await deck.getStudyReportById(reportIdNo);
+		const user = await User.findOneOrFail(userId);
+		const studyReport = await user.getUserStudyReportById(reportIdNo);
 
-		if (!studyReport) {
+		if (!studyReport && !deckStudyReport) {
 			throw sendErrorJSON(res!, statusCodes.NotFound, 'Study Report not found');
 		}
 	} catch (err) {

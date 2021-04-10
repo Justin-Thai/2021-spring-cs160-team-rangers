@@ -12,7 +12,8 @@ import checkIfCardExists from './card_middlewares/checkIfCardExists';
 import checkIfStudyReportExists from './study_report_middlewares/checkIfStudyReportExists';
 import validateDeckChanges from './deck_middlewares/validateDeckChanges';
 import validateCardChanges from './card_middlewares/validateCardChanges';
-import validateStudyReportChanges from './study_report_middlewares/validateStudyReportChanges'
+import validateStudyReportChanges from './study_report_middlewares/validateStudyReportChanges';
+import validateUserStudyReportChanges from './study_report_middlewares/validateUserStudyReportChanges'
 
 export {
 	checkAuthentication,
@@ -30,4 +31,5 @@ export {
 	validateDeckChanges,
 	validateCardChanges,
 	validateStudyReportChanges,
+	validateUserStudyReportChanges
 };

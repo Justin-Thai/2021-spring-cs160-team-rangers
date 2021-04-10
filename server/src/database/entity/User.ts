@@ -99,11 +99,31 @@ export default class User extends Model {
 			.getMany();
 	}
 
-	async getStudyReports() {
+	async getUserStudyReports(limit: number, page: number) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.user', 'user')
 			.where({ user_id: this.id})
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
 			.getMany();
+	}
+
+	async filterStudyReportByName(name: string, limit: number, page: number) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id, name: Like(`%${name}%`) })
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
+			.getMany();
+	}
+
+	async getUserStudyReportById(reportId: number) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id, id: reportId })
+			.getOne();
 	}
 }
