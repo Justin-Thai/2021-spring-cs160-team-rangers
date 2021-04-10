@@ -25,13 +25,16 @@ class Root extends Component<RootProps, {}> {
 		const { user, pathname, didNavigateTo404 } = this.props;
 		if (didNavigateTo404) return null;
 		if (checkPathIncludes(pathname, 'profile')) return null;
+		if (checkPathIncludes(pathname, 'login')) return null;
 		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
 	};
 
 	renderFooter = () => {
 		const { pathname, didNavigateTo404 } = this.props;
 		if (didNavigateTo404) return null;
-		if (!checkPathIncludes(pathname, 'profile')) return <Footer />;
+		if (checkPathIncludes(pathname, 'profile')) return null;
+		if (checkPathIncludes(pathname, 'login')) return null;
+		return <Footer />;
 	};
 
 	render() {
