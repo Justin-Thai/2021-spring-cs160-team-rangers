@@ -3,8 +3,8 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
 
-import { PageHeader } from './components';
-import { editDeck } from '../../redux/deck/actions';
+import { SimplePageHeader } from '../../components';
+import { editDeck, clearErrors } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
@@ -17,6 +17,7 @@ interface DeckEditPageProps {
 	loading: boolean;
 	error: Error | null;
 	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
+	onClearErrors: () => void;
 }
 
 interface DeckEditPageState {
@@ -35,6 +36,10 @@ class DeckEditPage extends Component<DeckEditPageProps, DeckEditPageState> {
 		if (loading !== prevProps.loading && !loading && !error) {
 			history.replace(`/profile/${userId}/deck`);
 		}
+	}
+
+	componentWillUnmount() {
+		this.props.onClearErrors();
 	}
 
 	goBack = () => this.props.history.goBack();
@@ -56,7 +61,7 @@ class DeckEditPage extends Component<DeckEditPageProps, DeckEditPageState> {
 		const { loading, error } = this.props;
 		return (
 			<div className={styles.container}>
-				<PageHeader goBack={this.goBack} />
+				<SimplePageHeader title='Edit deck' goBack={this.goBack} />
 				<div className={styles.wrapper}>
 					<form onSubmit={this.onEditDeck}>
 						<div className={styles.inputWrapper}>
@@ -96,6 +101,7 @@ interface EditDeckPageHOCProps {
 	loading: boolean;
 	error: Error | null;
 	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
+	onClearErrors: () => void;
 }
 
 function EditDeckPageHOC(props: EditDeckPageHOCProps) {
@@ -114,6 +120,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = {
 	onEditDeck: editDeck,
+	onClearErrors: clearErrors,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditDeckPageHOC);

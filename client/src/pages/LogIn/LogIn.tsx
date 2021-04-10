@@ -65,15 +65,18 @@ class LogIn extends Component<LogInProps, LogInState> {
 		}
 
 		return (
-			<form onSubmit={this.submit} style={{ marginTop: 100 }}>
-				email <input type='email' value={email} onChange={this.setEmail} />
-				<br />
-				password <input type='password' value={password} onChange={this.setPassword} />
-				<br />
-				<input type='submit' value={loading ? 'Loading' : 'Sign in'} />
-				<br />
-				{error && error!.message}
-			</form>
+			<div style={{ marginTop: 100 }}>
+				<form onSubmit={this.submit}>
+					email <input type='email' value={email} onChange={this.setEmail} />
+					<br />
+					password <input type='password' value={password} onChange={this.setPassword} />
+					<br />
+					<input type='submit' value={loading ? 'Loading' : 'Log in'} />
+					<br />
+					{error && error!.message}
+				</form>
+				<button onClick={() => this.props.history.push('/signup')}>Go to sign up</button>
+			</div>
 		);
 	}
 }
@@ -112,14 +115,14 @@ export default function HOCSignIn() {
 // 					<div className={styles.txt_field}>
 // 						<input type='text' required />
 // 						<span></span>
-// 						<label>Email</label> 
+// 						<label>Email</label>
 // 					</div>
 // 					<div className={styles.txt_field}>
 // 						<input type='password' required />
 // 						<span></span>
 // 						<label>Password</label>
 // 					</div>
-					
+
 // 					<div className={styles.pass}>Forgot Password?</div>
 // 					<div className={styles.check}>
 // 						<i className='far fa-check-square'></i> Remember me

@@ -6,5 +6,18 @@ import Pagination from './Pagination/Pagination';
 import Loading from './Loading/Loading';
 import Empty from './Empty/Empty';
 import ErrorView from './ErrorView/ErrorView';
+import SimplePageHeader from './SimplePageHeader/SimplePageHeader';
+import BackSideEditor from './BackSideEditor/BackSideEditor';
 
-export { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer, Pagination, Loading, Empty, ErrorView };
+export {
+	NavBarNotAuth,
+	NavBarAuth,
+	PrivateRoute,
+	Footer,
+	Pagination,
+	Loading,
+	Empty,
+	ErrorView,
+	SimplePageHeader,
+	BackSideEditor,
+};

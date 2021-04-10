@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 
-export default function PageHeader({ goBack }: { goBack: () => void }) {
+export default function SimplePageHeader({ title, goBack }: { title: string; goBack: () => void }) {
 	return (
 		<div className={styles.container}>
 			<i
@@ -10,6 +10,7 @@ export default function PageHeader({ goBack }: { goBack: () => void }) {
 				style={{ color: 'grey', fontSize: 36, marginLeft: 18, cursor: 'pointer' }}
 				onClick={goBack}
 			></i>
+			<h1 className={styles.title}>{title}</h1>
 		</div>
 	);
 }

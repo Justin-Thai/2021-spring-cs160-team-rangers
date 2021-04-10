@@ -1,4 +1,4 @@
-import { IsEmail, Length, IsString, IsInt } from 'class-validator';
+import { IsEmail, Length, IsString } from 'class-validator';
 import { Entity, Column, getRepository, PrimaryColumn, BeforeInsert, OneToMany, Like } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -26,7 +26,6 @@ export default class User extends Model {
 	name: string;
 
 	@Column()
-	@IsInt()
 	deck_count: number;
 
 	@OneToMany(() => Deck, (deck) => deck.user)
@@ -35,7 +34,6 @@ export default class User extends Model {
 	@BeforeInsert()
 	createUuid() {
 		this.id = uuid();
-		this.deck_count = 0;
 	}
 
 	constructor(email: string, name: string, password: string) {

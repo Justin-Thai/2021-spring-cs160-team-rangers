@@ -9,9 +9,9 @@ function throwRedirect(res: express.Response) {
 }
 
 export default async function validateCardChanges(req: express.Request, res?: express.Response) {
-	const { front_side, back_side, background_color, font_color, font } = req.body;
+	const { front_side, back_side } = req.body;
 
-	if (!front_side && !back_side && !background_color && !font_color && !font) {
+	if (!front_side && !back_side) {
 		throw throwRedirect(res!);
 	}
 
@@ -22,11 +22,8 @@ export default async function validateCardChanges(req: express.Request, res?: ex
 
 		const areFrontSidesSame = !front_side ? true : front_side === card!.front_side;
 		const areBackSidesSame = !back_side ? true : back_side === card!.back_side;
-		const areBackgroundColorsSame = !background_color ? true : background_color === card!.background_color;
-		const areFontColorsSame = !font_color ? true : font_color === card!.font_color;
-		const areFontsSame = !font ? true : font === card!.font;
 
-		if (areFrontSidesSame && areBackSidesSame && areBackgroundColorsSame && areFontColorsSame && areFontsSame) {
+		if (areFrontSidesSame && areBackSidesSame) {
 			throw throwRedirect(res!);
 		}
 	} catch (err) {

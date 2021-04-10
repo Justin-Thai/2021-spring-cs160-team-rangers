@@ -25,7 +25,11 @@ export default async function validateUser(req: express.Request, res?: express.R
 		} else if (property === 'password') {
 			throw sendErrorJSON(res!, statusCodes.BadRequest, 'Password is invalid, must be between 8 at least characters');
 		} else if (property === 'name') {
-			// going through, name is not required when sign in
+			if (req.path === '/signin') {
+				// going through, name is not required when sign in
+			} else {
+				throw sendErrorJSON(res!, statusCodes.BadRequest, 'Name is invalid');
+			}
 		} else {
 			throw sendErrorJSON(res!, statusCodes.InternalServerError);
 		}

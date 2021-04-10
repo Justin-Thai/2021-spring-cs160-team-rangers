@@ -47,6 +47,7 @@ export default class Deck extends Model {
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
 			.where({ deck_id: this.id })
+			.orderBy('card.created_at', 'DESC')
 			.getMany();
 	}
 
@@ -72,6 +73,7 @@ export default class Deck extends Model {
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
 			.where(condition)
+			.orderBy('card.created_at', 'DESC')
 			.getMany();
 	}
 

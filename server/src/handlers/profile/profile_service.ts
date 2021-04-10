@@ -200,14 +200,11 @@ export default class ProfileService {
 	async createCard(
 		@PathParam('deckId') deckId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string,
-		@FormParam('background_color') background_color: string,
-		@FormParam('font_color') font_color: string,
-		@FormParam('font') font: string
+		@FormParam('back_side') back_side: string
 	) {
 		const res = this.context.response;
 		try {
-			const newCard = new Card(deckId, front_side, back_side, background_color, font_color, font);
+			const newCard = new Card(deckId, front_side, back_side);
 			const deck = await Deck.findOneOrFail(deckId);
 			deck.count += 1;
 			await newCard.save();
@@ -279,10 +276,7 @@ export default class ProfileService {
 		@PathParam('deckId') deckId: number,
 		@PathParam('cardId') cardId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string,
-		@FormParam('background_color') background_color: string,
-		@FormParam('font_color') font_color: string,
-		@FormParam('font') font: string
+		@FormParam('back_side') back_side: string
 	) {
 		const res = this.context.response;
 		try {
@@ -297,20 +291,8 @@ export default class ProfileService {
 				card!.back_side = back_side;
 			}
 
-			if (background_color) {
-				card!.background_color = background_color;
-			}
-
-			if (font_color) {
-				card!.font_color = font_color;
-			}
-
-			if (font) {
-				card!.font = font;
-			}
-
 			await card!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ card });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
