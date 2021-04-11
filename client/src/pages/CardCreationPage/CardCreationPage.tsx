@@ -8,13 +8,16 @@ import { createCard, clearErrors } from '../../redux/card/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface CardCreationPageProps {
-	history: History<unknown>;
-	deckId: string;
+interface CardCreationPageHOCProps {
 	loading: boolean;
 	error: Error | null;
 	onCreateCard: (deckId: string, front: string, back: string) => void;
 	onClearErrors: () => void;
+}
+
+interface CardCreationPageProps extends CardCreationPageHOCProps {
+	history: History<unknown>;
+	deckId: string;
 }
 
 interface CardCreationPageState {
@@ -84,13 +87,6 @@ class CardCreationPage extends Component<CardCreationPageProps, CardCreationPage
 			</div>
 		);
 	}
-}
-
-interface CardCreationPageHOCProps {
-	loading: boolean;
-	error: Error | null;
-	onCreateCard: (deckId: string, front: string, back: string) => void;
-	onClearErrors: () => void;
 }
 
 function CardCreationPageHOC(props: CardCreationPageHOCProps) {

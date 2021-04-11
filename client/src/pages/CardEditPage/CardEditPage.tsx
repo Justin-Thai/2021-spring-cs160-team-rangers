@@ -8,16 +8,19 @@ import { editCard, clearErrors } from '../../redux/card/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface CardEditPageProps {
+interface CardEditPageHOCProps {
+	loading: boolean;
+	error: Error | null;
+	onEditCard: (deckId: string, cardId: string, front: string, back: string) => void;
+	onClearErrors: () => void;
+}
+
+interface CardEditPageProps extends CardEditPageHOCProps {
 	history: History<unknown>;
 	deckId: string;
 	cardId: string;
 	frontSide: string;
 	backSide: string;
-	loading: boolean;
-	error: Error | null;
-	onEditCard: (deckId: string, cardId: string, front: string, back: string) => void;
-  onClearErrors: () => void;
 }
 
 interface CardEditPageState {
@@ -31,14 +34,14 @@ class CardEditPage extends Component<CardEditPageProps, CardEditPageState> {
 		back: this.props.backSide,
 	};
 
-  componentDidUpdate(prevProps: CardEditPageProps) {
+	componentDidUpdate(prevProps: CardEditPageProps) {
 		const { loading, error } = this.props;
 		if (loading !== prevProps.loading && !loading && !error) {
 			this.goBack();
 		}
 	}
 
-  componentWillUnmount() {
+	componentWillUnmount() {
 		this.props.onClearErrors();
 	}
 
@@ -89,13 +92,6 @@ class CardEditPage extends Component<CardEditPageProps, CardEditPageState> {
 	}
 }
 
-interface CardEditPageHOCProps {
-	loading: boolean;
-	error: Error | null;
-	onEditCard: (deckId: string, cardId: string, front: string, back: string) => void;
-  onClearErrors: () => void;
-}
-
 function CardEditPageHOC(props: CardEditPageHOCProps) {
 	const { deckId, cardId } = useParams<{ deckId: string; cardId: string }>();
 	const location = useLocation<{ frontSide: string; backSide: string }>();
@@ -120,7 +116,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = {
 	onEditCard: editCard,
-  onClearErrors: clearErrors,
+	onClearErrors: clearErrors,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardEditPageHOC);

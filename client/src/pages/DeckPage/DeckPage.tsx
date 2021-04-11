@@ -13,18 +13,21 @@ import { AppState } from '../../redux/store';
 import { fetchDecks, deleteDeck } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 
-interface DeckPageProps {
-	deckCount: number;
+interface DeckPageHOCProps {
 	decks: Deck[];
+	deckCount: number;
 	loading: boolean;
 	fetchError: Error | null;
 	deleteError: Error | null;
+	onFetchDecks: (name?: string, page?: number) => void;
+	onDeleteDeck: (deckId: string) => void;
+}
+
+interface DeckPageProps extends DeckPageHOCProps {
 	name: string | null;
 	page: number | null;
 	url: string;
 	history: History<unknown>;
-	onFetchDecks: (name?: string, page?: number) => void;
-	onDeleteDeck: (deckId: string) => void;
 }
 
 interface DeckPageState {
@@ -162,16 +165,6 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 			</div>
 		);
 	}
-}
-
-interface DeckPageHOCProps {
-	decks: Deck[];
-	deckCount: number;
-	loading: boolean;
-	fetchError: Error | null;
-	deleteError: Error | null;
-	onFetchDecks: (name?: string, page?: number) => void;
-	onDeleteDeck: (deckId: string) => void;
 }
 
 function DeckPageHOC(props: DeckPageHOCProps) {

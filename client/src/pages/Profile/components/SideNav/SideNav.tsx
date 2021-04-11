@@ -56,6 +56,7 @@ function SideNav({ url, username, didNavigateTo404 }: { url: string; username: s
 }
 
 const mapStateToProps = (state: AppState) => ({
+	username: state.auth.user!.name as string,
 	didNavigateTo404: state.notFoundPageDetector.didNavigateTo404,
 });
 

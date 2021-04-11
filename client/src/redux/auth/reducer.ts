@@ -8,12 +8,14 @@ const initialState: AuthState = {
 		signInLoading: false,
 		signOutLoading: false,
 		signUpLoading: false,
+		editProfileLoading: false,
 	},
 	errors: {
 		checkAuthError: null,
 		signInError: null,
 		signOutError: null,
 		signUpError: null,
+		editProfileError: null,
 	},
 };
 
@@ -96,6 +98,24 @@ export default function authReducer(state = initialState, action: AuthAction): A
 		case DispatchTypes.DECREMENT_DECK_COUNT: {
 			const newState = { ...state };
 			newState.user!.deckCount -= 1;
+			return newState;
+		}
+		case DispatchTypes.EDIT_PROFILE_STARTED: {
+			const newState = { ...state };
+			newState.loadings.editProfileLoading = true;
+			newState.errors.editProfileError = null;
+			return newState;
+		}
+		case DispatchTypes.EDIT_PROFILE_SUCCESS: {
+			const newState = { ...state };
+			newState.user = action.payload as User;
+			newState.loadings.editProfileLoading = false;
+			return newState;
+		}
+		case DispatchTypes.EDIT_PROFILE_FAILURE: {
+			const newState = { ...state };
+			newState.loadings.editProfileLoading = false;
+			newState.errors.editProfileError = action.payload as Error;
 			return newState;
 		}
 		default:
