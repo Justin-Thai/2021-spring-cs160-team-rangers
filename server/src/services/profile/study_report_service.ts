@@ -265,7 +265,6 @@ export default class StudyReportService {
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
 	@PreProcessor(checkIfStudyReportExists)
-	@PreProcessor(validateStudyReportChanges)
 	async updateEndTimeStudyReport(@PathParam('deckId') deckId: number, @PathParam('reportId') reportId: number) {
 		const res = this.context.response;
 		try {
