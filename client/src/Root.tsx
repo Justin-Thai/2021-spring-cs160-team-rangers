@@ -26,6 +26,7 @@ class Root extends Component<RootProps, {}> {
 		if (didNavigateTo404) return null;
 		if (checkPathIncludes(pathname, 'profile')) return null;
 		if (checkPathIncludes(pathname, 'login')) return null;
+		if (checkPathIncludes(pathname, 'signup')) return null;
 		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
 	};
 
@@ -34,6 +35,7 @@ class Root extends Component<RootProps, {}> {
 		if (didNavigateTo404) return null;
 		if (checkPathIncludes(pathname, 'profile')) return null;
 		if (checkPathIncludes(pathname, 'login')) return null;
+		if (checkPathIncludes(pathname, 'signup')) return null;
 		return <Footer />;
 	};
 

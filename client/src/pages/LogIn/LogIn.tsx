@@ -6,7 +6,7 @@ import { History } from 'history';
 import { AppState } from '../../redux/store';
 import { logIn, clearError } from '../../redux/auth/actions';
 import { User } from '../../models';
-import background from './background.png';
+import background from '../../assets/background.png';
 import styles from './styles.module.scss';
 
 interface LogInProps {
@@ -43,8 +43,6 @@ class LogIn extends Component<LogInProps, LogInState> {
 
 	setPassword = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ password: e.target.value });
 
-	goBack = () => this.props.history.goBack();
-
 	submit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		const { email, password } = this.state;
@@ -72,7 +70,7 @@ class LogIn extends Component<LogInProps, LogInState> {
 
 		return (
 			<div className={styles.container}>
-				<h3 className={styles.back} onClick={this.goBack}>
+				<h3 className={styles.back} onClick={this.props.history.goBack}>
 					← Back to home page
 				</h3>
 				<div className={styles.formWrapper}>
@@ -103,8 +101,11 @@ class LogIn extends Component<LogInProps, LogInState> {
 						</span>
 					</h4>
 				</div>
-				<div className={styles.rightBackground}>
-					<img className={styles.img} src={background} alt='background' />
+				<div
+					className={styles.rightBackground}
+					style={{ background: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+				>
+					<h2 className={styles.text}>Login to use your flashcards!!</h2>
 				</div>
 			</div>
 		);
