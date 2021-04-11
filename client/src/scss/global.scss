@@ -9,7 +9,11 @@
 }
 
 $white: #fff;
-$title: #659ef5;
+$header: #659ef5;
+$strongText: #222;
+$lightText: #565656;
+$title: #23BDEB;
+$error: #ed4337;
 
 @mixin container {
 	max-width: 95%;

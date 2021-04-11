@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
-
 import { DispatchTypes, AuthAction } from './types';
 import { User } from '../../models';
-import { delay } from '../../utils';
+import { env } from '../../config';
+import { delay, fetchSelf, decodeJWT } from '../../utils';
 
 export const checkAuth = () => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(checkAuthStarted());
@@ -13,7 +12,7 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 			return dispatch(checkAuthSuccess(null));
 		}
 
-		const res = await fetch('http://localhost:5000/auth', {
+		const res = await fetch(`${env.serverUrl}/auth`, {
 			method: 'GET',
 			headers: {
 				token,
@@ -24,18 +23,13 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 			return dispatch(checkAuthSuccess(null));
 		}
 
-		const decodedData = jwt.decode(token) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(checkAuthSuccess(user));
 	} catch (err) {
@@ -43,15 +37,15 @@ export const checkAuth = () => async (dispatch: (action: AuthAction) => void) =>
 	}
 };
 
-export const signUp = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
+export const signUp = (email: string, name: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signUpStarted());
 	try {
-		const res = await fetch('http://localhost:5000/signup', {
+		const res = await fetch(`${env.serverUrl}/signup`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ email, password }),
+			body: JSON.stringify({ email, name, password }),
 		});
 		const data = await res.json();
 		if (res.status !== 200) {
@@ -60,18 +54,13 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 
 		const { token } = data;
 		localStorage.setItem('token', token as string);
-		const decodedData = jwt.decode(token as string) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(signUpSuccess(user));
 	} catch (err) {
@@ -79,10 +68,10 @@ export const signUp = (email: string, password: string) => async (dispatch: (act
 	}
 };
 
-export const signIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
+export const logIn = (email: string, password: string) => async (dispatch: (action: AuthAction) => void) => {
 	dispatch(signInStarted());
 	try {
-		const res = await fetch('http://localhost:5000/signin', {
+		const res = await fetch(`${env.serverUrl}/signin`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -97,18 +86,13 @@ export const signIn = (email: string, password: string) => async (dispatch: (act
 
 		const { token } = data;
 		localStorage.setItem('token', token as string);
-		const decodedData = jwt.decode(token as string) as {
-			[key: string]: any;
-		} | null;
+		const decodedData = decodeJWT(token);
 
 		if (!decodedData) {
-			throw new Error('Error occured.');
+			throw new Error('Error occured');
 		}
 
-		const user = {
-			id: decodedData.id,
-			email: decodedData.email,
-		};
+		const user = await fetchSelf(token, decodedData.id);
 
 		dispatch(signInSuccess(user));
 	} catch (err) {
@@ -126,20 +110,31 @@ export const signOut = () => {
 
 export const clearError = () => ({ type: DispatchTypes.CLEAR_ERROR, payload: null });
 
+export const incrementDeckCount = (): AuthAction => ({
+	type: DispatchTypes.INCREMENT_DECK_COUNT,
+	payload: null,
+});
+
+export const decrementDeckCount = (): AuthAction => ({
+	type: DispatchTypes.DECREMENT_DECK_COUNT,
+	payload: null,
+});
+
+
 /* ------------------ action dispatches ------------------ */
 
 const signInStarted = (): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_STARTED,
+	type: DispatchTypes.LOG_IN_STARTED,
 	payload: null,
 });
 
 const signInSuccess = (user: User): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_SUCCESS,
+	type: DispatchTypes.LOG_IN_SUCCESS,
 	payload: user,
 });
 
 const signInFailure = (error: Error): AuthAction => ({
-	type: DispatchTypes.SIGN_IN_FAILURE,
+	type: DispatchTypes.LOG_IN_FAILURE,
 	payload: error,
 });
 
@@ -172,3 +167,4 @@ const checkAuthFailure = (error: Error): AuthAction => ({
 	type: DispatchTypes.CHECKAUTH_FAILURE,
 	payload: error,
 });
+

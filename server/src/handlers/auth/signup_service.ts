@@ -12,11 +12,15 @@ export default class SignUpService {
 	context: ServiceContext;
 
 	@POST
-	async signup(@FormParam('email') email: string, @FormParam('password') password: string) {
+	async signup(
+		@FormParam('email') email: string,
+		@FormParam('name') name: string,
+		@FormParam('password') password: string
+	) {
 		const res = this.context.response;
 		try {
 			const hashedPassword = await hashPassword(password);
-			const newUser = new User(email, hashedPassword);
+			const newUser = new User(email, name, hashedPassword);
 			await newUser.save();
 			const token = generateJWT(newUser);
 			res.status(statusCodes.OK);

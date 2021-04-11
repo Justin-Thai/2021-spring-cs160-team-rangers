@@ -9,7 +9,7 @@ import StudyReport from './StudyReport';
 @Entity('decks')
 export default class Deck extends Model {
 	@PrimaryGeneratedColumn({ type: 'integer' })
-	id: number;
+	readonly id: number;
 
 	@Column({ type: 'uuid' })
 	@IsUUID()
@@ -51,11 +51,21 @@ export default class Deck extends Model {
 		this.shared = shared;
 	}
 
+	static async delete(deckId: number) {
+		return await getRepository(Deck)
+			.createQueryBuilder('deck')
+			.delete()
+			.from(Deck)
+			.where('id = :id', { id: deckId })
+			.execute();
+	}
+
 	async getCards() {
 		return await getRepository(Card)
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
 			.where({ deck_id: this.id })
+			.orderBy('card.created_at', 'DESC')
 			.getMany();
 	}
 
@@ -81,21 +91,18 @@ export default class Deck extends Model {
 			.createQueryBuilder('card')
 			.leftJoin('card.deck', 'deck')
 			.where(condition)
+			.orderBy('card.created_at', 'DESC')
 			.getMany();
 	}
 
-	async deleteCards() {
-		const cards = await this.getCards();
-		cards.forEach(async (card) => await card.remove());
-	}
-
-	async getStudyReports(limit: number, page: number) {
+	async getStudyReports(limit = 9, page = 1) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.deck', 'deck')
-			.where({ deck_id: this.id} )
+			.where({ deck_id: this.id })
 			.orderBy('study_report.created_at', 'DESC')
-			.skip((page - 1) * limit).take(limit)
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 
@@ -107,13 +114,14 @@ export default class Deck extends Model {
 			.getOne();
 	}
 
-	async filterStudyReportByName(name: string, limit: number, page: number) {
+	async filterStudyReportByName(name: string, limit = 9, page = 1) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.deck', 'deck')
 			.where({ deck_id: this.id, name: Like(`%${name}%`) })
 			.orderBy('study_report.created_at', 'DESC')
-			.skip((page - 1) * limit).take(limit)
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 }

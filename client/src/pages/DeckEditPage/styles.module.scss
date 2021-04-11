@@ -1,0 +1,52 @@
+@import '../../scss/global.scss';
+
+.container {
+	height: 100%;
+	font-family: 'Montserrat', sans-serif;
+
+	.wrapper {
+		height: calc(100% - 67px);
+		@include flex-col;
+		justify-content: center;
+		align-items: center;
+
+		.inputWrapper {
+			padding: 100px;
+			border-top: 1px solid rgba(0, 0, 0, 0.16);
+			border-left: 1px solid rgba(0, 0, 0, 0.16);
+			border-radius: 35px;
+			box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+
+			.textInput {
+				border: none;
+				border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+				width: 564px;
+				font-size: 46px;
+			}
+
+			.checkBoxWrapper {
+				cursor: pointer;
+				margin-top: 18px;
+				display: flex;
+				justify-content: flex-end;
+				.checkbox {
+					margin-left: 18px;
+					transform: scale(1.5);
+				}
+			}
+		}
+
+		.error {
+			color: $error;
+			text-align: right;
+			margin-bottom: 0;
+		}
+
+		.submitBtn {
+			float: right;
+			padding: 14px 54px;
+			font-size: 26px;
+			margin-top: 22px;
+		}
+	}
+}

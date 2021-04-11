@@ -1,0 +1,86 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	width: 100%;
+	height: calc(100% - 67px);
+	@include flex-col;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+
+	.wrapper {
+		.editAndDelete {
+			@include flex-row;
+			justify-content: flex-end;
+			margin-right: 40px;
+
+			i {
+				font-size: 28px;
+			}
+		}
+
+		.inner {
+			@include flex-row;
+			justify-content: center;
+			align-items: center;
+
+			.arrow {
+				font-size: 44px;
+				color: grey;
+				cursor: pointer;
+			}
+
+			.cardsWrapper {
+				position: relative;
+				overflow: hidden;
+				padding: 22px;
+
+				.present {
+					left: 0;
+					visibility: visible;
+				}
+				.next {
+					position: absolute;
+					top: 22px;
+					left: 912px;
+					visibility: hidden;
+				}
+				.previous {
+					position: absolute;
+					top: 22px;
+					left: -868px;
+					visibility: hidden;
+				}
+			}
+		}
+	}
+
+	.pageNum {
+		font-family: 'Montserrat', sans-serif;
+		color: grey;
+	}
+
+	.goTo {
+		position: absolute;
+		top: 22px;
+		right: 54px;
+		@include flex-row;
+
+		.goToLabel {
+			font-family: 'Montserrat', sans-serif;
+			margin: 0;
+			color: grey;
+			margin-right: 22px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.selector {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 22px;
+			width: 78px;
+			color: grey;
+		}
+	}
+}

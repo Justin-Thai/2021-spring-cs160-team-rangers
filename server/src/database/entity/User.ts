@@ -21,6 +21,14 @@ export default class User extends Model {
 	@Length(8, 255)
 	password: string;
 
+	@Column()
+	@IsString()
+	@Length(1, 255)
+	name: string;
+
+	@Column()
+	deck_count: number;
+
 	@OneToMany(() => Deck, (deck) => deck.user)
 	decks: Deck[];
 
@@ -32,9 +40,10 @@ export default class User extends Model {
 		this.id = uuid();
 	}
 
-	constructor(email: string, password: string) {
+	constructor(email: string, name: string, password: string) {
 		super();
 		this.email = email;
+		this.name = name;
 		this.password = password;
 	}
 
@@ -42,7 +51,7 @@ export default class User extends Model {
 		return { id: this.id, email: this.email };
 	}
 
-	async getDecks() {
+	async getDecks(limit: number, page: number) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
@@ -58,6 +67,9 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id })
+			.orderBy('deck.updated_at', 'DESC')
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 
@@ -80,7 +92,7 @@ export default class User extends Model {
 			.getOne();
 	}
 
-	async filterDeckByName(name: string) {
+	async filterDeckByName(name: string, limit = 9, page = 1) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
@@ -96,10 +108,13 @@ export default class User extends Model {
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, name: Like(`%${name}%`) })
+			.orderBy('deck.updated_at', 'DESC')
+			.skip((page - 1) * limit)
+			.take(limit)
 			.getMany();
 	}
 
-	async getUserStudyReports(limit: number, page: number) {
+	async getUserStudyReports(limit = 9, page = 1) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.user', 'user')
@@ -109,7 +124,7 @@ export default class User extends Model {
 			.getMany();
 	}
 
-	async filterStudyReportByName(name: string, limit: number, page: number) {
+	async filterStudyReportByName(name: string, limit = 9, page = 1) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.user', 'user')

@@ -14,14 +14,14 @@ export default function WhatElse() {
 						<filter id='Ellipse_1' x='24.535' y='0' width='239.609' height='233.914' filterUnits='userSpaceOnUse'>
 							<feOffset dy='33' />
 							<feGaussianBlur stdDeviation='18' result='blur' />
-							<feFlood flood-opacity='0.161' />
+							<feFlood floodOpacity='0.161' />
 							<feComposite operator='in' in2='blur' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Ellipse_17' x='0' y='78.892' width='166.294' height='169.423' filterUnits='userSpaceOnUse'>
 							<feOffset dy='33' />
 							<feGaussianBlur stdDeviation='18' result='blur-2' />
-							<feFlood flood-opacity='0.161' />
+							<feFlood floodOpacity='0.161' />
 							<feComposite operator='in' in2='blur-2' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -59,28 +59,28 @@ export default function WhatElse() {
 						<filter id='Path_1484' x='708.45' y='190.959' width='300.587' height='241.374' filterUnits='userSpaceOnUse'>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Path_1' x='196.518' y='528.285' width='224.396' height='135.617' filterUnits='userSpaceOnUse'>
 							<feOffset dy='17' />
 							<feGaussianBlur stdDeviation='14' result='blur-2' />
-							<feFlood flood-opacity='0.529' />
+							<feFlood floodOpacity='0.529' />
 							<feComposite operator='in' in2='blur-2' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Path_849' x='36.256' y='52.351' width='460.877' height='295.688' filterUnits='userSpaceOnUse'>
 							<feOffset dy='33' />
 							<feGaussianBlur stdDeviation='18' result='blur-3' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-3' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Path_850' x='82.734' y='218.264' width='453.45' height='361.393' filterUnits='userSpaceOnUse'>
 							<feOffset dy='33' />
 							<feGaussianBlur stdDeviation='18' result='blur-4' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-4' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -94,21 +94,21 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-5' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-5' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Path_1486' x='465.508' y='72.213' width='356.937' height='306.031' filterUnits='userSpaceOnUse'>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-6' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-6' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Path_1487' x='737.561' y='113.184' width='182.794' height='171.02' filterUnits='userSpaceOnUse'>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-7' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-7' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -122,7 +122,7 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-8' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-8' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -136,7 +136,7 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-9' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-9' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -150,14 +150,14 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-10' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-10' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='Design' x='387.873' y='232.312' width='118' height='51' filterUnits='userSpaceOnUse'>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-11' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-11' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -171,7 +171,7 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-12' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-12' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -185,7 +185,7 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-13' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-13' />
 							<feComposite in='SourceGraphic' />
 						</filter>
@@ -199,19 +199,19 @@ export default function WhatElse() {
 						>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-14' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-14' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 						<filter id='More_' x='791.456' y='155.483' width='87.877' height='60.27' filterUnits='userSpaceOnUse'>
 							<feOffset dy='3' />
 							<feGaussianBlur stdDeviation='3' result='blur-15' />
-							<feFlood flood-opacity='0.38' />
+							<feFlood floodOpacity='0.38' />
 							<feComposite operator='in' in2='blur-15' />
 							<feComposite in='SourceGraphic' />
 						</filter>
 					</defs>
-					<g id='Rectangle_9' data-name='Rectangle 9' fill='rgba(120,172,252,0.18)' stroke='#fff' stroke-width='1'>
+					<g id='Rectangle_9' data-name='Rectangle 9' fill='rgba(120,172,252,0.18)' stroke='#fff' strokeWidth='1'>
 						<rect width='1067' height='553' rx='276.5' stroke='none' />
 						<rect x='0.5' y='0.5' width='1066' height='552' rx='276' fill='none' />
 					</g>
@@ -379,9 +379,9 @@ export default function WhatElse() {
 							data-name='Print Your Flashcards'
 							transform='translate(274.67 159.3)'
 							fill='#71d'
-							font-size='27'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='27'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-150.782' y='0'>
 								Print Your Flashcards
@@ -395,9 +395,9 @@ export default function WhatElse() {
 Learning'
 							transform='matrix(0.78, 0.63, -0.63, 0.78, 659.9, 395.37)'
 							fill='#71d'
-							font-size='27'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='27'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-74.898' y='0'>
 								Language{' '}
@@ -413,9 +413,9 @@ Learning'
 							data-name='Design'
 							transform='translate(446.87 264.31)'
 							fill='#71d'
-							font-size='27'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='27'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-49.68' y='0'>
 								Design
@@ -428,9 +428,9 @@ Learning'
 							data-name='Study Group'
 							transform='translate(638.6 216.42) rotate(16)'
 							fill='#71d'
-							font-size='36'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='36'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-118.044' y='0'>
 								Study Group
@@ -444,9 +444,9 @@ Learning'
 Flashcards'
 							transform='translate(310.96 333.63) rotate(13)'
 							fill='#71d'
-							font-size='27'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='27'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-104.963' y='0'>
 								Different Type{' '}
@@ -463,9 +463,9 @@ Flashcards'
 Materials '
 							transform='matrix(0.91, -0.42, 0.42, 0.91, 860.11, 279.94)'
 							fill='#71d'
-							font-size='27'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='27'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-76.558' y='0'>
 								Share Your
@@ -481,9 +481,9 @@ Materials '
 							data-name='More…'
 							transform='matrix(0.95, 0.31, -0.31, 0.95, 833.39, 188.8)'
 							fill='#71d'
-							font-size='19'
-							font-family='Montserrat-Bold, Montserrat'
-							font-weight='700'
+							fontSize='19'
+							fontFamily='Montserrat-Bold, Montserrat'
+							fontWeight='700'
 						>
 							<tspan x='-32.879' y='0'>
 								More…

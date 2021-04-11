@@ -26,7 +26,7 @@ import {
 	checkIfStudyReportExists,
 	validateStudyReport,
 	validateStudyReportChanges,
-	validateUserStudyReportChanges
+	validateUserStudyReportChanges,
 } from '../../middlewares';
 
 @Path('/profile/:userId')
@@ -47,7 +47,7 @@ export default class ProfileService {
 			}
 
 			res.status(statusCodes.OK);
-			return resOK({ user: { id: user.id, email: user.email } });
+			return resOK({ user: { id: user.id, email: user.email, name: user.name, deck_count: user.deck_count } });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();
@@ -70,6 +70,9 @@ export default class ProfileService {
 		try {
 			const newDeck = new Deck(userId, name, shared);
 			await newDeck.save();
+			const user = await User.findOneOrFail(userId);
+			user.deck_count += 1;
+			await user.save();
 			res.status(statusCodes.Created);
 			return resOK({ deck: newDeck });
 		} catch (err) {
@@ -83,18 +86,30 @@ export default class ProfileService {
 	@GET
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	async getAllDecks(@PathParam('userId') userId: string, @QueryParam('name') name: string) {
+	async getAllDecks(
+		@PathParam('userId') userId: string,
+		@QueryParam('name') name: string,
+		@QueryParam('limit') limit: number,
+		@QueryParam('page') page: number
+	) {
 		const res = this.context.response;
 		try {
+			if (limit === undefined) {
+				limit = 9;
+			}
+			if (page === undefined) {
+				page = 1;
+			}
+
 			if (name) {
 				const user = await User.findOneOrFail(userId);
-				const decks = await user.filterDeckByName(name);
+				const decks = await user.filterDeckByName(name, limit, page);
 				res.status(statusCodes.OK);
 				return resOK({ decks });
 			}
 
 			const user = await User.findOneOrFail(userId);
-			const decks = await user.getDecks();
+			const decks = await user.getDecks(limit, page);
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
@@ -135,7 +150,6 @@ export default class ProfileService {
 		@FormParam('name') name: string,
 		@FormParam('shared') sharedValueInString: string
 	) {
-		console.log('deck put');
 		const res = this.context.response;
 		try {
 			const user = await User.findOneOrFail(userId);
@@ -149,7 +163,7 @@ export default class ProfileService {
 			}
 
 			await deck!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ deck });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
@@ -166,12 +180,13 @@ export default class ProfileService {
 		const res = this.context.response;
 		try {
 			const user = await User.findOneOrFail(userId);
-			const deck = await user.getDeckById(deckId);
-			await deck!.deleteCards();
-			await deck!.remove();
+			await Deck.delete(deckId);
+			user.deck_count -= 1;
+			await user.save();
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted deck ${deckId}` });
 		} catch (err) {
+			console.log(err)
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -190,14 +205,11 @@ export default class ProfileService {
 	async createCard(
 		@PathParam('deckId') deckId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string,
-		@FormParam('background_color') background_color: string,
-		@FormParam('font_color') font_color: string,
-		@FormParam('font') font: string
+		@FormParam('back_side') back_side: string
 	) {
 		const res = this.context.response;
 		try {
-			const newCard = new Card(deckId, front_side, back_side, background_color, font_color, font);
+			const newCard = new Card(deckId, front_side, back_side);
 			const deck = await Deck.findOneOrFail(deckId);
 			deck.card_count += 1;
 			await newCard.save();
@@ -271,10 +283,7 @@ export default class ProfileService {
 		@PathParam('deckId') deckId: number,
 		@PathParam('cardId') cardId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string,
-		@FormParam('background_color') background_color: string,
-		@FormParam('font_color') font_color: string,
-		@FormParam('font') font: string
+		@FormParam('back_side') back_side: string
 	) {
 		const res = this.context.response;
 		try {
@@ -289,20 +298,8 @@ export default class ProfileService {
 				card!.back_side = back_side;
 			}
 
-			if (background_color) {
-				card!.background_color = background_color;
-			}
-
-			if (font_color) {
-				card!.font_color = font_color;
-			}
-
-			if (font) {
-				card!.font = font;
-			}
-
 			await card!.save();
-			res.status(statusCodes.Created);
+			res.status(statusCodes.OK);
 			return resOK({ card });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
@@ -340,7 +337,7 @@ export default class ProfileService {
 	@GET
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	async getAllStudyReports(					
+	async getAllStudyReports(
 		@PathParam('userId') userId: string,
 		@QueryParam('name') name: string,
 		@QueryParam('limit') limit: number,
@@ -348,14 +345,7 @@ export default class ProfileService {
 	) {
 		const res = this.context.response;
 		try {
-			if(limit === undefined) {
-				limit = 9;
-			} 
-			if(page === undefined) {
-				page = 1;
-			}
-
-			if(name) {
+			if (name) {
 				const user = await User.findOneOrFail(userId);
 				const studyReports = await user.filterStudyReportByName(name, limit, page);
 				res.status(statusCodes.OK);
@@ -378,7 +368,7 @@ export default class ProfileService {
 	@GET
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	@PreProcessor(checkIfStudyReportExists) 
+	@PreProcessor(checkIfStudyReportExists)
 	async getStudyReport(@PathParam('userId') userId: string, @PathParam('reportId') reportId: number) {
 		const res = this.context.response;
 		try {
@@ -392,12 +382,12 @@ export default class ProfileService {
 		}
 	}
 
-	// Updates a specific study report from the user's study reports 
+	// Updates a specific study report from the user's study reports
 	@Path('/study/:reportId')
 	@PUT
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	@PreProcessor(checkIfStudyReportExists) 
+	@PreProcessor(checkIfStudyReportExists)
 	@PreProcessor(validateUserStudyReportChanges)
 	async updateStudyReport(
 		@PathParam('userId') userId: string,
@@ -407,11 +397,11 @@ export default class ProfileService {
 		@FormParam('incorrect_count') incorrect_count: number
 	) {
 		const res = this.context.response;
-		try{
+		try {
 			const user = await User.findOneOrFail(userId);
 			const studyReport = await user.getUserStudyReportById(reportId);
 
-			if(name) {
+			if (name) {
 				studyReport!.name = name;
 			}
 
@@ -437,23 +427,23 @@ export default class ProfileService {
 	@DELETE
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
-	@PreProcessor(checkIfStudyReportExists) 
+	@PreProcessor(checkIfStudyReportExists)
 	async deleteStudyReport(@PathParam('userId') userId: string, @PathParam('reportId') reportId: number) {
-			const res = this.context.response;
-			try {
-				const user = await User.findOneOrFail(userId);
-				const studyReport = await user.getUserStudyReportById(reportId);
-				const deckId = studyReport!.deck_id;
-				const deck = await user.getDeckById(deckId);
-				deck!.report_count--;
-				await deck!.save();
-				await studyReport!.remove();
-				res.status(statusCodes.OK);
-				return resOK({ message: `Successfully deleted study report ${reportId}` });
-			} catch (err) {
-				res.status(statusCodes.InternalServerError);
-				return resError();
-			}
+		const res = this.context.response;
+		try {
+			const user = await User.findOneOrFail(userId);
+			const studyReport = await user.getUserStudyReportById(reportId);
+			const deckId = studyReport!.deck_id;
+			const deck = await user.getDeckById(deckId);
+			deck!.report_count--;
+			await deck!.save();
+			await studyReport!.remove();
+			res.status(statusCodes.OK);
+			return resOK({ message: `Successfully deleted study report ${reportId}` });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
 	}
 
 	// Gets all study reports from a specific deck
@@ -462,7 +452,7 @@ export default class ProfileService {
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
-	async getDeckStudyReports(					
+	async getDeckStudyReports(
 		@PathParam('deckId') deckId: number,
 		@QueryParam('name') name: string,
 		@QueryParam('limit') limit: number,
@@ -470,14 +460,7 @@ export default class ProfileService {
 	) {
 		const res = this.context.response;
 		try {
-			if(limit === undefined) {
-				limit = 9;
-			} 
-			if(page === undefined) {
-				page = 1;
-			}
-
-			if(name) {
+			if (name) {
 				const deck = await Deck.findOneOrFail(deckId);
 				const studyReports = await deck.filterStudyReportByName(name, limit, page);
 				res.status(statusCodes.OK);
@@ -493,9 +476,8 @@ export default class ProfileService {
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
-
 	}
-	
+
 	// Gets a specfic study report from a specific deck
 	@Path('/deck/:deckId/study/:reportId')
 	@GET
@@ -526,7 +508,7 @@ export default class ProfileService {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
-			const name = deck.name + " Study Report"
+			const name = deck.name + ' Study Report';
 			const newStudyReport = new StudyReport(userId, deckId, name);
 			deck.report_count++;
 			await newStudyReport.save();
@@ -549,7 +531,7 @@ export default class ProfileService {
 	@PreProcessor(checkIfStudyReportExists)
 	@PreProcessor(validateStudyReportChanges)
 	async updateDeckStudyReport(
-		@PathParam('userId') userId: string, 
+		@PathParam('userId') userId: string,
 		@PathParam('deckId') deckId: number,
 		@PathParam('reportId') reportId: number,
 		@FormParam('name') name: string,
@@ -561,7 +543,7 @@ export default class ProfileService {
 			const deck = await Deck.findOneOrFail(deckId);
 			const studyReport = await deck.getStudyReportById(reportId);
 
-			if(name) {
+			if (name) {
 				studyReport!.name = name;
 			}
 
@@ -621,7 +603,7 @@ export default class ProfileService {
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
 			const card = await deck.getCardById(cardId);
-			const front_side = await card!.getFrontSide();
+			const front_side = card!.front_side;
 			res.status(statusCodes.OK);
 			return resOK({ front_side });
 		} catch (err) {
@@ -648,9 +630,9 @@ export default class ProfileService {
 			const deck = await Deck.findOneOrFail(deckId);
 			const studyReport = await deck.getStudyReportById(reportId);
 			const card = await deck.getCardById(cardId);
-			const back_side = await card!.getBackSide();
+			const back_side = card!.back_side;
 
-			if(answer === back_side) {
+			if (answer === back_side) {
 				// user answered card correctly
 				studyReport!.correct_count++;
 				card!.correct_count++;
