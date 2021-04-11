@@ -84,8 +84,7 @@ export default class User extends Model {
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
-				'user.id',
-				'user.email',
+				'deck.user_id',
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, id: deckId })

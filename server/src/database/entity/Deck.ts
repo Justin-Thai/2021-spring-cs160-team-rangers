@@ -107,11 +107,16 @@ export default class Deck extends Model {
 	}
 
 	async getStudyReportById(reportId: number) {
-		return await getRepository(StudyReport)
+		const studyReport = await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
 			.leftJoin('study_report.deck', 'deck')
 			.where({ deck_id: this.id, id: reportId })
 			.getOne();
+		if (studyReport) {
+			const cards = await this.getCards();
+			studyReport.cards = cards;
+		}
+		return studyReport;
 	}
 
 	async filterStudyReportByName(name: string, limit = 9, page = 1) {
