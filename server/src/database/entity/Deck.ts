@@ -89,6 +89,14 @@ export default class Deck extends Model {
 		cards.forEach(async (card) => await card.remove());
 	}
 
+	async getAllStudyReports() {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.deck', 'deck')
+			.where({ deck_id: this.id} )
+			.getMany();
+	}
+
 	async getStudyReports(limit: number, page: number) {
 		return await getRepository(StudyReport)
 			.createQueryBuilder('study_report')
@@ -115,5 +123,10 @@ export default class Deck extends Model {
 			.orderBy('study_report.created_at', 'DESC')
 			.skip((page - 1) * limit).take(limit)
 			.getMany();
+	}
+
+	async deleteStudyReports() {
+		const reports = await this.getAllStudyReports();
+		reports.forEach(async (report) => await report.remove());
 	}
 }

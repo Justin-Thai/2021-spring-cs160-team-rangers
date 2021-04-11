@@ -167,11 +167,13 @@ export default class ProfileService {
 		try {
 			const user = await User.findOneOrFail(userId);
 			const deck = await user.getDeckById(deckId);
+			await deck!.deleteStudyReports();
 			await deck!.deleteCards();
 			await deck!.remove();
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted deck ${deckId}` });
 		} catch (err) {
+			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
