@@ -83,7 +83,6 @@ export default class DeckService {
 			res.status(statusCodes.OK);
 			return resOK({ decks });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -102,7 +101,6 @@ export default class DeckService {
 			res.status(statusCodes.OK);
 			return resOK({ deck });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -156,7 +154,6 @@ export default class DeckService {
 			res.status(statusCodes.OK);
 			return resOK({ message: `Successfully deleted deck ${deckId}` });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}

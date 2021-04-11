@@ -31,7 +31,6 @@ export default async function validateUser(req: express.Request, res?: express.R
 				throw sendErrorJSON(res!, statusCodes.BadRequest, 'Name is invalid');
 			}
 		} else {
-			console.log(errors)
 			throw sendErrorJSON(res!, statusCodes.InternalServerError);
 		}
 	}

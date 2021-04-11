@@ -78,7 +78,6 @@ export default class CardService {
 			res.status(statusCodes.OK);
 			return resOK({ cards });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}

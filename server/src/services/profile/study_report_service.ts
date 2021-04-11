@@ -54,7 +54,6 @@ export default class StudyReportService {
 			res.status(statusCodes.OK);
 			return resOK({ studyReports });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -169,7 +168,6 @@ export default class StudyReportService {
 			res.status(statusCodes.OK);
 			return resOK({ studyReports });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
@@ -213,7 +211,6 @@ export default class StudyReportService {
 			res.status(statusCodes.Created);
 			return resOK({ studyReport: newStudyReport });
 		} catch (err) {
-			console.log(err);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}
