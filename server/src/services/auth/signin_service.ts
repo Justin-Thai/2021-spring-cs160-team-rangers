@@ -21,7 +21,6 @@ export default class SignInService {
 			res.status(statusCodes.OK);
 			return resOK({ token });
 		} catch (err) {
-			console.log(err.message);
 			res.status(statusCodes.InternalServerError);
 			return resError();
 		}

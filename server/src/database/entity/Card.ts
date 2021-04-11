@@ -24,9 +24,13 @@ export default class Card extends Model {
 
 	@Column({ type: 'integer' })
 	@IsInt()
-	correct_count: number;
+	correct_count: number; // number of times user answered this card correctly
 
-	@ManyToOne(() => Deck, (deck) => deck.cards)
+	@Column({ type: 'integer' })
+	@IsInt()
+	incorrect_count: number; // number of times user answered this card incorrectly
+
+	@ManyToOne(() => Deck, (deck) => deck.cards, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'deck_id', referencedColumnName: 'id' })
 	deck: Deck;
 
@@ -36,5 +40,6 @@ export default class Card extends Model {
 		this.front_side = front_side;
 		this.back_side = back_side;
 		this.correct_count = 0;
+		this.incorrect_count = 0;
 	}
 }

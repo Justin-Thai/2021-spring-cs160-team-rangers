@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import Model from './Model';
 import Deck from './Deck';
+import StudyReport from './StudyReport';
 
 @Entity('users')
 export default class User extends Model {
@@ -31,6 +32,9 @@ export default class User extends Model {
 	@OneToMany(() => Deck, (deck) => deck.user)
 	decks: Deck[];
 
+	@OneToMany(() => StudyReport, (study_report) => study_report.user)
+	study_reports: StudyReport[];
+
 	@BeforeInsert()
 	createUuid() {
 		this.id = uuid();
@@ -53,7 +57,8 @@ export default class User extends Model {
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
@@ -74,25 +79,26 @@ export default class User extends Model {
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
-				'user.id',
-				'user.email',
+				'deck.user_id',
 			])
 			.leftJoin('deck.user', 'user')
 			.where({ user_id: this.id, id: deckId })
 			.getOne();
 	}
 
-	async filterDeckByName(name: string, limit: number, page: number) {
+	async filterDeckByName(name: string, limit = 9, page = 1) {
 		return await getRepository(Deck)
 			.createQueryBuilder('deck')
 			.select([
 				'deck.id',
 				'deck.name',
-				'deck.count',
+				'deck.card_count',
+				'deck.report_count',
 				'deck.shared',
 				'deck.created_at',
 				'deck.updated_at',
@@ -105,5 +111,33 @@ export default class User extends Model {
 			.skip((page - 1) * limit)
 			.take(limit)
 			.getMany();
+	}
+
+	async getUserStudyReports(limit = 9, page = 1) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id})
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
+			.getMany();
+	}
+
+	async filterStudyReportByName(name: string, limit = 9, page = 1) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id, name: Like(`%${name}%`) })
+			.orderBy('study_report.created_at', 'DESC')
+			.skip((page - 1) * limit).take(limit)
+			.getMany();
+	}
+
+	async getUserStudyReportById(reportId: number) {
+		return await getRepository(StudyReport)
+			.createQueryBuilder('study_report')
+			.leftJoin('study_report.user', 'user')
+			.where({ user_id: this.id, id: reportId })
+			.getOne();
 	}
 }

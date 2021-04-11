@@ -35,7 +35,7 @@ export default async function validateDeck(req: express.Request, res?: express.R
 		} else if (property === 'shared') {
 			throw sendErrorJSON(res!, statusCodes.BadRequest, 'Deck shared value is invalid');
 		} else {
-			throw sendErrorJSON(res!, statusCodes.InternalServerError);
+			throw sendErrorJSON(res!, statusCodes.InternalServerError, 'Deck validation failed');
 		}
 	}
 }
