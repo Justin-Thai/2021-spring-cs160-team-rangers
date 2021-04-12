@@ -10,16 +10,19 @@ import styles from './styles.module.scss';
 import { Loading, Empty, ErrorView } from '../../components';
 import { AppState } from '../../redux/store';
 
-interface CardPageProps {
+interface CardPageHOCProps {
 	cards: Card[];
 	loading: boolean;
 	fetchError: Error | null;
 	deleteError: Error | null;
+	onFetchCards: (deckId: string) => void;
+	onDeleteCard: (deckId: string, cardId: string) => void;
+}
+
+interface CardPageProps extends CardPageHOCProps {
 	history: History<unknown>;
 	url: string;
 	deckId: string;
-	onFetchCards: (deckId: string) => void;
-	onDeleteCard: (deckId: string, cardId: string) => void;
 }
 
 class CardPage extends Component<CardPageProps> {
@@ -100,15 +103,6 @@ class CardPage extends Component<CardPageProps> {
 			</div>
 		);
 	}
-}
-
-interface CardPageHOCProps {
-	cards: Card[];
-	loading: boolean;
-	fetchError: Error | null;
-	deleteError: Error | null;
-	onFetchCards: (deckId: string) => void;
-	onDeleteCard: (deckId: string, cardId: string) => void;
 }
 
 function CardPageHOC(props: CardPageHOCProps) {

@@ -8,13 +8,16 @@ import { createDeck, clearErrors } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface DeckCreationPageProps {
-	history: History<unknown>;
+interface DeckCreationPageHOCProps {
 	loading: boolean;
 	userId: string;
 	error: Error | null;
 	onCreateDeck: (name: string, shared?: boolean) => void;
 	onClearErrors: () => void;
+}
+
+interface DeckCreationPageProps extends DeckCreationPageHOCProps {
+	history: History<unknown>;
 }
 
 interface DeckCreationPageState {
@@ -91,14 +94,6 @@ class DeckCreationPage extends Component<DeckCreationPageProps, DeckCreationPage
 			</div>
 		);
 	}
-}
-
-interface DeckCreationPageHOCProps {
-	loading: boolean;
-	userId: string;
-	error: Error | null;
-	onCreateDeck: (name: string) => void;
-	onClearErrors: () => void;
 }
 
 function DeckCreationPageHOC(props: DeckCreationPageHOCProps) {

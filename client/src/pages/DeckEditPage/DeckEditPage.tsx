@@ -8,14 +8,19 @@ import { editDeck, clearErrors } from '../../redux/deck/actions';
 import styles from './styles.module.scss';
 import { AppState } from '../../redux/store';
 
-interface DeckEditPageProps {
-	history: History<unknown>;
+interface EditDeckPageHOCProps {
 	userId: string;
+	loading: boolean;
+	error: Error | null;
+	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
+	onClearErrors: () => void;
+}
+
+interface DeckEditPageProps extends EditDeckPageHOCProps {
+	history: History<unknown>;
 	deckId: string;
 	deckName: string;
 	deckShared: boolean;
-	loading: boolean;
-	error: Error | null;
 	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
 	onClearErrors: () => void;
 }
@@ -94,14 +99,6 @@ class DeckEditPage extends Component<DeckEditPageProps, DeckEditPageState> {
 			</div>
 		);
 	}
-}
-
-interface EditDeckPageHOCProps {
-	userId: string;
-	loading: boolean;
-	error: Error | null;
-	onEditDeck: (deckId: string, newName: string, newShared: boolean) => void;
-	onClearErrors: () => void;
 }
 
 function EditDeckPageHOC(props: EditDeckPageHOCProps) {

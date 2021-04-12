@@ -13,6 +13,10 @@ export enum DispatchTypes {
 	CHECKAUTH_SUCCESS = 'CHECKAUTH_SUCCESS',
 	CHECKAUTH_FAILURE = 'CHECKAUTH_FAILURE',
 
+	EDIT_PROFILE_STARTED = 'EDIT_PROFILE_STARTED',
+	EDIT_PROFILE_SUCCESS = 'EDIT_PROFILE_SUCCESS',
+	EDIT_PROFILE_FAILURE = 'EDIT_PROFILE_FAILURE',
+
 	INCREMENT_DECK_COUNT = 'INCREMENT_DECK_COUNT',
 	DECREMENT_DECK_COUNT = 'DECREMENT_DECK_COUNT',
 
@@ -32,11 +36,13 @@ export type AuthState = {
 		signInLoading: boolean;
 		signOutLoading: boolean;
 		signUpLoading: boolean;
+		editProfileLoading: boolean;
 	};
 	errors: {
 		checkAuthError: Error | null;
 		signInError: Error | null;
 		signOutError: Error | null;
 		signUpError: Error | null;
+		editProfileError: Error | null;
 	};
 };
