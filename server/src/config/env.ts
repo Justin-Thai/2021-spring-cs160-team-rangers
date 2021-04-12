@@ -2,8 +2,8 @@ import * as dotenv from 'dotenv';
 
 import appConfig from './app.json';
 
-dotenv.config({ path: './src/.env' });
-dotenv.config({ path: './src/pg.env' });
+dotenv.config({ path: '.env' });
+dotenv.config({ path: 'pg.env' });
 
 const { POSTGRES_DB, DB_TEST, POSTGRES_USER, POSTGRES_PASSWORD, DB_TEST_USER, DB_TEST_PASSWORD, JWT_KEY } = process.env;
 
