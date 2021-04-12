@@ -7,6 +7,7 @@ const lang = {
 			contactUs: 'Contact Us',
 			language: 'Language',
 			login: 'Login',
+			myPage: 'My Profile',
 		},
 		header: {
 			title: 'Flashcards for Education',

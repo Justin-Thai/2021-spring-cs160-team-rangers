@@ -1,0 +1,22 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	@include flex-row;
+	justify-content: space-between;
+	padding: 12px 54px 12px 42px;
+	box-shadow: 0 5px 7px #eee;
+	max-height: 67px;
+
+	.title {
+		font-family: 'Montserrat', sans-serif;
+		margin: 0;
+		margin-left: 12px;
+		color: grey;
+		font-size: 31px;
+	}
+
+	.btn {
+		padding: 10px 34px;
+		font-size: 20px;
+	}
+}

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920.624" height="1057.846" viewBox="0 0 1920.624 1057.846">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="58" width="1920.009" height="741.359" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect x="15" y="74" width="1920.485" height="972.138" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.021" y1="0.709" x2="0.93" y2="0.068" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#77f1fb"/>
+      <stop offset="1" stop-color="#78acfc"/>
+    </linearGradient>
+    <filter id="Ellipse_16" x="400.274" y="682.333" width="312.32" height="303.479" filterUnits="userSpaceOnUse">
+      <feOffset dy="33" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_2" x="514.7" y="806.846" width="250" height="251" filterUnits="userSpaceOnUse">
+      <feOffset dy="33" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="18" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Scroll_Group_4" data-name="Scroll Group 4" transform="translate(-58 230.046)" clip-path="url(#clip-path)" style="isolation: isolate">
+    <path id="Path_2" data-name="Path 2" d="M-50.7,375.052,1937.779,252.2l19.53,616.875s-307.148,253.145-850.43,13.069S-11.641,923.565-11.641,923.565Z" transform="translate(50.7 -252.2)" fill="#78cefc"/>
+  </g>
+  <g id="Scroll_Group_3" data-name="Scroll Group 3" transform="translate(-14.861 -74)" clip-path="url(#clip-path-2)" style="isolation: isolate">
+    <path id="Path_1" data-name="Path 1" d="M-28.561,535.667s343.16-106.2,599.025,66.375,611.065-99.562,611.065-99.562,412.394-199.123,412.394,66.374,108.366,305.322,285.966,33.187S1894.941-15.24,1894.941-15.24L-28.561-35.152Z" transform="translate(28.561 35.152)" fill="url(#linear-gradient)"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Ellipse_16)">
+    <ellipse id="Ellipse_16-2" data-name="Ellipse 16" cx="100.5" cy="96" rx="100.5" ry="96" transform="matrix(1, 0.02, -0.02, 1, 457.62, 703.33)" fill="#78acfc"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Ellipse_2)">
+    <ellipse id="Ellipse_2-2" data-name="Ellipse 2" cx="71" cy="71.5" rx="71" ry="71.5" transform="translate(568.7 827.85)" fill="#78acfc"/>
+  </g>
+</svg>

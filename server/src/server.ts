@@ -7,7 +7,16 @@ import cors from 'cors';
 
 import { envConfig } from './config';
 import { DbConnection } from './utils';
-import { HomeService, SignUpService, SignInService, ProfileService, AuthService } from './handlers';
+import {
+	HomeService,
+	SignUpService,
+	SignInService,
+	ProfileService,
+	AuthService,
+	DeckService,
+	CardService,
+	StudyReportService,
+} from './services';
 
 const { serverPort } = envConfig;
 
@@ -18,7 +27,17 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-Server.buildServices(app, HomeService, SignUpService, SignInService, ProfileService, AuthService);
+Server.buildServices(
+	app,
+	HomeService,
+	SignUpService,
+	SignInService,
+	ProfileService,
+	AuthService,
+	DeckService,
+	CardService,
+	StudyReportService
+);
 
 const conn = new DbConnection();
 conn

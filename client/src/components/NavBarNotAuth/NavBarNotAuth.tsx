@@ -5,7 +5,7 @@ import { lang } from '../../config';
 import styles from './styles.module.scss';
 
 export default function NavBarNotAuth() {
-	const { aboutUs, services, helpAndFAQ, contactUs, language, login } = lang['en'].nav;
+	const { aboutUs, services, helpAndFAQ, contactUs, login } = lang['en'].nav;
 
 	return (
 		<nav className={styles.navBar}>
@@ -13,19 +13,16 @@ export default function NavBarNotAuth() {
 				<div className={styles.linksOuter}>
 					<div className={styles.linksWrapper}>
 						<li>
-							<Link to='/about'>{aboutUs}</Link>
+							<Link to='/'>{aboutUs}</Link>
 						</li>
 						<li>
-							<Link to='/services'>{services}</Link>
+							<Link to='/'>{services}</Link>
 						</li>
 						<li>
-							<Link to='/faq'>{helpAndFAQ}</Link>
+							<Link to='/'>{helpAndFAQ}</Link>
 						</li>
 						<li>
-							<Link to='/contact'>{contactUs}</Link>
-						</li>
-						<li>
-							<Link to='/signin'>{language}</Link>
+							<Link to='/'>{contactUs}</Link>
 						</li>
 					</div>
 				</div>
