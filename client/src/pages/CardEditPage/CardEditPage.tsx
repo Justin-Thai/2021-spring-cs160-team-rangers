@@ -63,7 +63,7 @@ class CardEditPage extends Component<CardEditPageProps, CardEditPageState> {
 		const { loading, error } = this.props;
 		return (
 			<div className={styles.container}>
-				<SimplePageHeader title='Create new card' goBack={this.goBack} />
+				<SimplePageHeader title='Edit card' goBack={this.goBack} />
 				<div className={styles.wrapper}>
 					<div className={styles.front}>
 						<input
