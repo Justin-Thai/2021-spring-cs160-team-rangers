@@ -37,7 +37,7 @@ const fetchDecks = (name = '', page = 1) => async (
 			id: String(d.id),
 			name: d.name,
 			updatedDate: toReadableTime(d.updated_at),
-			cardCount: d.count,
+			cardCount: d.card_count,
 			shared: Boolean(d.shared),
 		}));
 
