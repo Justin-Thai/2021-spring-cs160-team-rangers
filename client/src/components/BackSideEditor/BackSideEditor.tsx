@@ -5,11 +5,11 @@ import './styles.css';
 
 // Add fonts to whitelist and register them
 const Font = Quill.import('formats/font');
-Font.whitelist = ['Roboto', 'Raleway', 'Montserrat', 'Lato', 'Rubik'];
+Font.whitelist = ['Default', 'Roboto', 'Raleway', 'Montserrat', 'Lato', 'Rubik'];
 Quill.register(Font, true);
 
 const Size = Quill.import('attributors/style/size');
-Size.whitelist = ['14px', '20px', '28px'];
+Size.whitelist = ['20px', '25px', '30px'];
 Quill.register(Size, true);
 
 export default function BackSideEditor({ value, setBack }: { value: string; setBack: (html: string) => void }) {
@@ -34,7 +34,6 @@ export default function BackSideEditor({ value, setBack }: { value: string; setB
 	};
 
 	const formats = [
-		'header',
 		'font',
 		'size',
 		'bold',
