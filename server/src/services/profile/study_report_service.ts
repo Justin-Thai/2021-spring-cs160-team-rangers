@@ -363,7 +363,7 @@ export default class StudyReportService {
 			await studyReport!.save();
 			await card!.save();
 			res.status(statusCodes.OK);
-			return resOK({ card });
+			return resOK({ correct: answer === plain_back_side });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();

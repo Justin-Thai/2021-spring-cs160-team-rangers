@@ -24,7 +24,7 @@ const createCard = (deckId: string, front: string, back: string, plainBack: stri
 				'Content-Type': 'application/json',
 				token,
 			},
-			body: JSON.stringify({ front_side: front, back_side: back, plain_back_side: plainBack }),
+			body: JSON.stringify({ front_side: front.trim(), back_side: back, plain_back_side: plainBack.trim() }),
 		});
 
 		const data = await res.json();

@@ -39,6 +39,26 @@ export default function studyReportReducer(state = initialState, action: StudyRe
 			newState.errors.fetchStudyReportsError = error;
 			return newState;
 		}
+		case DispatchTypes.CREATE_STUDY_REPORT_STARTED: {
+			const newState = { ...state };
+			newState.loadings.createStudyReportLoading = false;
+			newState.errors.createStudyReportError = null;
+			return newState;
+		}
+		case DispatchTypes.CREATE_STUDY_REPORT_SUCCESS: {
+			const newState = { ...state };
+			const newStudyReport = action.payload as StudyReport;
+			newState.loadings.createStudyReportLoading = false;
+			newState.studyReports = [newStudyReport, ...newState.studyReports];
+			return newState;
+		}
+		case DispatchTypes.CREATE_STUDY_REPORT_FAILURE: {
+			const newState = { ...state };
+			const error = action.payload as Error;
+			newState.loadings.createStudyReportLoading = false;
+			newState.errors.createStudyReportError = error;
+			return newState;
+		}
 		default:
 			return state;
 	}

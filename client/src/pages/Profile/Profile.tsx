@@ -14,6 +14,7 @@ import DeckEditPage from '../DeckEditPage/DeckEditPage';
 import CardCreationPage from '../CardCreationPage/CardCreationPage';
 import CardEditPage from '../CardEditPage/CardEditPage';
 import DeckStudyReportsPage from '../DeckStudyReportsPage/DeckStudyReportsPage';
+import StudyingPage from '../StudyingPage/StudyingPage';
 import styles from './styles.module.scss';
 
 function Profile() {
@@ -38,6 +39,9 @@ function Profile() {
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck/:deckId/study`}>
 						<DeckStudyReportsPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId/study/:studyId/studying/:cardId`}>
+						<StudyingPage />
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck/:deckId/card/create`}>
 						<CardCreationPage />

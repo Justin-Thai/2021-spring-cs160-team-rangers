@@ -5,7 +5,7 @@ import { History } from 'history';
 import { AppState } from '../../redux/store';
 import styles from './styles.module.scss';
 import { PageHeader } from './components';
-import { fetchStudyReports } from '../../redux/study_report/actions';
+import { fetchStudyReports, createStudyReport } from '../../redux/study_report/actions';
 import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { useQuery } from '../../hooks';
 import { env } from '../../config';
@@ -23,6 +23,7 @@ interface DeckStudyReportsPageProps {
 	loading: boolean;
 
 	onFetchStudyReports: (deckId: string, page?: number) => void;
+	onCreateStudyReport: (deckId: string, history: History<unknown>, url: string) => void;
 }
 
 interface DeckStudyReportsPageState {
@@ -30,7 +31,7 @@ interface DeckStudyReportsPageState {
 	forcedPage: number;
 }
 
-export class DeckStudyReportsPage extends Component<DeckStudyReportsPageProps, DeckStudyReportsPageState> {
+class DeckStudyReportsPage extends Component<DeckStudyReportsPageProps, DeckStudyReportsPageState> {
 	state = {
 		currentPage: this.props.page ? this.props.page - 1 : 0,
 		forcedPage: -1,
@@ -109,10 +110,15 @@ export class DeckStudyReportsPage extends Component<DeckStudyReportsPageProps, D
 		return <StudyReportList studyReports={studyReports} />;
 	};
 
+	createStudyReport = () => {
+		const { history, deckId, url, onCreateStudyReport } = this.props;
+		onCreateStudyReport(deckId, history, url);
+	};
+
 	render() {
 		return (
 			<div className={styles.container}>
-				<PageHeader createNewStudy={() => console.log('create study')} goBack={this.props.history.goBack} />
+				<PageHeader createNewStudy={this.createStudyReport} goBack={this.props.history.goBack} />
 				{this.renderDeckList()}
 				{this.renderPagination()}
 			</div>
@@ -127,6 +133,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = {
 	onFetchStudyReports: fetchStudyReports,
+	onCreateStudyReport: createStudyReport,
 };
 
 const ComponentWithProps = connect(mapStateToProps, mapDispatchToProps)(DeckStudyReportsPage);
@@ -136,10 +143,10 @@ function HOCDeckSturyReportPage() {
 	const { deckId } = useParams<{ deckId: string }>();
 	const { url } = useRouteMatch();
 	const location = useLocation<{ reportCount: number }>();
-	// const { reportCount } = location.state;
+	const { reportCount } = location.state;
 	const query = useQuery();
 	const page = Number(query.get('page'));
-	return <ComponentWithProps history={history} deckId={deckId} url={url} page={page} reportCount={11} />;
+	return <ComponentWithProps history={history} deckId={deckId} url={url} page={page} reportCount={reportCount} />;
 }
 
 export default HOCDeckSturyReportPage;

@@ -11,10 +11,10 @@ interface StudyReportComponentProps {
 export default function StudyReportComponent({ studyReport }: StudyReportComponentProps) {
 	const getAccuracy = () => {
 		const { correctCount, incorrectCount } = studyReport;
-		if (incorrectCount === 0) {
+		if (correctCount + incorrectCount === 0) {
 			return '--';
 		}
-		return `${(correctCount / incorrectCount) * 100}%`;
+		return `${(correctCount / (correctCount + incorrectCount)) * 100}%`;
 	};
 
 	return (
