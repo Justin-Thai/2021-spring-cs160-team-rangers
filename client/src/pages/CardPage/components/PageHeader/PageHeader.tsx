@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 interface PageHeaderProps {
 	goToCardCreation: () => void;
 	goBack: () => void;
-	goToStudyReports: () => void;
+	goToStudyReports?: () => void;
 }
 
 export default function PageHeader({ goBack, goToCardCreation, goToStudyReports }: PageHeaderProps) {
@@ -20,9 +20,11 @@ export default function PageHeader({ goBack, goToCardCreation, goToStudyReports 
 				<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreation}>
 					Create new card
 				</button>
-				<button className={`submit-btn ${styles.studyBtn}`} onClick={goToStudyReports}>
-					Study Reports
-				</button>
+				{goToStudyReports ? (
+					<button className={`submit-btn ${styles.studyBtn}`} onClick={goToStudyReports}>
+						Study Reports
+					</button>
+				) : null}
 			</div>
 		</div>
 	);

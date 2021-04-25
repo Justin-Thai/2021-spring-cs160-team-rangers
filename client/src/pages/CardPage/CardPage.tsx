@@ -114,7 +114,7 @@ class CardPage extends Component<CardPageProps> {
 				<PageHeader
 					goBack={this.goBack}
 					goToCardCreation={this.goToCardCreation}
-					goToStudyReports={this.goToStudyReports}
+					goToStudyReports={this.props.cards.length ? this.goToStudyReports : undefined}
 				/>
 				{this.renderCardList()}
 			</div>

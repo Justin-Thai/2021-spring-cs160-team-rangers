@@ -23,7 +23,7 @@ interface DeckStudyReportsPageProps {
 	loading: boolean;
 
 	onFetchStudyReports: (deckId: string, page?: number) => void;
-	onCreateStudyReport: (deckId: string, history: History<unknown>, url: string) => void;
+	onCreateStudyReport: (deckId: string, history: History<unknown>, url: string, reportCount: number) => void;
 }
 
 interface DeckStudyReportsPageState {
@@ -111,8 +111,8 @@ class DeckStudyReportsPage extends Component<DeckStudyReportsPageProps, DeckStud
 	};
 
 	createStudyReport = () => {
-		const { history, deckId, url, onCreateStudyReport } = this.props;
-		onCreateStudyReport(deckId, history, url);
+		const { history, deckId, url, reportCount, onCreateStudyReport } = this.props;
+		onCreateStudyReport(deckId, history, url, reportCount);
 	};
 
 	render() {

@@ -14,7 +14,7 @@ export default function StudyReportComponent({ studyReport }: StudyReportCompone
 		if (correctCount + incorrectCount === 0) {
 			return '--';
 		}
-		return `${(correctCount / (correctCount + incorrectCount)) * 100}%`;
+		return `${((correctCount / (correctCount + incorrectCount)) * 100).toFixed(2)}%`;
 	};
 
 	return (

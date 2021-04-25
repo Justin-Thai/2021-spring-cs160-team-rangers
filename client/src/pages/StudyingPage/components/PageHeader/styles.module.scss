@@ -1,0 +1,14 @@
+@import '../../../../scss/global.scss';
+
+.container {
+	@include flex-row;
+	justify-content: flex-end;
+	padding: 12px 0;
+	box-shadow: 0 5px 7px #eee;
+
+	.studyBtn {
+		padding: 10px 34px;
+		font-size: 20px;
+		margin-right: 54px;
+	}
+}

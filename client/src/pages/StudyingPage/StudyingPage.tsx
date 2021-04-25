@@ -5,11 +5,14 @@ import { History } from 'history';
 
 import { env } from '../../config';
 import { AppState } from '../../redux/store';
+import styles from './styles.module.scss';
+import { PageHeader } from './components';
 
 interface StudyingPageProps {
 	history: History<unknown>;
 	url: string;
 	userId: string;
+	reportCount: number;
 	deckId: string;
 	studyId: string;
 	cardId: string;
@@ -90,12 +93,12 @@ class StudyingPage extends Component<StudyingPageProps, StudyingPageState> {
 		}
 	};
 
-	setAnswer = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ answer: e.target.value });
+	setAnswer = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ answer: e.target.value, correct: null });
 
 	submitAnswer = (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		const { answer } = this.state;
-		if (!answer) return;
+		const { answer, correct } = this.state;
+		if (!answer || correct) return;
 		const { userId, deckId, studyId, cardId } = this.props;
 		const token = localStorage.getItem('token');
 		if (!token) return;
@@ -119,26 +122,55 @@ class StudyingPage extends Component<StudyingPageProps, StudyingPageState> {
 
 	renderResult = () => {
 		const { correct } = this.state;
-		if (correct === null) return null;
+		if (correct === null) return <h3>&#8193;</h3>;
 		if (correct) {
-			return <p>correct</p>;
+			return (
+				<h3 className={styles.result} style={{ color: '#009900' }}>
+					Correct
+				</h3>
+			);
 		}
-		return <p>incorrect</p>;
+		return (
+			<h3 className={styles.result} style={{ color: '#ed4337' }}>
+				Incorrect
+			</h3>
+		);
+	};
+
+	submitTest = () => {
+		const { userId, deckId, studyId, reportCount, history } = this.props;
+		const token = localStorage.getItem('token');
+		if (!token) return;
+		fetch(`${env.serverUrl}/profile/${userId}/deck/${deckId}/study/${studyId}/end`, {
+			method: 'PUT',
+			headers: {
+				token,
+			},
+		})
+			.then((res) => res.json())
+			.then(() => {
+				history.push({ pathname: `/profile/${userId}/deck/${deckId}/study`, state: { reportCount } });
+			});
 	};
 
 	render() {
 		return (
-			<div>
-				<h1>studying</h1>
-				{this.state.fetchedFrontSide}
-				<br />
-				<form onSubmit={this.submitAnswer}>
-					<input type='text' value={this.state.answer} onChange={this.setAnswer} />
-					<input type='submit' value='Submit' />
-				</form>
-				{this.renderResult()}
-				<div onClick={this.goNext}>next</div>
-				<div onClick={this.goPrev}>prev</div>
+			<div className={styles.container}>
+				<PageHeader submitTest={this.submitTest} />
+				<div className={styles.wrapper}>
+					<i className={`fas fa-angle-left ${styles.arrow}`} onClick={this.goPrev}></i>
+					<div className={styles.card}>
+						<h1 className={styles.front}>{this.state.fetchedFrontSide}</h1>
+						<br />
+						<form onSubmit={this.submitAnswer}>
+							<input className={styles.answer} type='text' value={this.state.answer} onChange={this.setAnswer} />
+							<br />
+							<input className={`primary-btn ${styles.submitAnswer}`} type='submit' value='Submit' />
+						</form>
+						{this.renderResult()}
+					</div>
+					<i className={`fas fa-angle-right ${styles.arrow}`} onClick={this.goNext}></i>
+				</div>
 			</div>
 		);
 	}
@@ -155,7 +187,7 @@ const ComponentWithProps = connect(mapStateToProps, mapDispatchToProps)(Studying
 function HOCStudyingPage() {
 	const history = useHistory();
 	const { studyId, cardId } = useParams<{ studyId: string; cardId: string }>();
-	const location = useLocation<{ cardIds: number[]; deckId: string }>();
+	const location = useLocation<{ cardIds: number[]; deckId: string; reportCount: number }>();
 	const { url } = useRouteMatch();
 
 	if (!location.state) {
@@ -166,8 +198,7 @@ function HOCStudyingPage() {
 			</div>
 		);
 	}
-	const { cardIds, deckId } = location.state;
-
+	const { cardIds, deckId, reportCount } = location.state;
 	return (
 		<ComponentWithProps
 			url={url}
@@ -176,6 +207,7 @@ function HOCStudyingPage() {
 			cardId={cardId}
 			cardIds={cardIds}
 			deckId={deckId}
+			reportCount={reportCount}
 		/>
 	);
 }

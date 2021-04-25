@@ -1,0 +1,47 @@
+.container {
+	height: 100%;
+
+	.wrapper {
+		height: calc(100% - 67px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.arrow {
+			font-size: 44px;
+			color: grey;
+			cursor: pointer;
+		}
+
+		.card {
+			padding: 136.4px 145px;
+			margin: 0 22px;
+			border-top: 1px solid rgba(0, 0, 0, 0.16);
+			border-left: 1px solid rgba(0, 0, 0, 0.16);
+			border-radius: 35px;
+			box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+
+			.front {
+				font-family: 'Montserrat', sans-serif;
+			}
+
+			.answer {
+				width: 580px;
+				border: none;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+				font-size: 26px;
+				font-family: 'Montserrat', sans-serif;
+			}
+
+			.submitAnswer {
+				margin-top: 22px;
+				padding: 12px 22px;
+				float: right;
+			}
+
+			.result {
+				font-family: 'Montserrat', sans-serif;
+			}
+		}
+	}
+}

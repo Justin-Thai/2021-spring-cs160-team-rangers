@@ -8,7 +8,7 @@ import { AuthAction } from '../../auth/types';
 import { AppState } from '../../store';
 import { DispatchTypes, StudyReportAction } from '../types';
 
-const createStudyReport = (deckId: string, history: History<unknown>, url: string) => async (
+const createStudyReport = (deckId: string, history: History<unknown>, url: string, reportCount: number) => async (
 	dispatch: (action: StudyReportAction) => void,
 	getState: () => AppState
 ) => {
@@ -47,7 +47,7 @@ const createStudyReport = (deckId: string, history: History<unknown>, url: strin
 
 		history.push({
 			pathname: `${url}/${newStudyReport.id}/studying/${data.cardIds[0]}`,
-			state: { cardIds: data.cardIds, deckId },
+			state: { cardIds: data.cardIds, deckId, reportCount: reportCount + 1 },
 		});
 
 		dispatch(createStudyReportSuccess(newStudyReport));
