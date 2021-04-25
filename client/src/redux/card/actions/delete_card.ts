@@ -30,7 +30,7 @@ const deleteCard = (deckId: string, cardId: string) => async (
 			throw new Error(data.message);
 		}
 
-		await delay(600);
+		await delay(400);
 
 		dispatch(deleteCardSuccess(cardId));
 	} catch (err) {

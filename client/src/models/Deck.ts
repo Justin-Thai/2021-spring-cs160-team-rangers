@@ -3,5 +3,6 @@ export type Deck = {
   name: string;
   updatedDate: string;
   cardCount: number;
+  reportCount: number;
   shared: boolean;
 }

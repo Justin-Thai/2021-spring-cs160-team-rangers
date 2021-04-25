@@ -22,6 +22,10 @@ export default class Card extends Model {
 	@IsString()
 	back_side: string;
 
+	@Column()
+	@IsString()
+	plain_back_side: string;
+
 	@Column({ type: 'integer' })
 	@IsInt()
 	correct_count: number; // number of times user answered this card correctly
@@ -34,11 +38,12 @@ export default class Card extends Model {
 	@JoinColumn({ name: 'deck_id', referencedColumnName: 'id' })
 	deck: Deck;
 
-	constructor(deck_id: number, front_side: string, back_side: string) {
+	constructor(deck_id: number, front_side: string, back_side: string, plain_back_side: string) {
 		super();
 		this.deck_id = deck_id;
 		this.front_side = front_side;
 		this.back_side = back_side;
+		this.plain_back_side = plain_back_side;
 		this.correct_count = 0;
 		this.incorrect_count = 0;
 	}

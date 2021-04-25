@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 interface DeckListProps {
 	decks: Deck[];
-	goToDeck: (deckId: string) => void;
+	goToDeck: (deckId: string, deckName: string, reportCount: number) => void;
 	deleteDeck: (deckId: string) => void;
 	editDeck: (deckId: string, deckName: string, deckShared: boolean) => void;
 }

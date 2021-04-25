@@ -15,28 +15,10 @@
 	content: 'Roboto' !important;
 }
 
-.ql-picker.ql-font .ql-picker-label[data-value='Raleway']::before,
-.ql-picker.ql-font .ql-picker-item[data-value='Raleway']::before {
-	font-family: 'Raleway';
-	content: 'Raleway' !important;
-}
-
 .ql-picker.ql-font .ql-picker-label[data-value='Montserrat']::before,
 .ql-picker.ql-font .ql-picker-item[data-value='Montserrat']::before {
 	font-family: 'Montserrat';
 	content: 'Montserrat' !important;
-}
-
-.ql-picker.ql-font .ql-picker-label[data-value='Lato']::before,
-.ql-picker.ql-font .ql-picker-item[data-value='Lato']::before {
-	font-family: 'Lato';
-	content: 'Lato' !important;
-}
-
-.ql-picker.ql-font .ql-picker-label[data-value='Rubik']::before,
-.ql-picker.ql-font .ql-picker-item[data-value='Rubik']::before {
-	font-family: 'Rubik';
-	content: 'Rubik' !important;
 }
 
 /* Set content font-families */
@@ -46,17 +28,8 @@
 .ql-font-Roboto {
 	font-family: 'Roboto';
 }
-.ql-font-Raleway {
-	font-family: 'Raleway';
-}
 .ql-font-Montserrat {
 	font-family: 'Montserrat';
-}
-.ql-font-Lato {
-	font-family: 'Lato';
-}
-.ql-font-Rubik {
-	font-family: 'Rubik';
 }
 
 .ql-picker.ql-size .ql-picker-label[data-value='20px']::before,

@@ -203,13 +203,15 @@ export default class StudyReportService {
 		const res = this.context.response;
 		try {
 			const deck = await Deck.findOneOrFail(deckId);
+			const cards = await deck.getCards();
+			const cardIds = cards.map((card) => card.id);
 			const name = deck.name + ' Study Report';
 			const newStudyReport = new StudyReport(userId, deckId, name);
 			deck.report_count++;
 			await newStudyReport.save();
 			await deck.save();
 			res.status(statusCodes.Created);
-			return resOK({ studyReport: newStudyReport });
+			return resOK({ studyReport: newStudyReport, cardIds });
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();
@@ -329,7 +331,7 @@ export default class StudyReportService {
 	}
 
 	@Path('/deck/:deckId/study/:reportId/:cardId')
-	@POST
+	@PUT
 	@PreProcessor(checkAuthentication)
 	@PreProcessor(checkProfileAuthorization)
 	@PreProcessor(checkIfDeckExists)
@@ -346,9 +348,9 @@ export default class StudyReportService {
 			const deck = await Deck.findOneOrFail(deckId);
 			const studyReport = await deck.getStudyReportById(reportId);
 			const card = (await deck.getCardById(cardId)) as Card;
-			const back_side = card.back_side;
+			const { plain_back_side } = card;
 
-			if (answer === back_side) {
+			if (answer === plain_back_side) {
 				// user answered card correctly
 				studyReport!.correct_count++;
 				card!.correct_count++;

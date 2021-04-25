@@ -1,20 +1,30 @@
 import React from 'react';
 import ReactQuill, { Quill } from 'react-quill';
+import { DeltaStatic, Sources } from 'quill';
 
 import './styles.css';
 
 // Add fonts to whitelist and register them
 const Font = Quill.import('formats/font');
-Font.whitelist = ['Default', 'Roboto', 'Raleway', 'Montserrat', 'Lato', 'Rubik'];
+Font.whitelist = ['Default', 'Roboto', 'Montserrat'];
 Quill.register(Font, true);
 
 const Size = Quill.import('attributors/style/size');
 Size.whitelist = ['20px', '25px', '30px'];
 Quill.register(Size, true);
 
-export default function BackSideEditor({ value, setBack }: { value: string; setBack: (html: string) => void }) {
-	const handleChange = (html: string) => {
+export default function BackSideEditor({
+	value,
+	setBack,
+	setPlainBack,
+}: {
+	value: string;
+	setBack: (html: string) => void;
+	setPlainBack: (char: string) => void;
+}) {
+	const handleChange = (html: string, _1: DeltaStatic, _2: Sources, editor: ReactQuill.UnprivilegedEditor) => {
 		setBack(html);
+		setPlainBack(editor.getText());
 	};
 
 	const modules = {

@@ -6,13 +6,13 @@ import styles from './styles.module.scss';
 
 interface DeckComponentProps {
 	deck: Deck;
-	goToDeck: (deckId: string) => void;
+	goToDeck: (deckId: string, deckName: string, reportCount: number) => void;
 	deleteDeck: (deckId: string) => void;
 	editDeck: (deckId: string, deckName: string, deckShared: boolean) => void;
 }
 
 export default function DeckComponent({ deck, goToDeck, editDeck, deleteDeck }: DeckComponentProps) {
-	const performGoToDeck = () => goToDeck(deck.id);
+	const performGoToDeck = () => goToDeck(deck.id, deck.name, deck.reportCount);
 
 	const performEditDeck = () => editDeck(deck.id, deck.name, deck.shared);
 

@@ -38,10 +38,11 @@ const fetchDecks = (name = '', page = 1) => async (
 			name: d.name,
 			updatedDate: toReadableTime(d.updated_at),
 			cardCount: d.card_count,
+			reportCount: d.report_count,
 			shared: Boolean(d.shared),
 		}));
 
-		await delay(600);
+		await delay(400);
 
 		dispatch(fetchDecksSuccess(decks));
 	} catch (err) {

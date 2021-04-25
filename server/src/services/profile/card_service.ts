@@ -37,11 +37,12 @@ export default class CardService {
 	async createCard(
 		@PathParam('deckId') deckId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string
+		@FormParam('back_side') back_side: string,
+		@FormParam('plain_back_side')  plain_back_side: string
 	) {
 		const res = this.context.response;
 		try {
-			const newCard = new Card(deckId, front_side, back_side);
+			const newCard = new Card(deckId, front_side, back_side, plain_back_side);
 			const deck = await Deck.findOneOrFail(deckId);
 			deck.card_count += 1;
 			await newCard.save();
@@ -113,7 +114,8 @@ export default class CardService {
 		@PathParam('deckId') deckId: number,
 		@PathParam('cardId') cardId: number,
 		@FormParam('front_side') front_side: string,
-		@FormParam('back_side') back_side: string
+		@FormParam('back_side') back_side: string,
+		@FormParam('plain_back_side') plain_back_side: string
 	) {
 		const res = this.context.response;
 		try {
@@ -126,6 +128,7 @@ export default class CardService {
 
 			if (back_side) {
 				card!.back_side = back_side;
+				card!.plain_back_side = plain_back_side;
 			}
 
 			await card!.save();
