@@ -16,14 +16,25 @@ public class Driver  {
         // Get website at localhost:3000
         driver.get("http://localhost:3000");
 
-        // Check title of the page
-        System.out.println("Page title found: " + driver.getTitle());
+        int testCasesPassed = 0;
+        int testCasesFailed = 0;
 
-        // Find login button
-        // Wait for elements to load
-        WebElement loginButton =(new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"root\"]/nav/ul/li/a")));
-        System.out.println("Login button found: " + loginButton.getText());
+        // Check title of the page
+        System.out.println("Testing page title...");
+        String expectedTitle = "Flash Cards";
+        String actualTitle = driver.getTitle();
+        if(TestUtils.testStrings(expectedTitle, actualTitle)) testCasesPassed++;
+        else testCasesFailed++;
+
+        // Test sign up page
+        if(SignUpTests.testShortPassword(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(SignUpTests.testEmptyInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+
+        // Print final results
+        System.out.println("Test cases passed: " + testCasesPassed);
+        System.out.println("Test cases failed: " + testCasesFailed);
 
         driver.quit();
     }
