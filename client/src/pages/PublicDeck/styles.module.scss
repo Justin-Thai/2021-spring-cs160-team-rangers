@@ -1,0 +1,25 @@
+.unauth {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.text {
+		font-family: 'Montserrat', sans-serif;
+		opacity: 0.6;
+	}
+}
+
+.container {
+	height: 100vh;
+
+	.title {
+		margin: 0;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 31px;
+		text-align: center;
+    position: relative;
+    top: 75px;
+	}
+}
