@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { History } from 'history';
 
 import { User } from '../../models';
 import { AppState } from '../../redux/store';
 import { PageHeader } from './components';
 import { editProfile, signOut } from '../../redux/auth/actions';
 import styles from './styles.module.scss';
+import { useHistory } from 'react-router-dom';
 
-interface MyAccountPageProps {
+interface MyAccountPageHOCProps {
 	user: User;
 	loading: boolean;
 	error: Error | null;
 	onEditProfile: (email: string, name: string) => void;
 	onSignOut: () => void;
+}
+
+interface MyAccountPageProps extends MyAccountPageHOCProps {
+	history: History<unknown>;
 }
 
 interface MyAccountPageState {
@@ -30,6 +36,12 @@ class MyAccountPage extends Component<MyAccountPageProps, MyAccountPageState> {
 
 	setEmail = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ email: e.target.value });
 
+	performSignOut = () => {
+		const { history, onSignOut } = this.props;
+		onSignOut();
+		history.push('/');
+	};
+
 	submit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		const { name, email } = this.state;
@@ -40,10 +52,10 @@ class MyAccountPage extends Component<MyAccountPageProps, MyAccountPageState> {
 
 	render() {
 		const { name, email } = this.state;
-		const { loading, error, onSignOut } = this.props;
+		const { loading, error } = this.props;
 		return (
 			<div className={styles.container}>
-				<PageHeader title='My Account' signOut={onSignOut} />
+				<PageHeader title='My Account' signOut={this.performSignOut} />
 				<div className={styles.wrapper}>
 					<form onSubmit={this.submit}>
 						<h2>Name</h2>
@@ -76,4 +88,9 @@ const mapDispatchToProps = {
 	onSignOut: signOut,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccountPage);
+function MyAccountPageHOC(props: MyAccountPageHOCProps) {
+	const history = useHistory();
+	return <MyAccountPage {...props} history={history} />;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccountPageHOC);

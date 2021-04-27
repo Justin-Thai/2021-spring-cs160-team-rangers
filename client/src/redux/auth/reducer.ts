@@ -95,6 +95,11 @@ export default function authReducer(state = initialState, action: AuthAction): A
 			newState.user!.deckCount += 1;
 			return newState;
 		}
+		case DispatchTypes.INCREMENT_REPORT_COUNT: {
+			const newState = { ...state };
+			newState.user!.reportCount += 1;
+			return newState;
+		}
 		case DispatchTypes.DECREMENT_DECK_COUNT: {
 			const newState = { ...state };
 			newState.user!.deckCount -= 1;

@@ -53,6 +53,7 @@ const editProfile = (name: string, email: string) => async (
 			email: data.user.email,
 			name: data.user.name,
 			deckCount: data.user.deck_count,
+			reportCount: data.user.report_count,
 		};
 
 		await delay(500);

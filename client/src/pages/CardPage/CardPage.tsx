@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { History } from 'history';
 import { connect } from 'react-redux';
 
@@ -22,7 +22,9 @@ interface CardPageHOCProps {
 interface CardPageProps extends CardPageHOCProps {
 	history: History<unknown>;
 	url: string;
+	deckName: string;
 	deckId: string;
+	reportCount: number;
 }
 
 class CardPage extends Component<CardPageProps> {
@@ -38,13 +40,19 @@ class CardPage extends Component<CardPageProps> {
 		history.push(`${url}/card/create`);
 	};
 
-	goToCardEdit = (cardId: string, frontSide: string, backSide: string) => {
+	goToStudyReports = () => {
+		const { url, history, reportCount } = this.props;
+		history.push({ pathname: `${url}/study`, state: { reportCount } });
+	};
+
+	goToCardEdit = (cardId: string, frontSide: string, backSide: string, plainBackSide: string) => {
 		const { url, history } = this.props;
 		history.push({
 			pathname: `${url}/card/${cardId}/edit`,
 			state: {
 				frontSide,
 				backSide,
+				plainBackSide,
 			},
 		});
 	};
@@ -92,13 +100,22 @@ class CardPage extends Component<CardPageProps> {
 			);
 		}
 
-		return <CardList cards={cards} goToCardEdit={this.goToCardEdit} deleteCard={this.deleteCard} />;
+		return (
+			<div>
+				<h1 className={styles.title}>{this.props.deckName}</h1>
+				<CardList cards={cards} goToCardEdit={this.goToCardEdit} deleteCard={this.deleteCard} />
+			</div>
+		);
 	};
 
 	render() {
 		return (
 			<div className={styles.container}>
-				<PageHeader goBack={this.goBack} goToCardCreation={this.goToCardCreation} />
+				<PageHeader
+					goBack={this.goBack}
+					goToCardCreation={this.goToCardCreation}
+					goToStudyReports={this.props.cards.length ? this.goToStudyReports : undefined}
+				/>
 				{this.renderCardList()}
 			</div>
 		);
@@ -107,9 +124,13 @@ class CardPage extends Component<CardPageProps> {
 
 function CardPageHOC(props: CardPageHOCProps) {
 	const history = useHistory();
+	const location = useLocation<{ deckName: string; reportCount: number }>();
+	const { deckName, reportCount } = location.state;
 	const { url } = useRouteMatch();
 	const { deckId } = useParams<{ deckId: string }>();
-	return <CardPage {...props} history={history} url={url} deckId={deckId} />;
+	return (
+		<CardPage {...props} history={history} url={url} deckId={deckId} deckName={deckName} reportCount={reportCount} />
+	);
 }
 
 const mapStateToProps = (state: AppState) => ({

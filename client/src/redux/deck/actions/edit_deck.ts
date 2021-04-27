@@ -31,7 +31,7 @@ const editDeck = (deckId: string, newName: string, newShared: boolean) => async 
 			throw new Error(data.message);
 		}
 
-		await delay(600);
+		await delay(400);
 		dispatch(editDeckSuccess());
 	} catch (err) {
 		dispatch(editDeckFailure(err));

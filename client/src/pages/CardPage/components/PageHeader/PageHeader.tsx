@@ -5,9 +5,10 @@ import styles from './styles.module.scss';
 interface PageHeaderProps {
 	goToCardCreation: () => void;
 	goBack: () => void;
+	goToStudyReports?: () => void;
 }
 
-export default function PageHeader({ goBack, goToCardCreation }: PageHeaderProps) {
+export default function PageHeader({ goBack, goToCardCreation, goToStudyReports }: PageHeaderProps) {
 	return (
 		<div className={styles.container}>
 			<i
@@ -15,9 +16,16 @@ export default function PageHeader({ goBack, goToCardCreation }: PageHeaderProps
 				style={{ color: 'grey', fontSize: 36, marginLeft: 18, cursor: 'pointer' }}
 				onClick={goBack}
 			></i>
-			<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreation}>
-				Create
-			</button>
+			<div>
+				<button className={`primary-btn ${styles.createBtn}`} onClick={goToCardCreation}>
+					Create new card
+				</button>
+				{goToStudyReports ? (
+					<button className={`submit-btn ${styles.studyBtn}`} onClick={goToStudyReports}>
+						Study Reports
+					</button>
+				) : null}
+			</div>
 		</div>
 	);
 }

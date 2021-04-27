@@ -5,7 +5,7 @@ import { sendErrorJSON, statusCodes } from '../../utils';
 import { Card } from '../../database/entity';
 
 export default async function validateCard(req: express.Request, res?: express.Response) {
-	const { front_side, back_side } = req.body;
+	const { front_side, back_side, plain_back_side } = req.body;
 
 	if (!front_side || !back_side) {
 		throw sendErrorJSON(res!, statusCodes.BadRequest, 'Front or back side of the card is not present');
@@ -13,7 +13,7 @@ export default async function validateCard(req: express.Request, res?: express.R
 
 	try {
 		const deckId = req.params['deckId'];
-		const card = new Card(Number(deckId), front_side, back_side);
+		const card = new Card(Number(deckId), front_side, back_side, plain_back_side);
 		await validateOrReject(card);
 	} catch (errors) {
 		const { property } = errors[0];

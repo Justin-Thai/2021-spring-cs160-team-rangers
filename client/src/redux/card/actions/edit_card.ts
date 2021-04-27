@@ -3,7 +3,7 @@ import { delay } from '../../../utils';
 import { AppState } from '../../store';
 import { CardAction, DispatchTypes } from '../types';
 
-const editCard = (deckId: string, cardId: string, front: string, back: string) => async (
+const editCard = (deckId: string, cardId: string, front: string, back: string, plainBack: string) => async (
 	dispatch: (action: CardAction) => void,
 	getState: () => AppState
 ) => {
@@ -23,7 +23,7 @@ const editCard = (deckId: string, cardId: string, front: string, back: string) =
 				'Content-Type': 'application/json',
 				token,
 			},
-			body: JSON.stringify({ front_side: front, back_side: back }),
+			body: JSON.stringify({ front_side: front, back_side: back, plain_back_side: plainBack }),
 		});
 
 		const data = await res.json();
@@ -32,7 +32,7 @@ const editCard = (deckId: string, cardId: string, front: string, back: string) =
 			throw new Error(data.message);
 		}
 
-		await delay(600);
+		await delay(400);
 
 		dispatch(editCardSuccess());
 	} catch (err) {

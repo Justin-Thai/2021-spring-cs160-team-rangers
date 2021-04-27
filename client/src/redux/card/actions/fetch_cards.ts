@@ -32,9 +32,10 @@ const fetchCards = (deckId: string) => async (dispatch: (action: CardAction) => 
 			createdDate: toReadableTime(c.updated_at),
 			frontSide: c.front_side,
 			backSide: c.back_side,
+			plainBackSide: c.plain_back_side,
 		}));
 
-		await delay(600);
+		await delay(400);
 
 		dispatch(fetchCardsSuccess(cards));
 	} catch (err) {
