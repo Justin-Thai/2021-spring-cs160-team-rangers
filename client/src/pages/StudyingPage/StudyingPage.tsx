@@ -50,7 +50,7 @@ class StudyingPage extends Component<StudyingPageProps, StudyingPageState> {
 	}
 
 	componentDidUpdate(prevProps: StudyingPageProps, prevState: StudyingPageState) {
-		const { cardId, cardIds } = this.props;
+		const { cardId } = this.props;
 		if (cardId !== prevProps.cardId) {
 			this.setState({ correct: null, answer: '' });
 			const token = localStorage.getItem('token');

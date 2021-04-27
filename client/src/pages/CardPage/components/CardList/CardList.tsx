@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select';
 import { ValueType, ActionMeta } from 'react-select';
 

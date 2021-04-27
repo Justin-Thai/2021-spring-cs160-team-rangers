@@ -208,6 +208,9 @@ export default class StudyReportService {
 			const name = deck.name + ' Study Report';
 			const newStudyReport = new StudyReport(userId, deckId, name);
 			deck.report_count++;
+			const user = await User.findOneOrFail(userId);
+			user.report_count++;
+			await user.save();
 			await newStudyReport.save();
 			await deck.save();
 			res.status(statusCodes.Created);

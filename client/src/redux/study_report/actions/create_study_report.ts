@@ -1,15 +1,15 @@
 import { History } from 'history';
 
 import { env } from '../../../config';
-import { Deck, StudyReport } from '../../../models';
-import { delay, toReadableTime } from '../../../utils';
-import { incrementDeckCount } from '../../auth/actions';
+import { StudyReport } from '../../../models';
+import { delay } from '../../../utils';
+import { incrementReportCount } from '../../auth/actions';
 import { AuthAction } from '../../auth/types';
 import { AppState } from '../../store';
 import { DispatchTypes, StudyReportAction } from '../types';
 
 const createStudyReport = (deckId: string, history: History<unknown>, url: string, reportCount: number) => async (
-	dispatch: (action: StudyReportAction) => void,
+	dispatch: (action: StudyReportAction | AuthAction) => void,
 	getState: () => AppState
 ) => {
 	dispatch(createStudyReportStarted());
@@ -44,15 +44,15 @@ const createStudyReport = (deckId: string, history: History<unknown>, url: strin
 			endAt: data.studyReport.end_at,
 		};
 
-
 		history.push({
 			pathname: `${url}/${newStudyReport.id}/studying/${data.cardIds[0]}`,
 			state: { cardIds: data.cardIds, deckId, reportCount: reportCount + 1 },
 		});
 
+		dispatch(incrementReportCount());
 		dispatch(createStudyReportSuccess(newStudyReport));
 	} catch (err) {
-		console.log(err)
+		console.log(err);
 		dispatch(createStudyReportFailure(err));
 	}
 };

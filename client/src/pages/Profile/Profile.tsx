@@ -7,7 +7,7 @@ import DeckPage from '../DeckPage/DeckPage';
 import MyAccountPage from '../MyAccountPage/MyAccountPage';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import SharedPage from '../SharedPage/SharedPage';
-import ReportPage from '../ReportPage/ReportPage';
+import MyStudyReportPage from '../MyStudyReportPage/MyStudyReportPage';
 import CardPage from '../CardPage/CardPage';
 import DeckCreationPage from '../DeckCreationPage/DeckCreationPage';
 import DeckEditPage from '../DeckEditPage/DeckEditPage';
@@ -56,7 +56,7 @@ function Profile() {
 						<SharedPage />
 					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/report`}>
-						<ReportPage />
+						<MyStudyReportPage />
 					</PrivateRoute>
 					<Route path='*'>
 						<PageNotFound />

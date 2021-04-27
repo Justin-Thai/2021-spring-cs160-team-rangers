@@ -29,6 +29,9 @@ export default class User extends Model {
 	@Column()
 	deck_count: number;
 
+	@Column()
+	report_count: number;
+
 	@OneToMany(() => Deck, (deck) => deck.user)
 	decks: Deck[];
 

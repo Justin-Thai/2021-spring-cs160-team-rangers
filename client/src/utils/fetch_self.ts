@@ -21,6 +21,7 @@ export default async function fetchSelf(authToken: string, userId: string): Prom
 			email: data.user.email,
 			name: data.user.name,
 			deckCount: data.user.deck_count,
+			reportCount: data.user.report_count,
 		};
 
 		return user;
