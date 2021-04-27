@@ -1,9 +1,5 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Driver  {
 
@@ -27,9 +23,27 @@ public class Driver  {
         else testCasesFailed++;
 
         // Test sign up page
+        if(SignUpTests.testEmptyInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
         if(SignUpTests.testShortPassword(driver)) testCasesPassed++;
         else testCasesFailed++;
-        if(SignUpTests.testEmptyInput(driver)) testCasesPassed++;
+        if(SignUpTests.testInvalidEmail(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(SignUpTests.testValidInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(SignUpTests.testAlreadyRegisteredEmail(driver)) testCasesPassed++;
+        else testCasesFailed++;
+
+        // Test log in page
+        if(LogInTests.testEmptyInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(LogInTests.testShortPassword(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(LogInTests.testInvalidEmail(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(LogInTests.testIncorrectPassword(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(LogInTests.testValidInput(driver)) testCasesPassed++;
         else testCasesFailed++;
 
         // Print final results
