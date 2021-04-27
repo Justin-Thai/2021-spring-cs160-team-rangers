@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.time.StopWatch;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -8,6 +9,10 @@ public class Driver  {
 
         // Create new instance of Chrome driver
         WebDriver driver = new ChromeDriver();
+
+        // Start stopwatch to record total time elapsed for test cases
+        StopWatch stopwatch = new StopWatch();
+        stopwatch.start();
 
         // Get website at localhost:3000
         driver.get("http://localhost:3000");
@@ -31,8 +36,6 @@ public class Driver  {
         else testCasesFailed++;
         if(SignUpTests.testValidInput(driver)) testCasesPassed++;
         else testCasesFailed++;
-        if(SignUpTests.testAlreadyRegisteredEmail(driver)) testCasesPassed++;
-        else testCasesFailed++;
 
         // Test log in page
         if(LogInTests.testEmptyInput(driver)) testCasesPassed++;
@@ -46,9 +49,24 @@ public class Driver  {
         if(LogInTests.testValidInput(driver)) testCasesPassed++;
         else testCasesFailed++;
 
+        // Test deck page
+        if(DeckTests.testEmptyInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(DeckTests.testValidInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+
+        // Test card page
+        if(CardTests.testEmptyInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+        if(CardTests.testValidInput(driver)) testCasesPassed++;
+        else testCasesFailed++;
+
         // Print final results
+        stopwatch.stop();
         System.out.println("Test cases passed: " + testCasesPassed);
         System.out.println("Test cases failed: " + testCasesFailed);
+        System.out.println("Total time elapsed for all test cases: " + stopwatch.toString());
+
 
         driver.quit();
     }

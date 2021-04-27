@@ -1,8 +1,5 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SignUpTests {
     // Test case: user sign up with empty input
@@ -12,15 +9,15 @@ public class SignUpTests {
         driver.get("http://localhost:3000/signup");
 
         // submit sign up button
-        WebElement signUpButton = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/input")));
+        WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
+        assert signUpButton != null;
         signUpButton.submit();
 
         // evaluate response
-        WebElement e = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
-        if(e == null) return false;
+        WebElement errorMessage = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
         String expected = "Name is not valid";
-        String actual = e.getText();
+        assert errorMessage != null;
+        String actual = errorMessage.getText();
         return TestUtils.testStrings(expected, actual);
     }
 
@@ -31,29 +28,32 @@ public class SignUpTests {
         driver.get("http://localhost:3000/signup");
 
         // enter input
-        WebElement nameField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[1]/input")));
+        WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
+        assert nameField != null;
         nameField.sendKeys("Test User");
-        WebElement emailField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[2]/input")));
+
+        WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
+        assert emailField != null;
         emailField.sendKeys("testuser@gmail.com");
-        WebElement passwordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[3]/input")));
+
+        WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
+        assert passwordField != null;
         passwordField.sendKeys("1");
-        WebElement confirmPasswordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[4]/input")));
+
+        WebElement confirmPasswordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[4]/input");
+        assert confirmPasswordField != null;
         confirmPasswordField.sendKeys("1");
 
         // submit sign up button
-        WebElement signUpButton = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/input")));
+        WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
+        assert signUpButton != null;
         signUpButton.submit();
 
         // evaluate response
-        WebElement e = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
-        if(e == null) return false;
+        WebElement errorMessage = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
         String expected = "Password must be at least 9 characters long";
-        String actual = e.getText();
+        assert errorMessage != null;
+        String actual = errorMessage.getText();
         return TestUtils.testStrings(expected, actual);
     }
 
@@ -64,97 +64,78 @@ public class SignUpTests {
         driver.get("http://localhost:3000/signup");
 
         // enter input
-        WebElement nameField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[1]/input")));
+        WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
+        assert nameField != null;
         nameField.sendKeys("Test User");
-        WebElement emailField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[2]/input")));
+
+        WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
+        assert emailField != null;
         emailField.sendKeys("testuser");
-        WebElement passwordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[3]/input")));
+
+        WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
+        assert passwordField != null;
         passwordField.sendKeys("123456789");
-        WebElement confirmPasswordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[4]/input")));
+
+        WebElement confirmPasswordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[4]/input");
+        assert confirmPasswordField != null;
         confirmPasswordField.sendKeys("123456789");
 
         // submit sign up button
-        WebElement signUpButton = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/input")));
+        WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
+        assert signUpButton != null;
         signUpButton.submit();
 
         // evaluate response
-        WebElement e = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
-        if(e == null) return false;
+        WebElement errorMessage = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
         String expected = "Email is invalid";
-        String actual = e.getText();
+        assert errorMessage != null;
+        String actual = errorMessage.getText();
         return TestUtils.testStrings(expected, actual);
     }
 
     // Test case: user sign up with valid input
-    // Precondition: account must not already be registered
     public static boolean testValidInput(WebDriver driver) {
         // go to sign up page
         System.out.println("Testing sign up with valid input...");
         driver.get("http://localhost:3000/signup");
 
         // enter input
-        WebElement nameField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[1]/input")));
+        WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
+        assert nameField != null;
         nameField.sendKeys("Test User");
-        WebElement emailField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[2]/input")));
+
+        WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
+        assert emailField != null;
         emailField.sendKeys("testuser@gmail.com");
-        WebElement passwordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[3]/input")));
+
+        WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
+        assert passwordField != null;
         passwordField.sendKeys("123456789");
-        WebElement confirmPasswordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[4]/input")));
+
+        WebElement confirmPasswordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[4]/input");
+        assert confirmPasswordField != null;
         confirmPasswordField.sendKeys("123456789");
 
         // submit sign up button
-        WebElement signUpButton = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/input")));
+        WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
+        assert signUpButton != null;
         signUpButton.submit();
 
         // evaluate response
-        WebElement e = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/nav/ul/li/a");
-        if(e == null) return false;
+        WebElement profileButton = TestUtils.getElementByXPath(driver, "//*[text()='My Profile']");
+        if(profileButton == null) {
+            // account has already been registered
+            WebElement errorMessage = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
+            if(errorMessage == null) {
+                System.out.println("Test case failed");
+                return false;
+            }
+            String expected = "Email is already in use";
+            String actual = errorMessage.getText();
+            return TestUtils.testStrings(expected, actual);
+        }
         String expected = "MY PROFILE";
-        String actual = e.getText();
-        return TestUtils.testStrings(expected, actual);
-    }
-
-    // Test case: user sign up with already registered email address
-    // Precondition: account must already be registered
-    public static boolean testAlreadyRegisteredEmail(WebDriver driver) {
-        // go to sign up page
-        System.out.println("Testing sign up with already registered email...");
-        driver.get("http://localhost:3000/signup");
-
-        // enter input
-        WebElement nameField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[1]/input")));
-        nameField.sendKeys("Test User");
-        WebElement emailField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[2]/input")));
-        emailField.sendKeys("testuser@gmail.com");
-        WebElement passwordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[3]/input")));
-        passwordField.sendKeys("123456789");
-        WebElement confirmPasswordField = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/div[4]/input")));
-        confirmPasswordField.sendKeys("123456789");
-
-        // submit sign up button
-        WebElement signUpButton = (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div[1]/form/input")));
-        signUpButton.submit();
-
-        // evaluate response
-        WebElement e = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
-        if(e == null) return false;
-        String expected = "Email is already in use";
-        String actual = e.getText();
+        String actual = profileButton.getText();
         return TestUtils.testStrings(expected, actual);
     }
 }

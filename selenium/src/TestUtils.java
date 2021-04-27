@@ -6,9 +6,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestUtils {
+    public static final int TIMEOUT = 2; // number of seconds before timing out
+
     public static boolean testStrings(String expected, String actual) {
-        System.out.println("Expected: " + expected);
-        System.out.println("Actual: " + actual);
+        System.out.println("Expected: " + expected + "\nActual: " + actual);
         if(expected.equals(actual)) {
             System.out.println("Test case passed\n");
         } else {
@@ -19,10 +20,9 @@ public class TestUtils {
 
     public static WebElement getElementByXPath(WebDriver driver, String testXPath) {
         try {
-            return (new WebDriverWait(driver, 5)).until(ExpectedConditions
+            return (new WebDriverWait(driver, TIMEOUT)).until(ExpectedConditions
                     .visibilityOfElementLocated(By.xpath(testXPath)));
-        } catch(TimeoutException e) {
-            System.out.println("Timed out\nTest case failed\n");
+        } catch(TimeoutException timeoutException) {
             return null;
         }
     }
