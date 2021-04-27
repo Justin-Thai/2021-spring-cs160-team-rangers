@@ -146,11 +146,7 @@ class StudyingPage extends Component<StudyingPageProps, StudyingPageState> {
 			headers: {
 				token,
 			},
-		})
-			.then((res) => res.json())
-			.then(() => {
-				history.push({ pathname: `/profile/${userId}/deck/${deckId}/study`, state: { reportCount } });
-			});
+		}).then((_) => history.push({ pathname: `/profile/${userId}/deck/${deckId}/study`, state: { reportCount } }));
 	};
 
 	render() {
