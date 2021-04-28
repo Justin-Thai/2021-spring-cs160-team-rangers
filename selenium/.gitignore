@@ -2,7 +2,9 @@
 
 # output files
 /out
-src/*.class
+
+/src
+*.class
 
 # IDE files
 /.idea
