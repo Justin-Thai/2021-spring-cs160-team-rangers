@@ -52,9 +52,9 @@ function Profile() {
 					<PrivateRoute exact path={`${path}/deck/:deckId`}>
 						<CardPage />
 					</PrivateRoute>
-					<PrivateRoute exact path={`${path}/shared`}>
+					{/* <PrivateRoute exact path={`${path}/shared`}>
 						<SharedPage />
-					</PrivateRoute>
+					</PrivateRoute> */}
 					<PrivateRoute exact path={`${path}/report`}>
 						<MyStudyReportPage />
 					</PrivateRoute>
