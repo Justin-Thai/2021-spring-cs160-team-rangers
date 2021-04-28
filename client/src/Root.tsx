@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, useLocation } from 'react-router-dom';
 
 import { NavBarNotAuth, NavBarAuth, PrivateRoute, Footer } from './components';
-import { Home, SignUp, Profile, LogIn, PageNotFound } from './pages';
+import { Home, SignUp, Profile, LogIn, PageNotFound, PublicDeck } from './pages';
 import { User } from './models';
 import { checkAuth } from './redux/auth/actions';
 import { AppState } from './redux/store';
@@ -27,6 +27,7 @@ class Root extends Component<RootProps, {}> {
 		if (checkPathIncludes(pathname, 'profile')) return null;
 		if (checkPathIncludes(pathname, 'login')) return null;
 		if (checkPathIncludes(pathname, 'signup')) return null;
+		if (checkPathIncludes(pathname, 'deck')) return null;
 		return user ? <NavBarAuth userId={user.id} /> : <NavBarNotAuth />;
 	};
 
@@ -36,6 +37,7 @@ class Root extends Component<RootProps, {}> {
 		if (checkPathIncludes(pathname, 'profile')) return null;
 		if (checkPathIncludes(pathname, 'login')) return null;
 		if (checkPathIncludes(pathname, 'signup')) return null;
+		if (checkPathIncludes(pathname, 'deck')) return null;
 		return <Footer />;
 	};
 
@@ -49,6 +51,9 @@ class Root extends Component<RootProps, {}> {
 					</Route>
 					<Route exact path='/login'>
 						<LogIn />
+					</Route>
+					<Route exact path='/deck/:deckId'>
+						<PublicDeck />
 					</Route>
 					<PrivateRoute path='/profile/:userId'>
 						<Profile />

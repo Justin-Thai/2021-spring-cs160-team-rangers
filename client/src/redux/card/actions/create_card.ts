@@ -4,7 +4,7 @@ import { delay, toReadableTime } from '../../../utils';
 import { AppState } from '../../store';
 import { CardAction, DispatchTypes } from '../types';
 
-const createCard = (deckId: string, front: string, back: string) => async (
+const createCard = (deckId: string, front: string, back: string, plainBack: string) => async (
 	dispatch: (action: CardAction) => void,
 	getState: () => AppState
 ) => {
@@ -24,7 +24,7 @@ const createCard = (deckId: string, front: string, back: string) => async (
 				'Content-Type': 'application/json',
 				token,
 			},
-			body: JSON.stringify({ front_side: front, back_side: back }),
+			body: JSON.stringify({ front_side: front.trim(), back_side: back, plain_back_side: plainBack.trim() }),
 		});
 
 		const data = await res.json();
@@ -33,13 +33,14 @@ const createCard = (deckId: string, front: string, back: string) => async (
 			throw new Error(data.message);
 		}
 
-		await delay(600);
+		await delay(400);
 
 		const newCard = {
 			id: data.card.id,
 			createdDate: toReadableTime(data.card.created_at),
 			frontSide: data.card.front_side,
 			backSide: data.card.back_side,
+			plainBackSide: data.card.plain_back_side,
 		};
 		dispatch(createCardSuccess(newCard));
 	} catch (err) {

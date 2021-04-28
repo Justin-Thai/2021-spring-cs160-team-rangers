@@ -52,7 +52,7 @@ class MyAccountPage extends Component<MyAccountPageProps, MyAccountPageState> {
 
 	render() {
 		const { name, email } = this.state;
-		const { loading, error, onSignOut } = this.props;
+		const { loading, error } = this.props;
 		return (
 			<div className={styles.container}>
 				<PageHeader title='My Account' signOut={this.performSignOut} />

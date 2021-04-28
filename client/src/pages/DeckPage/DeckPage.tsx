@@ -68,9 +68,9 @@ class DeckPage extends Component<DeckPageProps, DeckPageState> {
 		});
 	};
 
-	goToDeck = (deckId: string) => {
+	goToDeck = (deckId: string, deckName: string, reportCount: number) => {
 		const { url, history } = this.props;
-		history.push(`${url}/${deckId}`);
+		history.push({ pathname: `${url}/${deckId}`, state: { deckName, reportCount } });
 	};
 
 	goToDeckCreation = () => {

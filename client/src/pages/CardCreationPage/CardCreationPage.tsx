@@ -11,7 +11,7 @@ import { AppState } from '../../redux/store';
 interface CardCreationPageHOCProps {
 	loading: boolean;
 	error: Error | null;
-	onCreateCard: (deckId: string, front: string, back: string) => void;
+	onCreateCard: (deckId: string, front: string, back: string, plainBack: string) => void;
 	onClearErrors: () => void;
 }
 
@@ -23,12 +23,14 @@ interface CardCreationPageProps extends CardCreationPageHOCProps {
 interface CardCreationPageState {
 	front: string;
 	back: string;
+	plainBack: string;
 }
 
 class CardCreationPage extends Component<CardCreationPageProps, CardCreationPageState> {
 	state = {
 		front: '',
 		back: '',
+		plainBack: '',
 	};
 
 	componentDidUpdate(prevProps: CardCreationPageProps) {
@@ -49,11 +51,16 @@ class CardCreationPage extends Component<CardCreationPageProps, CardCreationPage
 	goBack = () => this.props.history.goBack();
 
 	onSubmitCard = () => {
-		const { front, back } = this.state;
+		const { front, back, plainBack } = this.state;
 		if (front && back) {
 			const { onCreateCard, deckId } = this.props;
-			onCreateCard(deckId, front, back);
+			onCreateCard(deckId, front, back, plainBack);
 		}
+	};
+
+	setPlainBack = (text: string) => {
+		// console.log(newPlainBack);
+		this.setState({ plainBack: text });
 	};
 
 	render() {
@@ -72,7 +79,7 @@ class CardCreationPage extends Component<CardCreationPageProps, CardCreationPage
 						/>
 					</div>
 					<div className={styles.back}>
-						<BackSideEditor value={this.state.back} setBack={this.setBack} />
+						<BackSideEditor value={this.state.back} setBack={this.setBack} setPlainBack={this.setPlainBack} />
 					</div>
 				</div>
 				<div className={styles.submit}>

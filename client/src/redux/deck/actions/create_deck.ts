@@ -34,13 +34,14 @@ const createDeck = (name: string, shared = false) => async (
 			throw new Error(data.message);
 		}
 
-		await delay(600);
+		await delay(400);
 
 		const newDeck = {
 			id: data.deck.id,
 			name: data.deck.name,
 			updatedDate: toReadableTime(data.deck.updated_at),
 			cardCount: data.deck.count,
+			reportCount: data.deck.report_count,
 			shared: false,
 		};
 

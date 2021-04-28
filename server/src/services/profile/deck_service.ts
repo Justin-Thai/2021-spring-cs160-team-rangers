@@ -88,6 +88,30 @@ export default class DeckService {
 		}
 	}
 
+	@Path('/public/deck/:deckId')
+	@GET
+	async getPublicDeck(@PathParam('deckId') deckId: number) {
+		const res = this.context.response;
+		try {
+			const deck = await Deck.findOne(deckId);
+			if (!deck) {
+				res.status(statusCodes.NotFound);
+				return resError('Deck not found');
+			}
+			if (!deck.shared) {
+				res.status(statusCodes.Unauthorized);
+				return resError('Unauthorized');
+			}
+			const cards = await deck.getCards();
+			deck.cards = cards;
+			res.status(statusCodes.OK);
+			return resOK({ deck });
+		} catch (err) {
+			res.status(statusCodes.InternalServerError);
+			return resError();
+		}
+	}
+
 	@Path('/deck/:deckId')
 	@GET
 	@PreProcessor(checkAuthentication)

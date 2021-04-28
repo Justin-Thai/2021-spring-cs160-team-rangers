@@ -7,12 +7,14 @@ import DeckPage from '../DeckPage/DeckPage';
 import MyAccountPage from '../MyAccountPage/MyAccountPage';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import SharedPage from '../SharedPage/SharedPage';
-import ReportPage from '../ReportPage/ReportPage';
+import MyStudyReportPage from '../MyStudyReportPage/MyStudyReportPage';
 import CardPage from '../CardPage/CardPage';
 import DeckCreationPage from '../DeckCreationPage/DeckCreationPage';
 import DeckEditPage from '../DeckEditPage/DeckEditPage';
 import CardCreationPage from '../CardCreationPage/CardCreationPage';
 import CardEditPage from '../CardEditPage/CardEditPage';
+import DeckStudyReportsPage from '../DeckStudyReportsPage/DeckStudyReportsPage';
+import StudyingPage from '../StudyingPage/StudyingPage';
 import styles from './styles.module.scss';
 
 function Profile() {
@@ -35,6 +37,12 @@ function Profile() {
 					<PrivateRoute exact path={`${path}/deck/:deckId/edit`}>
 						<DeckEditPage />
 					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId/study`}>
+						<DeckStudyReportsPage />
+					</PrivateRoute>
+					<PrivateRoute exact path={`${path}/deck/:deckId/study/:studyId/studying/:cardId`}>
+						<StudyingPage />
+					</PrivateRoute>
 					<PrivateRoute exact path={`${path}/deck/:deckId/card/create`}>
 						<CardCreationPage />
 					</PrivateRoute>
@@ -44,11 +52,11 @@ function Profile() {
 					<PrivateRoute exact path={`${path}/deck/:deckId`}>
 						<CardPage />
 					</PrivateRoute>
-					<PrivateRoute exact path={`${path}/shared`}>
+					{/* <PrivateRoute exact path={`${path}/shared`}>
 						<SharedPage />
-					</PrivateRoute>
+					</PrivateRoute> */}
 					<PrivateRoute exact path={`${path}/report`}>
-						<ReportPage />
+						<MyStudyReportPage />
 					</PrivateRoute>
 					<Route path='*'>
 						<PageNotFound />

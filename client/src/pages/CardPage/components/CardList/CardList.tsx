@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select';
 import { ValueType, ActionMeta } from 'react-select';
 
@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 interface CardListProps {
 	cards: Card[];
-	goToCardEdit: (cardId: string, frontSide: string, backSide: string) => void;
+	goToCardEdit: (cardId: string, frontSide: string, backSide: string, plainBackSide: string) => void;
 	deleteCard: (cardId: string) => void;
 }
 
@@ -55,8 +55,8 @@ class CardList extends Component<CardListProps, CardListState> {
 	};
 
 	performGoToCardEdit = () => {
-		const { id, frontSide, backSide } = this.props.cards[this.state.current];
-		this.props.goToCardEdit(id, frontSide, backSide);
+		const { id, frontSide, backSide, plainBackSide } = this.props.cards[this.state.current];
+		this.props.goToCardEdit(id, frontSide, backSide, plainBackSide);
 	};
 
 	performDeleteCard = () => this.props.deleteCard(this.props.cards[this.state.current].id);

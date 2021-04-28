@@ -22,7 +22,15 @@ export default class ProfileService {
 			}
 
 			res.status(statusCodes.OK);
-			return resOK({ user: { id: user.id, email: user.email, name: user.name, deck_count: user.deck_count } });
+			return resOK({
+				user: {
+					id: user.id,
+					email: user.email,
+					name: user.name,
+					deck_count: user.deck_count,
+					report_count: user.report_count,
+				},
+			});
 		} catch (err) {
 			res.status(statusCodes.InternalServerError);
 			return resError();

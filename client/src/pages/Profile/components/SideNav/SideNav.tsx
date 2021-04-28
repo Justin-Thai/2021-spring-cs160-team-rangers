@@ -14,10 +14,10 @@ function SideNav({ url, username, didNavigateTo404 }: { url: string; username: s
 		return checkPathIncludes(pathname, 'deck');
 	};
 
-	const isPathShared = () => {
-		if (didNavigateTo404) return false;
-		return checkPathIncludes(pathname, 'shared');
-	};
+	// const isPathShared = () => {
+	// 	if (didNavigateTo404) return false;
+	// 	return checkPathIncludes(pathname, 'shared');
+	// };
 
 	const isPathReport = () => {
 		if (didNavigateTo404) return false;
@@ -38,12 +38,12 @@ function SideNav({ url, username, didNavigateTo404 }: { url: string; username: s
 						My decks
 					</Link>
 				</li>
-				<li style={isPathShared() ? { background: '#eee' } : {}}>
+				{/* <li style={isPathShared() ? { background: '#eee' } : {}}>
 					<Link to={`${url}/shared`} className={styles.link} style={isPathShared() ? { color: '#3580F4' } : {}}>
 						<i className='fas fa-share-alt'></i>
 						Shared
 					</Link>
-				</li>
+				</li> */}
 				<li style={isPathReport() ? { background: '#eee' } : {}}>
 					<Link to={`${url}/report`} className={styles.link} style={isPathReport() ? { color: '#3580F4' } : {}}>
 						<i className='fas fa-check-square'></i>
