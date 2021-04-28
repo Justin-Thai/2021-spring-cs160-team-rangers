@@ -58,6 +58,17 @@ java -cp ";selenium-server-standalone-3.9.1.jar" Driver
 ```
 
 On Linux/Mac:
+
+In ``src/Driver.java``, change line 8
+
+``System.setProperty("webdriver.chrome.driver", "chromedriver.exe");``
+
+To
+
+``System.setProperty("webdriver.chrome.driver", "chromedriver");``
+
+Then run:
+
 ```
 cd selenium/src/
 javac -cp ":selenium-server-standalone-3.9.1.jar" Driver.java
