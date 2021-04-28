@@ -2,6 +2,7 @@
 
 # output files
 /out
+src/*.class
 
 # IDE files
 /.idea
