@@ -45,14 +45,16 @@ The app will run on http://localhost:80
 
 ### How to run:
 1. Ensure that a version of Java has been installed and the JAVA_HOME and PATH system environment variables have been set properly. Check https://java.com/en/download/help/path.html for reference if necessary.
-2. Check that selenium-server-standalone-x.y.z.jar (current version: 3.9.1 at the time of writing) and chromedriver.exe are in the selenium/ directory.
+2. Check that selenium-server-standalone-x.y.z.jar (current version: 3.9.1 at the time of writing) and chromedriver.exe are in the selenium/src/ directory.
 3. Install Google Chrome Version 90 or later if it has not yet been installed.
 4. Start server and client (see steps further above).
 5. In console, execute the following commands:
 ```
-cd selenium/
-java -jar selenium_tests.jar
+cd selenium/src/
+javac -cp ";selenium-server-standalone-3.9.1.jar" Driver.java
+java -cp ";selenium-server-standalone-3.9.1.jar" Driver
 ```
+
 The test cases will run on a virtual Google Chrome browser controlled by Selenium automated test software.
 
 ## **Postman Testing**

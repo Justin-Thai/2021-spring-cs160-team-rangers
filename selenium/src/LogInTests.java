@@ -30,7 +30,7 @@ public class LogInTests {
         // enter input
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert emailField != null;
-        emailField.sendKeys("testuser@gmail.com");
+        emailField.sendKeys(TestUtils.TEST_EMAIL);
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert passwordField != null;
@@ -62,7 +62,7 @@ public class LogInTests {
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert passwordField != null;
-        passwordField.sendKeys("123456789");
+        passwordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         // submit log in button
         WebElement logInButton = TestUtils.getElementByXPath(driver, "//*[@value='Log in']");
@@ -86,7 +86,7 @@ public class LogInTests {
         // enter input
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert emailField != null;
-        emailField.sendKeys("testuser");
+        emailField.sendKeys(TestUtils.TEST_EMAIL);
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert passwordField != null;
@@ -99,7 +99,7 @@ public class LogInTests {
 
         // evaluate response
         WebElement errorMessage = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/h4");
-        String expected = "Email is invalid";
+        String expected = "Email or password is incorrect";
         assert errorMessage != null;
         String actual = errorMessage.getText();
         return TestUtils.testStrings(expected, actual);
@@ -115,11 +115,11 @@ public class LogInTests {
         // enter input
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert emailField != null;
-        emailField.sendKeys("testuser@gmail.com");
+        emailField.sendKeys(TestUtils.TEST_EMAIL);
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert passwordField != null;
-        passwordField.sendKeys("123456789");
+        passwordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         // submit log in button
         WebElement logInButton = TestUtils.getElementByXPath(driver, "//*[@value='Log in']");
