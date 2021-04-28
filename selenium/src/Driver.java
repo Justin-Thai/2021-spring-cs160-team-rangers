@@ -37,6 +37,8 @@ public class Driver  {
         if(SignUpTests.testValidInput(driver)) testCasesPassed++;
         else testCasesFailed++;
 
+        TestUtils.signOut(driver);
+
         // Test log in page
         if(LogInTests.testEmptyInput(driver)) testCasesPassed++;
         else testCasesFailed++;

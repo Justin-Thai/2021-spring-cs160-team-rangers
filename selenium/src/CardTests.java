@@ -22,7 +22,7 @@ public class CardTests {
         deck.click();
 
         // create card
-        WebElement createButton = TestUtils.getElementByXPath(driver, "//*[text()='Create']");
+        WebElement createButton = TestUtils.getElementByXPath(driver, "//*[text()='Create new card']");
         assert createButton != null;
         createButton.click();
 
@@ -59,7 +59,7 @@ public class CardTests {
         deck.click();
 
         // create card
-        WebElement createButton = TestUtils.getElementByXPath(driver, "//*[text()='Create']");
+        WebElement createButton = TestUtils.getElementByXPath(driver, "//*[text()='Create new card']");
         assert createButton != null;
         createButton.click();
 

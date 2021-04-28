@@ -30,11 +30,11 @@ public class SignUpTests {
         // enter input
         WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert nameField != null;
-        nameField.sendKeys("Test User");
+        nameField.sendKeys(TestUtils.TEST_NAME);
 
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert emailField != null;
-        emailField.sendKeys("testuser@gmail.com");
+        emailField.sendKeys(TestUtils.TEST_EMAIL);
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
         assert passwordField != null;
@@ -66,7 +66,7 @@ public class SignUpTests {
         // enter input
         WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert nameField != null;
-        nameField.sendKeys("Test User");
+        nameField.sendKeys(TestUtils.TEST_NAME);
 
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert emailField != null;
@@ -74,11 +74,11 @@ public class SignUpTests {
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
         assert passwordField != null;
-        passwordField.sendKeys("123456789");
+        passwordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         WebElement confirmPasswordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[4]/input");
         assert confirmPasswordField != null;
-        confirmPasswordField.sendKeys("123456789");
+        confirmPasswordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         // submit sign up button
         WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
@@ -102,19 +102,19 @@ public class SignUpTests {
         // enter input
         WebElement nameField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[1]/input");
         assert nameField != null;
-        nameField.sendKeys("Test User");
+        nameField.sendKeys(TestUtils.TEST_NAME);
 
         WebElement emailField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[2]/input");
         assert emailField != null;
-        emailField.sendKeys("testuser@gmail.com");
+        emailField.sendKeys(TestUtils.TEST_EMAIL);
 
         WebElement passwordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[3]/input");
         assert passwordField != null;
-        passwordField.sendKeys("123456789");
+        passwordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         WebElement confirmPasswordField = TestUtils.getElementByXPath(driver, "//*[@id=\"root\"]/div/div[1]/form/div[4]/input");
         assert confirmPasswordField != null;
-        confirmPasswordField.sendKeys("123456789");
+        confirmPasswordField.sendKeys(TestUtils.TEST_PASSWORD);
 
         // submit sign up button
         WebElement signUpButton = TestUtils.getElementByXPath(driver, "//*[@value='Sign up']");
