@@ -6,6 +6,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestUtils {
+    public static final String TEST_NAME = "Test User";
+    public static final String TEST_EMAIL = "testuser@gmail.com";
+    public static final String TEST_PASSWORD = "123456789";
+
     public static final int TIMEOUT = 2; // number of seconds before timing out
 
     public static boolean testStrings(String expected, String actual) {
@@ -25,5 +29,18 @@ public class TestUtils {
         } catch(TimeoutException timeoutException) {
             return null;
         }
+    }
+
+    // If driver is logged in, then sigh out
+    public static void signOut(WebDriver driver) {
+        driver.get("http://localhost:3000");
+        WebElement profileButton = TestUtils.getElementByXPath(driver, "//*[text()='My Profile']");
+        if (profileButton != null) {
+            profileButton.click();
+            WebElement signOutButton = TestUtils.getElementByXPath(driver, "//*[text()='Sign out']");
+            assert signOutButton != null;
+            signOutButton.click();
+        }
+
     }
 }
