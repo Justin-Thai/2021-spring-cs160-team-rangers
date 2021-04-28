@@ -54,3 +54,18 @@ cd selenium/
 java -jar selenium_tests.jar
 ```
 The test cases will run on a virtual Google Chrome browser controlled by Selenium automated test software.
+
+## **Postman Testing**
+### *Prerequisites:*
+ * Newman (command-line collection runner for Postman) (https://www.npmjs.com/package/newman)
+
+### How to run:
+1. Install Newman if it has not yet been installed
+2. Start server (see steps on how to start server from Development)
+3. Open another command prompt console
+4. Go to project directory and execute the following commands:
+```
+cd postman/
+newman run postman_backendAPI_tests.json
+```
+Newman will run the test cases on the command prompt
