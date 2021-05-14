@@ -3,23 +3,23 @@
 This is the repository of Team Rangers' project for CS 160. This README includes instructions and guidelines that will help the user get started with contributing to this project.
 
 ## **README Contents**
- * Getting Started (START HERE FIRST)
- * Getting Updated Code
- * Guidelines for Branching
- * Guidelines for Pull Requests
- * Development
- * Production
- * Selenium Testing
- * Postman Testing
+1. Getting Started (START HERE FIRST)
+2. Getting Updated Code
+3. Guidelines for Branching
+4. Guidelines for Pull Requests
+5. Development
+6. Production
+7. Selenium Testing
+8. Postman Testing
 
 
 
-## **Getting Started**
+## **1. Getting Started**
 NOTE: Before moving on to the other sections of this README, be sure to carefully go through this section carefully. 
 
 To be able to work on any part of this project, there are a few tasks to be done first.
 
-### **Tools Needed to Get Started:**
+### *Tools Needed to Get Started:*
  * Git
  * Node.js
  * PostgreSQL
@@ -34,8 +34,9 @@ git clone https://github.com/Justin-Thai/2021-spring-cs160-team-rangers.git
 ```    
 3. The Github repository for this project should now be cloned to your computer.
 
-### **Requirements:**
+### *Requirements:*
 `.env`, `pg.env`, `init.sql` files
+
 These files are essential to be able to run the project. They can be obtained from: 
 https://gist.github.com/tintheanh/7431ea5aaea8dcd28a411adf55d63882 
 
@@ -51,7 +52,7 @@ https://gist.github.com/tintheanh/7431ea5aaea8dcd28a411adf55d63882
 
 
 
-## **Getting Updated Code**
+## **2. Getting Updated Code**
 This section will show users how to get the most updated code from the project repository.
 ### Steps:
 On the command line terminal:
@@ -65,7 +66,7 @@ git branch [name_of_branch]
 
 
 
-## **Guidelines for Branching**
+## **3. Guidelines for Branching**
 This section will show users how and when to create new branches.
 
 ### When to create a branch:
@@ -83,7 +84,7 @@ On the command line terminal:
 
 
 
-## **Guidelines for Pull Requests**
+## **4. Guidelines for Pull Requests**
 This section will show you how and when to create pull requests.
 
 ### When to create a pull request:
@@ -98,12 +99,13 @@ This section will show you how and when to create pull requests.
 4. For the "compare" branch, choose the branch with the committed code.
 5. Add a meaningful and concise title for the pull request.
 6. For the description, use the template provided by the link below. This template will help you make sure you have thoroughly proofread and tested the new code. 
+    
     Link to pull request template: https://gist.github.com/tintheanh/808c5998ff18559658a6210e0fcec015
 7. Click "Create Pull Request" to open a new pull request for other to review. 
 
 
 
-## **Development**
+## **5. Development**
 This section will show users how to set up the development environments for the application.
 
 ### *Prerequisites:*
@@ -111,30 +113,34 @@ This section will show users how to set up the development environments for the 
  * PostgreSQL
 
 ### How to run:
-1. Start PostgreSQL locally
-2. Start server (port 5000)
+1. Start PostgreSQL locally.
+2. On the command line terminal, go to the project folder.  
+3. Start the server (port 5000). This will start the backend of the application.
 ```
 cd server/
 npm install
 npm run start:dev
 ```
-3. Start client (port 3000)
+4. Start the client (port 3000). This will start the frontend of the application.
 ```
 cd client/
 npm install
 npm start
 ```
+*Note*: You may need to open another terminal window, go to the project folder, and then execute the commands mentioned to start the frontend.
 
 
 
-## **Production**
+## **6. Production**
 This section will show users how to create a Docker image for the application.
 
 ### *Prerequisites:*
  * Docker
 
 ### How to run:
-Turn off local PostgreSQL server before running
+1. Turn off local PostgreSQL server before running.
+2. On the command line terminal, go to the project folder.
+3. Run the following commands:
 ```
 docker-compose build
 docker-compose up
@@ -143,7 +149,9 @@ The app will run on http://localhost:80
 
 
 
-## **Selenium Testing**
+## **7. Selenium Testing**
+This section will show users how to run automated testing for the frontend services. 
+
 ### *Prerequisites:*
  * Java JDK 10 or later (https://www.oracle.com/java/technologies/javase-downloads.html)
  * Selenium (http://selenium-release.storage.googleapis.com/index.html)
@@ -186,18 +194,20 @@ The test cases will run on a virtual Google Chrome browser controlled by Seleniu
 
 
 
-## **Postman Testing**
+## **8. Postman Testing**
+This section will show users how to run automated testing for the backend services. 
+
 ### *Prerequisites:*
  * Newman (command-line collection runner for Postman) (https://www.npmjs.com/package/newman)
 
 ### How to run:
-1. Install Newman if it has not yet been installed
+1. Install Newman if it has not yet been installed.
 ``npm install -g newman``
-2. Start server (see steps on how to start server from Development)
-3. Open another command prompt console
+2. Start server (see steps on how to start server from Development).
+3. Open another command prompt console.
 4. Go to project directory and execute the following commands:
 ```
 cd postman/
 newman run postman_backendAPI_tests.json
 ```
-Newman will run the test cases on the command prompt
+Newman will run the test cases on the command prompt.
